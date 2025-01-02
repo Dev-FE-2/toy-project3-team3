@@ -15,7 +15,7 @@ export default {
         'refactor',
         'test',
         'rename',
-        'chor',
+        'chore',
         'setting',
       ],
     ],
