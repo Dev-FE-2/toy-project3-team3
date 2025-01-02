@@ -6,7 +6,19 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "lint": "eslint src --fix",
+    "preview": "vite preview",
+    "prepare": "husky install",
+    "format": "prettier --write src",
+    "lint-staged": "lint-staged"
   },
+  "lint-staged": {
+  "**/*.{ts,tsx}": [
+    "eslint --fix",
+    "prettier --write"
+  ]
+},
+
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
