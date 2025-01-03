@@ -1,0 +1,17 @@
+export const ROUTES = {
+  HOME: '/',
+  ALERT: '/alert',
+  MY_COMMENT: '/comment',
+  MY_FOLLOWING: '/following',
+  MY_LIKE: '/like',
+  MY_SUBSCRIBE: '/subscribe',
+  MY_INFO_EDIT: '/edit',
+  PLAY_LIST_EDIT: '/play-list/:playListId/edit',
+  PLAY_LIST: '/play-list/:playListId',
+  SEARCH: '/search',
+  SIGN_IN: '/sign-in',
+  SIGN_UP: '/sign-up',
+  USER: '/:userId',
+  USER_FOLLOW: '/:userId/follow',
+  NOT_FOUND: '*',
+};
