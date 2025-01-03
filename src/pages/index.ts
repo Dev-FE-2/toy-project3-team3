@@ -1,2 +1,15 @@
+export { default as AlertPage } from './AlertPage/AlertPage';
 export { default as HomePage } from './HomePage/HomePage';
+export { default as MyCommentPage } from './MyCommentPage/MyCommentPage';
+export { default as MyFollowingPage } from './MyFollowingPage/MyFollowingPage';
+export { default as MyLikePage } from './MyLikePage/MyLikePage';
+export { default as MySubscribePage } from './MySubscribePage/MySubscribePage';
+export { default as PlayListEditPage } from './PlayListEditPage/PlayListEditPage';
+export { default as PlayListPage } from './PlayListPage/PlayListPage';
+export { default as SearchPage } from './SearchPage/SearchPage';
+export { default as SignInPage } from './SignInPage/SignInPage';
+export { default as SignUpPage } from './SignUpPage/SignUpPage';
+export { default as MyInfoEditPage } from './MyInfoEditPage/MyInfoEditPage';
+export { default as UserFollowPage } from './UserFollowPage/UserFollowPage';
 export { default as UserPage } from './UserPage/UserPage';
+export { default as NotFoundPage } from './NotFoundPage/NotFoundPage';
