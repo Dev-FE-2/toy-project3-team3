@@ -1,4 +1,9 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+echo "🔍 commit 전에 lint 규칙을 검사합니다..."
 
-npx lint-staged
+if ! npx lint-staged; then
+  echo "❌ lint 규칙 검사에서 오류가 발생했습니다."
+  exit 1
+fi
+
+echo "✅ lint 검사가 완료되었습니다."
+exit 0
