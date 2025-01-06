@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 echo "🔍 commit 전에 lint 규칙을 검사합니다..."
 
 if ! npx lint-staged; then

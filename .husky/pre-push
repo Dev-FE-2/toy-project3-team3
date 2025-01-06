@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 echo "🔍 push 전에 테스트와 빌드를 실행합니다..."
 
 # 테스트 실행
