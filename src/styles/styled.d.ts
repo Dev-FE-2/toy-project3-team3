@@ -18,11 +18,11 @@ declare module 'styled-components' {
         darken2: string;
       };
       grayscale: {
-        '100': string;
-        '200': string;
-        '300': string;
-        '400': string;
-        '500': string;
+        grayExtraLight: string;
+        grayLight: string;
+        grayMedium: string;
+        grayDark: string;
+        grayExtraDark: string;
       };
       text: string;
     };
@@ -32,31 +32,31 @@ declare module 'styled-components' {
       thin: number;
     };
     lineHeight: {
-      m: number;
+      md: number;
     };
     fontSize: {
-      xxl: string;
-      xl: string;
-      l: string;
-      m: string;
-      s: string;
-      xs: string;
+      xxlg: string;
+      xlg: string;
+      lg: string;
+      md: string;
+      sm: string;
+      xsm: string;
     };
     borderRadius: {
-      s: string;
-      m: string;
-      l: string;
-      xl: string;
+      sm: string;
+      md: string;
+      lg: string;
+      xlg: string;
     };
     boxShadow: string;
     space: {
-      xxs: string;
-      xs: string;
-      s: string;
-      m: string;
-      l: string;
-      xl: string;
-      xxl: string;
+      xxsm: string;
+      xsm: string;
+      sm: string;
+      md: string;
+      lg: string;
+      xlg: string;
+      xxlg: string;
     };
   }
 }

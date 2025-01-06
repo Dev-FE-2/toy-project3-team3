@@ -11,9 +11,9 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: 'Pretendard', sans-serif;
-    line-height: ${({ theme }) => theme.lineHeight.m};
+    line-height: ${({ theme }) => theme.lineHeight.md};
     font-weight: ${({ theme }) => theme.fontWeight.bold};
-    font-size: ${({ theme }) => theme.fontSize.m};
+    font-size: ${({ theme }) => theme.fontSize.md};
     color: ${({ theme }) => theme.colors.text};
     background: ${({ theme }) => theme.colors.background};
 
@@ -33,7 +33,7 @@ const GlobalStyles = createGlobalStyle`
 
   ${mediaQuery.mobile`
     body {
-      font-size: ${({ theme }) => theme.fontSize.s};
+      font-size: ${({ theme }) => theme.fontSize.sm};
     }
   `}
 `;
