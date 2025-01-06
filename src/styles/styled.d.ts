@@ -17,12 +17,12 @@ declare module 'styled-components' {
         darken1: string;
         darken2: string;
       };
-      grayscale: {
-        grayExtraLight: string;
-        grayLight: string;
-        grayMedium: string;
-        grayDark: string;
-        grayExtraDark: string;
+      gray: {
+        extraLight: string;
+        light: string;
+        medium: string;
+        dark: string;
+        extraDark: string;
       };
       text: string;
     };

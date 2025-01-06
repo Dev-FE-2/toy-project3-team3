@@ -17,12 +17,12 @@ export const theme: DefaultTheme = {
       darken1: 'rgba(0, 0, 0, 0.12)',
       darken2: 'rgba(0, 0, 0, 0.18)',
     },
-    grayscale: {
-      grayExtraLight: '#555',
-      grayLight: '#777',
-      grayMedium: '#999',
-      grayDark: '#CCC',
-      grayExtraDark: '#F0F0f0',
+    gray: {
+      extraLight: '#555',
+      light: '#777',
+      medium: '#999',
+      dark: '#CCC',
+      extraDark: '#F0F0f0',
     },
     text: '#333',
   },
