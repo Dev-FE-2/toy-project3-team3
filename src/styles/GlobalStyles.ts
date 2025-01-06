@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import { mediaQuery } from './mediaQuery';
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -8,17 +9,18 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  html {
-    font-size: 100%; /* 16px */
-  }
-
   body {
     font-family: 'Pretendard', sans-serif;
-    line-height: var(--line-hight-m);
-    font-weight: var(--font-bold);
-    color: var(--colortext);
-    background-color: var(--color-backgroud);
-    font-size: var(--font-m);
+    line-height: ${({ theme }) => theme.lineHeight.md};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-size: ${({ theme }) => theme.fontSize.md};
+    color: ${({ theme }) => theme.colors.text};
+    background: ${({ theme }) => theme.colors.background};
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   p, h1, h2, h3, h4, div, span {
@@ -29,12 +31,11 @@ const GlobalStyles = createGlobalStyle`
     display: block;
   }
 
-  @media (max-width: 576px) {
-    /* 모바일 디바이스 */
-    html {
-      font-size: var(--font-s);
+  ${mediaQuery.mobile`
+    body {
+      font-size: ${({ theme }) => theme.fontSize.sm};
     }
-  }
+  `}
 `;
 
 export default GlobalStyles;
