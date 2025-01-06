@@ -1,14 +1,21 @@
 import Header from '@/components/layout/Header/Header';
 import Nav from '@/components/layout/Nav/Nav';
 import { Outlet } from 'react-router-dom';
+import GlobalStyles from '@/styles/GlobalStyles';
+import '@/styles/fonts.css';
+import '@/styles/designToken.css';
+import { S } from './Layout.styles';
 
 const Layout = () => {
   return (
-    <div>
+    <main>
+      <GlobalStyles />
       <Header />
-      <Outlet />
+      <S.OutletContainer>
+        <Outlet />
+      </S.OutletContainer>
       <Nav />
-    </div>
+    </main>
   );
 };
 
