@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components';
-import { mediaQuery } from './mediaQuery';
+import mediaQuery from './mediaQuery';
 
 export const theme: DefaultTheme = {
   colors: {
@@ -18,11 +18,11 @@ export const theme: DefaultTheme = {
       darken2: 'rgba(0, 0, 0, 0.18)',
     },
     gray: {
-      extraLight: '#555',
-      light: '#777',
+      extraLight: '#CCC',
+      light: '#BBB',
       medium: '#999',
-      dark: '#CCC',
-      extraDark: '#F0F0f0',
+      dark: '#777',
+      extraDark: '#555',
     },
     text: '#333',
   },
