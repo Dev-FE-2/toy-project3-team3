@@ -1,5 +1,19 @@
+import {
+  Backward,
+  EditContents,
+  EditPlayList,
+  EditThumbnail,
+} from '@/components';
+
 const PlayListEditPage = () => {
-  return <div>PlayListEditPage</div>;
+  return (
+    <>
+      <Backward />
+      <EditThumbnail />
+      <EditContents />
+      <EditPlayList />
+    </>
+  );
 };
 
 export default PlayListEditPage;
