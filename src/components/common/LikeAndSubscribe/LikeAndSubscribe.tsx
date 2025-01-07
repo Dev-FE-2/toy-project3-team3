@@ -1,5 +1,5 @@
 import * as S from './LikeAndSubscribe.styles';
-import { LikeAndSubscribeProps } from '@/types/common';
+import { LikeAndSubscribeProps } from '@/types';
 import { Icon } from '@/components/common';
 
 const LikeAndSubscribe = ({
@@ -12,11 +12,11 @@ const LikeAndSubscribe = ({
 }: LikeAndSubscribeProps) => {
   return (
     <S.IconContainer>
-      <S.Iconwapper>
+      <S.Iconwapper aria-label={`좋아요 ${likeCnt}개`}>
         <Icon type="like" isActive={isLiked} onClick={onLikeClick} />
         <S.Cnt>{likeCnt}</S.Cnt>
       </S.Iconwapper>
-      <S.Iconwapper>
+      <S.Iconwapper aria-label={`구독 ${subscribeCnt}개`}>
         <Icon
           type="subscribe"
           isActive={isSubscribed}

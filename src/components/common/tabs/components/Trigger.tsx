@@ -1,5 +1,5 @@
 import { Btn, TabText } from '../Tabs.styles';
-import { TabTriggerProps } from '@/types/common';
+import { TabTriggerProps } from '@/types';
 import { useTabsContext } from '../context/TabsContext';
 
 const Trigger = ({ value, text }: TabTriggerProps) => {

@@ -2,7 +2,14 @@ import * as S from './DeferredLoader.styles';
 import { useState, useEffect } from 'react';
 
 const Loader = () => {
-  return <S.LoadingContainer />;
+  return (
+    <S.LoadingContainer
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+      aria-label="로딩 중"
+    />
+  );
 };
 
 const DeferredLoader = () => {

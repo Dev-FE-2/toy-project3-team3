@@ -1,4 +1,4 @@
-import { AvatarSize } from '@/types/common';
+import { AvatarSize } from '@/types';
 import styled from 'styled-components';
 
 export const AvatarBtn = styled.button<{ size: AvatarSize }>`

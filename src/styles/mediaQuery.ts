@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { CSSValue, MediaQueryProps } from '@/types/style';
+import { CSSValue, MediaQueryProps } from '@/types';
 
 const breakpoints: MediaQueryProps = {
   mobile: 420,
