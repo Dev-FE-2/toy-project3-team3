@@ -11,8 +11,8 @@ export const ThumbnailWrapper = styled.div`
 `;
 
 export const ThumbnailPreviewWrapper = styled.div`
-  width: 300px;
-  height: 200px;
+  width: 320px;
+  height: 180px;
 `;
 
 export const ThumbnailPreview = styled.img`
