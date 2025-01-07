@@ -1,5 +1,6 @@
 import { supabase } from '@/apis/supabase';
 import imageCompression from 'browser-image-compression';
+import { v4 as uuid } from 'uuid';
 import type { FilePath } from '@/types';
 
 const isImageFile = (file: File): boolean => {
@@ -7,13 +8,13 @@ const isImageFile = (file: File): boolean => {
 };
 
 const generateFileName = (file: File): string => {
-  const [fileName, fileExtension] = file.name.split(/\.(?=[^.]+$)/);
-  const isKorean = /[\u3131-\uD79D]/.test(fileName);
-  const newFileName = isKorean
-    ? `${new Date().getTime()}_gram.${fileExtension}`
-    : `${new Date().getTime()}_${fileName}.${fileExtension}`;
+  const fileExtension = file.name.slice(
+    ((file.name.lastIndexOf('.') - 1) >>> 0) + 2,
+  );
+  const fileName = uuid();
 
-  console.log(isKorean);
+  const newFileName = `${fileName}.${fileExtension}`;
+
   console.log(fileName);
   console.log(newFileName);
 
