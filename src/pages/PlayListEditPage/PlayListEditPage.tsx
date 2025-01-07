@@ -1,3 +1,4 @@
+import * as S from './PlayListEditPage.styles';
 import {
   Backward,
   EditContents,
@@ -7,12 +8,12 @@ import {
 
 const PlayListEditPage = () => {
   return (
-    <>
+    <S.PlayListEditPageWrapper>
       <Backward />
       <EditThumbnail />
       <EditContents />
       <EditPlayList />
-    </>
+    </S.PlayListEditPageWrapper>
   );
 };
 
