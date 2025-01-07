@@ -1,0 +1,4 @@
+export const FILE_PATH = {
+  PROFILE: 'USER_PROFILE_IMAGE',
+  PLAY_LIST: 'PLAYLIST_THUMBNAIL_IMAGE',
+} as const;
