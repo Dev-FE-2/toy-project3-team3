@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Layout } from '@/components';
+import { Layout, AuthLayout } from '@/components';
 import {
   AlertPage,
   HomePage,
@@ -15,9 +15,11 @@ import {
   MyInfoEditPage,
   UserFollowPage,
   UserPage,
+  NotFoundPage,
 } from '@/pages';
 import { ROUTES } from '@/constants';
-import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage';
+import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorFallback } from '@/components';
 
 const {
   HOME,
@@ -38,10 +40,25 @@ const {
 } = ROUTES;
 
 const router = createBrowserRouter([
-  { path: SIGN_IN, element: <SignInPage /> },
-  { path: SIGN_UP, element: <SignUpPage /> },
   {
-    element: <Layout />,
+    element: (
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <AuthLayout />
+      </ErrorBoundary>
+    ),
+    errorElement: <NotFoundPage />,
+    children: [
+      { path: SIGN_IN, element: <SignInPage /> },
+      { path: SIGN_UP, element: <SignUpPage /> },
+    ],
+  },
+  {
+    element: (
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Layout />
+      </ErrorBoundary>
+    ),
+    errorElement: <NotFoundPage />,
     children: [
       { path: HOME, element: <HomePage /> },
       { path: ALERT, element: <AlertPage /> },

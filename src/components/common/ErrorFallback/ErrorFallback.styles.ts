@@ -20,3 +20,25 @@ export const ErrorText = styled.h1`
 export const ErrorDetailText = styled.p`
   font-size: ${({ theme }) => theme.fontSize.lg};
 `;
+
+export const RetryBtn = styled.button`
+  position: relative;
+  color: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.space.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  background-color: ${({ theme }) => theme.colors.gray.extraLight};
+  transition: background-color 0.3s;
+  &:hover {
+    overflow: hidden;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: ${({ theme }) => theme.colors.opacity.darken1};
+      pointer-events: none;
+    }
+  }
+`;

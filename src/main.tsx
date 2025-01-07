@@ -1,31 +1,37 @@
-import { StrictMode } from 'react';
+import { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import router from '@/routes/router.tsx';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryClientProvider,
+  QueryErrorResetBoundary,
+} from '@tanstack/react-query';
+import { queryClient } from './apis';
+import { ErrorBoundary } from 'react-error-boundary';
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      staleTime: 1000 * 60 * 5,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: true,
-      refetchOnMount: true,
-    },
-    mutations: {
-      retry: 0,
-    },
-  },
-});
+import { DeferredLoader, ErrorFallback } from './components';
+import { ThemeProvider } from 'styled-components';
+import { theme } from '@/styles/theme';
+import GlobalStyles from '@/styles/GlobalStyles';
+import '@/styles/fonts.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <NuqsAdapter>
-        <RouterProvider router={router} />
-      </NuqsAdapter>
-    </QueryClientProvider>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <QueryClientProvider client={queryClient}>
+        <QueryErrorResetBoundary>
+          {({ reset }) => (
+            <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
+              <NuqsAdapter>
+                <Suspense fallback={<DeferredLoader />}>
+                  <RouterProvider router={router} />
+                </Suspense>
+              </NuqsAdapter>
+            </ErrorBoundary>
+          )}
+        </QueryErrorResetBoundary>
+      </QueryClientProvider>
+    </ThemeProvider>
   </StrictMode>,
 );
