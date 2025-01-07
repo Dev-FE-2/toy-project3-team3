@@ -133,8 +133,16 @@ export interface TabListProps {
 
 // Each Playlist
 export interface EachPlaylistProps {
-  userId: string;
-  playListId: string;
+  thumbnailUrl: string;
+  videoCnt: number;
+  avatarUrl: string;
+  userName: string;
+  updateDate: string;
+  likeCnt: number;
+  subscribeCnt: number;
+  isLiked: boolean;
+  isSubscribed: boolean;
+  playListTitle: string;
   onLikeClick: () => void;
   onSubscribeClick: () => void;
 }

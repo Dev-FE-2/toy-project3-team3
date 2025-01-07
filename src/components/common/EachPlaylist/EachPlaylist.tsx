@@ -1,29 +1,21 @@
 import * as S from './EachPlaylist.styles';
 import { Avatar, LikeAndSubscribe } from '@/components/common';
 import { EachPlaylistProps } from '@/types/common';
-import TumbnailTest from '@/assets/img/test/tumbnailTest.webp';
-import avatarTest from '@/assets/img/test/avatarTest.webp';
 
 const EachPlaylist = ({
-  userId,
-  playListId,
+  thumbnailUrl,
+  videoCnt,
+  avatarUrl,
+  userName,
+  updateDate,
+  likeCnt,
+  subscribeCnt,
+  isLiked,
+  isSubscribed,
+  playListTitle,
   onLikeClick,
   onSubscribeClick,
 }: EachPlaylistProps) => {
-  // userId, playListId로 데이터 패치 필요
-  // 임시 데이터
-  const thumbnailUrl = TumbnailTest;
-  const videoCnt = 10;
-  const avatarUrl = avatarTest;
-  const userName = '김';
-  const updateDate = '2024.10.15';
-  const likeCnt = 10;
-  const subscribeCnt = 10;
-  const isLiked = false;
-  const isSubscribed = true;
-  const playListTitle = '김의 플레이리스트';
-  console.log(userId, playListId);
-
   return (
     <S.PlayListContainer>
       <S.ThumbnailWraper>
@@ -60,9 +52,17 @@ export default EachPlaylist;
 /**
  * 사용 예시
  * <EachPlaylist
-      userId={userId}
-      playListId={playListId}
-      onLikeClick={onLikeClick}
-      onSubscribeClick={onSubscribeClick}
-    />
+    thumbnailUrl={data.thumbnailUrl}
+    videoCnt={data.videoCnt}
+    avatarUrl={data.avatarUrl}
+    userName={data.userName}
+    updateDate={data.updateDate}
+    likeCnt={data.likeCnt}
+    subscribeCnt={data.subscribeCnt}
+    isLiked={data.isLiked}
+    isSubscribed={data.isSubscribed}
+    playListTitle={data.playListTitle}
+    onLikeClick={handleLikeClick}
+    onSubscribeClick={handleSubscribeClick}
+  />
  */
