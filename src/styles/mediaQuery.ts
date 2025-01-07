@@ -8,7 +8,7 @@ const breakpoints: MediaQueryProps = {
   desktop: 2560,
 } as const;
 
-export const mediaQuery = Object.keys(breakpoints).reduce(
+const mediaQuery = Object.keys(breakpoints).reduce(
   (acc, label) => {
     acc[label] = (strings: TemplateStringsArray, ...values: CSSValue[]) => css`
       @media (max-width: ${breakpoints[label]}px) {
@@ -25,3 +25,5 @@ export const mediaQuery = Object.keys(breakpoints).reduce(
     ) => ReturnType<typeof css>
   >,
 );
+
+export default mediaQuery;

@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from '@/styles/theme';
 import GlobalStyles from '@/styles/GlobalStyles';
 import '@/styles/fonts.css';
-import { S } from './Layout.styles';
+import * as S from './Layout.styles';
 
 const Layout = () => {
   return (
