@@ -1,6 +1,6 @@
 import { PanelContainer } from '../Tabs.styles';
 import { useTabsContext } from '../context/TabsContext';
-import { TabPanelProps } from '@/types/common';
+import { TabPanelProps } from '@/types';
 
 const Panel = ({ value, children }: TabPanelProps) => {
   const { selectedIndex, label } = useTabsContext();

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { StyledBtnProps, StyledPlusBtnProps } from '@/types/common';
+import { StyledBtnProps, StyledPlusBtnProps } from '@/types';
 import { HiPlus } from 'react-icons/hi';
 
 // 공동 disabled 스타일

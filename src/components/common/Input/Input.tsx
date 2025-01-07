@@ -1,9 +1,10 @@
 import * as S from './Input.styles';
 import { useState } from 'react';
-import { InputProps } from '@/types/common';
+import { InputProps } from '@/types';
 
 const Input = (props: InputProps) => {
-  const { type, register, errorMessage, label, placeholder, ...rest } = props;
+  const { type, id, register, errorMessage, label, placeholder, ...rest } =
+    props;
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,15 +13,17 @@ const Input = (props: InputProps) => {
 
   const commonProps = {
     ...register,
+    id,
     $errorMessage: !!errorMessage,
     placeholder: '',
     onFocus: () => setIsFocused(true),
     onBlur: () => setIsFocused(false),
     autoComplete: 'off',
+    'aria-invalid': !!errorMessage,
+    'aria-describedby': errorMessage ? `${id}-error` : undefined,
+    'aria-required': register?.required ? true : undefined,
     ...rest,
   };
-
-  console.log(isFilled, isFocused);
 
   return (
     <>
@@ -29,8 +32,11 @@ const Input = (props: InputProps) => {
       ) : (
         <S.InputWrapper>
           <S.StyledInput type={type} onChange={handleChange} {...commonProps} />
-          <S.ErrorMessage>{errorMessage}</S.ErrorMessage>
+          <S.ErrorMessage id={`${id}-error`} role="alert" aria-live="polite">
+            {errorMessage}
+          </S.ErrorMessage>
           <S.FloatingLabel
+            htmlFor={id}
             $isActive={isFocused || isFilled}
             $errorMessage={!!errorMessage}
           >
