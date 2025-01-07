@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as S from './Tabs.styles';
 import { TabsContext } from './context/TabsContext';
-import { TabsProps } from '@/types/common';
+import { TabsProps } from '@/types';
 import List from './components/List';
 import Panel from './components/Panel';
 import Trigger from './components/Trigger';

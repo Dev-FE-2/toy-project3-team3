@@ -1,5 +1,5 @@
 import * as S from './HashTag.styles';
-import { HashTagProps } from '@/types/common';
+import { HashTagProps } from '@/types';
 
 const HashTag = ({ content, onClick }: HashTagProps) => (
   <S.HashTag onClick={onClick} aria-label={`해시태그 ${content}`}>

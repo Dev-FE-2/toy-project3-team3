@@ -1,6 +1,6 @@
 import { ListContainer } from '../Tabs.styles';
 import { useTabsContext } from '../context/TabsContext';
-import { TabListProps } from '@/types/common';
+import { TabListProps } from '@/types';
 
 const List = ({ children }: TabListProps) => {
   const { label } = useTabsContext();

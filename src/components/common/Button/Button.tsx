@@ -1,5 +1,5 @@
 import { StyledBtn, StyledPlusBtn } from './Button.styles';
-import { BtnProps } from '@/types/common';
+import { BtnProps } from '@/types';
 
 export const Button = ({
   color = 'primary',
