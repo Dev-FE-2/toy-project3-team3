@@ -1,4 +1,7 @@
 import { atom } from 'jotai';
-import type { EditMode } from '@/types';
+import { Video, type EditMode } from '@/types';
+// import { atomWithStorage } from 'jotai/utils';
 
 export const editModeAtom = atom<EditMode>('add');
+
+export const playListAtom = atom<Video[]>([]);
