@@ -1,71 +1,137 @@
 import * as S from './Input.styles';
-import { useState } from 'react';
+import { useState, forwardRef, TextareaHTMLAttributes } from 'react';
 import { InputProps } from '@/types';
 
-const Input = (props: InputProps) => {
-  const { type, id, register, errorMessage, label, placeholder, ...rest } =
-    props;
+export const Input = forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  InputProps
+>((props, ref) => {
+  console.log('Props in Input.tsx:', props);
+
+  // TextInput일 때만 사용되는 상태
   const [isFocused, setIsFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsFilled(e.target.value.length > 0);
-  };
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
 
-  const commonProps = {
-    ...register,
+  const { type } = props;
+  // TextArea
+  if (type === 'textarea') {
+    const { id, register, errorMessage, placeholder, ...rest } = props;
+    const textareaProps = {
+      ...register,
+      id,
+      $errorMessage: !!errorMessage,
+      placeholder,
+      autoComplete: 'off',
+      spellCheck: 'false',
+      'aria-invalid': !!errorMessage,
+      'aria-describedby': errorMessage ? `${id}-error` : undefined,
+      ...rest,
+    };
+
+    return (
+      <S.InputWrapper>
+        <S.StyledTextarea
+          ref={ref as React.Ref<HTMLTextAreaElement>}
+          {...(textareaProps as TextareaHTMLAttributes<HTMLTextAreaElement>)}
+        />
+        <S.TextAreaErrorMessage
+          id={`${id}-error`}
+          role="alert"
+          aria-live="polite"
+          $errorMessage={!!errorMessage}
+        >
+          {errorMessage}
+        </S.TextAreaErrorMessage>
+      </S.InputWrapper>
+    );
+  }
+
+  // TextInput
+  const {
     id,
-    $errorMessage: !!errorMessage,
-    placeholder: '',
-    onFocus: () => setIsFocused(true),
-    onBlur: () => setIsFocused(false),
-    autoComplete: 'off',
-    'aria-invalid': !!errorMessage,
-    'aria-describedby': errorMessage ? `${id}-error` : undefined,
-    'aria-required': register?.required ? true : undefined,
-    ...rest,
-  };
-
+    register,
+    label,
+    placeholder,
+    errorMessage,
+    watchedValue,
+    validatedMessage,
+    ...rest
+  } = props;
   return (
-    <>
-      {type === 'textarea' ? (
-        <S.StyledTextarea {...commonProps} />
-      ) : (
-        <S.InputWrapper>
-          <S.StyledInput type={type} onChange={handleChange} {...commonProps} />
-          <S.ErrorMessage id={`${id}-error`} role="alert" aria-live="polite">
-            {errorMessage}
-          </S.ErrorMessage>
-          <S.FloatingLabel
-            htmlFor={id}
-            $isActive={isFocused || isFilled}
-            $errorMessage={!!errorMessage}
-          >
-            {isFocused || isFilled ? label : placeholder}
-          </S.FloatingLabel>
-        </S.InputWrapper>
-      )}
-    </>
+    <S.InputWrapper>
+      <S.StyledTextInput
+        ref={ref as React.Ref<HTMLInputElement>}
+        id={id}
+        {...register}
+        $errorMessage={!!errorMessage}
+        $validatedMessage={validatedMessage}
+        placeholder=""
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        autoComplete="off"
+        aria-invalid={!!errorMessage}
+        aria-describedby={errorMessage ? `${id}-error` : undefined}
+        {...rest}
+      />
+      {errorMessage ? (
+        <S.BaseMessage
+          id={`${id}-error`}
+          role="alert"
+          aria-live="polite"
+          $errorMessage={!!errorMessage}
+        >
+          {errorMessage}
+        </S.BaseMessage>
+      ) : null}
+      {validatedMessage ? (
+        <S.BaseMessage
+          id={`${id}-varified`}
+          role="alert"
+          aria-live="polite"
+          $validatedMessage={validatedMessage}
+        >
+          {validatedMessage}
+        </S.BaseMessage>
+      ) : null}
+      <S.FloatingLabel
+        htmlFor={id}
+        $isActive={isFocused || !!watchedValue}
+        $errorMessage={!!errorMessage}
+      >
+        {isFocused || !!watchedValue ? label : placeholder}
+      </S.FloatingLabel>
+    </S.InputWrapper>
   );
-};
+});
 
 export default Input;
 
 /**
  * 사용 예시
- * <Input
+ *  <Input
       type={'textarea'}
       id={'comment'}
       {...register('comment')}
       placeholder={'댓글 작성하기'}
-      label={'댓글'}
+      errorMessage={'에러발생'}
     />
 
     <Input
-      type={'text'}
-      id={'playlist_title'}
-      errorMessage={touchedFields.playlistTitle && errors.playlistTitle && errors.playlistTitle.message}
-      {...register('playlistTitle')}
-      placeholder={'플레이리스트 제목을 입력해주세요'}
-      label={'제목'}
+      type="email"
+      id="email"
+      label="이메일"
+      {...register('email')}
+      watchedValue={watchedEmail} // 입력 값 감시 - const watchedEmail = watch('email');
+      placeholder="이메일 (example@email.com)"
+      errorMessage={
+        (touchedFields.email &&
+          errors.email &&
+          errors.email?.message) ||
+        ''
+      }
+      validatedMessage={
+        watchedEmail && !errors.email ? '사용 가능한 이메일입니다.' : ''
+      }
     />
  */

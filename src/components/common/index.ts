@@ -23,3 +23,5 @@ export { default as Input } from './Input/Input';
 
 export { default as ErrorFallback } from './ErrorFallback/ErrorFallback';
 export { default as DeferredLoader } from './DeferredLoader/DeferredLoader';
+
+export * as FormStyle from './Form/Form.styles';

@@ -149,21 +149,32 @@ export interface EachPlaylistProps {
 }
 
 // Input
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
-  type: 'text' | 'textarea' | 'email' | 'password';
-  id: string;
+interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
+  ref?: React.Ref<T>;
   register?: UseFormRegisterReturn;
-  errorMessage: string;
+  errorMessage?: string;
   placeholder: string;
-  label: string; // input 필드 오른쪽 위에 붙을 한글 이름
+  id: string;
+  spellCheck?: boolean;
 }
+interface TextInputProps extends BaseInputProps<HTMLInputElement> {
+  type: 'text' | 'email' | 'password';
+  watchedValue: string;
+  label: string; // 인풋 왼쪽 위 작은 placeholder
+  validatedMessage?: string;
+}
+interface TextAreaProps extends BaseInputProps<HTMLTextAreaElement> {
+  type: 'textarea';
+}
+
+export type InputProps = TextInputProps | TextAreaProps;
 
 export interface StyledInputProps {
-  $errorMessage: boolean;
+  $errorMessage?: boolean;
+  $validatedMessage?: string;
 }
 
-export interface FloatingLabelProps extends StyledInputProps {
+export interface FloatingLabelProps {
   htmlFor: string;
   $errorMessage: boolean;
   $isActive: boolean;
