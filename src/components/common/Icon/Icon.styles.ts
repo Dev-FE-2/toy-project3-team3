@@ -7,6 +7,8 @@ import { IoArrowBack } from 'react-icons/io5';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { GoBell } from 'react-icons/go';
 import { IoSearch } from 'react-icons/io5';
+import { RxDragHandleHorizontal } from 'react-icons/rx';
+import { IoCloseSharp } from 'react-icons/io5';
 
 const IconButton = css`
   display: flex;
@@ -59,7 +61,7 @@ export const AlarmDot = styled.div`
   pointer-events: none;
 `;
 
-export const CommentIcon = styled(IoArrowBack)`
+export const CommentIcon = styled(FaRegCommentDots)`
   ${IconButton};
   &:hover {
     color: ${({ theme }) => theme.colors.gray.extraDark};
@@ -78,7 +80,11 @@ export const BackwardIcon = styled(IoArrowBack)`
   color: #000;
 `;
 
-export const CancleIcon = styled(FaRegCommentDots)`
+export const CancleIcon = styled(IoCloseSharp)`
   ${IconButton};
   color: ${({ theme }) => theme.colors.gray.extraDark};
+`;
+
+export const DragIcon = styled(RxDragHandleHorizontal)`
+  ${IconButton}
 `;

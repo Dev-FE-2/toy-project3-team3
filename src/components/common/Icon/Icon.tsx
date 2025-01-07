@@ -11,6 +11,7 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
       cancel: '취소',
       backward: '뒤로 가기',
       search: '검색',
+      drag: '드래그',
     };
     return labels[type];
   };
@@ -35,6 +36,7 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
     cancel: <S.CancleIcon onClick={onClick} aria-label={getAriaLabel()} />,
     backward: <S.BackwardIcon onClick={onClick} aria-label={getAriaLabel()} />,
     search: <S.SearchIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    drag: <S.DragIcon aria-label={getAriaLabel()} />,
   };
 
   return iconMap[type];

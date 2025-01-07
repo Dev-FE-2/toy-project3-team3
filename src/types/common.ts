@@ -8,7 +8,8 @@ export type IconType =
   | 'cancel'
   | 'backward'
   | 'alarm'
-  | 'search';
+  | 'search'
+  | 'drag';
 
 export interface IconProps {
   type: IconType;
