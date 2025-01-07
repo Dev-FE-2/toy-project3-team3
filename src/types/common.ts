@@ -34,6 +34,7 @@ export interface HashTagProps {
 
 // Category
 export interface CategoryProps {
+  type?: 'tab' | 'mark'; // 용도 구분 - 메인 페이지 | 플레이리스트아이템
   content: string;
   isActive?: boolean;
   onClick?: () => void;
@@ -151,6 +152,7 @@ export interface EachPlaylistProps {
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   type: 'text' | 'textarea' | 'email' | 'password';
+  id: string;
   register?: UseFormRegisterReturn;
   errorMessage: string;
   placeholder: string;
@@ -162,6 +164,7 @@ export interface StyledInputProps {
 }
 
 export interface FloatingLabelProps extends StyledInputProps {
+  htmlFor: string;
   $errorMessage: boolean;
   $isActive: boolean;
 }

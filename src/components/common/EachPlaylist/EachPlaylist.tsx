@@ -1,6 +1,6 @@
 import * as S from './EachPlaylist.styles';
 import { Avatar, LikeAndSubscribe } from '@/components/common';
-import { EachPlaylistProps } from '@/types/common';
+import { EachPlaylistProps } from '@/types';
 
 const EachPlaylist = ({
   thumbnailUrl,
@@ -17,21 +17,32 @@ const EachPlaylist = ({
   onSubscribeClick,
 }: EachPlaylistProps) => {
   return (
-    <S.PlayListContainer>
+    <S.PlayListContainer
+      aria-label={`${userName}의 플레이리스트: ${playListTitle}`}
+    >
       <S.ThumbnailWraper>
-        <S.TumbnailLayer1 />
-        <S.TumbnailLayer2 />
-        <S.Tumbnail src={thumbnailUrl} />
-        <S.VideoCntWrapper>
-          <S.VideoIcon />
+        <S.TumbnailLayer1 aria-hidden="true" />
+        <S.TumbnailLayer2 aria-hidden="true" />
+        <S.Tumbnail
+          src={thumbnailUrl}
+          alt={`${playListTitle} 플레이리스트 썸네일`}
+        />
+        <S.VideoCntWrapper aria-label={`동영상 ${videoCnt}개`}>
+          <S.VideoIcon aria-hidden="true" />
           <S.VideoCnt>{videoCnt}</S.VideoCnt>
         </S.VideoCntWrapper>
       </S.ThumbnailWraper>
       <S.PlayListInfo>
         <S.PlayListInfoLeft>
-          <Avatar imageUrl={avatarUrl} size={'small'} />
+          <Avatar
+            imageUrl={avatarUrl}
+            size={'small'}
+            altText={`${userName}의 프로필`}
+          />
           <S.UserName>{userName}</S.UserName>
-          <S.UpdateDate>{updateDate}</S.UpdateDate>
+          <S.UpdateDate aria-label={`업데이트 일자: ${updateDate}`}>
+            {updateDate}
+          </S.UpdateDate>
         </S.PlayListInfoLeft>
         <LikeAndSubscribe
           likeCnt={likeCnt}

@@ -1,5 +1,5 @@
 import * as S from './Avatar.styles';
-import { AvatarProps } from '@/types/common';
+import { AvatarProps } from '@/types';
 import { DEFAULT_PROFILE } from '@/constants';
 
 const Avatar = ({
@@ -9,13 +9,18 @@ const Avatar = ({
   onClick,
 }: AvatarProps) => {
   return (
-    <S.AvatarBtn size={size} onClick={onClick}>
+    <S.AvatarBtn
+      size={size}
+      onClick={onClick}
+      aria-label={`${altText} 프로필 이미지`}
+    >
       <S.AvatarImg
         src={imageUrl ?? DEFAULT_PROFILE}
         alt={altText}
         onError={(e) => {
           e.currentTarget.src = DEFAULT_PROFILE; // 폴백 이미지
         }}
+        aria-hidden="true"
       />
     </S.AvatarBtn>
   );
