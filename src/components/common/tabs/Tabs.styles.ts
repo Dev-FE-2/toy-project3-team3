@@ -10,7 +10,7 @@ export const ListContainer = styled.header`
   position: relative;
 `;
 
-export const PanelContainer = styled.article`
+export const PanelContainer = styled.section`
   padding: ${({ theme }) => theme.space.sm};
 `;
 

@@ -5,9 +5,11 @@ const ErrorFallback = ({ error }: { error: Error }) => {
   const { resetBoundary } = useErrorBoundary();
 
   return (
-    <S.ErrorContainer>
+    <S.ErrorContainer role="alert" aria-live="assertive" aria-atomic="true">
       <S.ErrorText>에러가 발생했습니다</S.ErrorText>
-      <S.ErrorDetailText>{error.message}</S.ErrorDetailText>
+      <S.ErrorDetailText aria-label="에러 상세 내용">
+        {error.message}
+      </S.ErrorDetailText>
       <S.RetryBtn onClick={resetBoundary}> 다시 시도 </S.RetryBtn>
     </S.ErrorContainer>
   );

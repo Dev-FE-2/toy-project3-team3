@@ -1,5 +1,5 @@
 import * as S from './Select.styles';
-import { SelectProps } from '@/types/common';
+import { SelectProps } from '@/types';
 import {
   CATEGORY_OPTIONS,
   SORT_COMMENT_OPTIONS,
@@ -13,11 +13,30 @@ export const Select = ({ type, value, onChange }: SelectProps) => {
     sortComment: createOptions(SORT_COMMENT_OPTIONS),
     sortEtc: createOptions(SORT_ETC_OPTIONS),
   }[type];
+  const labelText = {
+    category: '카테고리 선택',
+    sortComment: '댓글 정렬 방식 선택',
+    sortEtc: '정렬 방식 선택',
+  }[type];
 
   return (
-    <S.Select value={value} onChange={(e) => onChange(e.target.value)}>
-      {options.map(({ value, label }) => (
-        <option key={value} value={value}>
+    <S.Select
+      aria-label={labelText}
+      role="combobox"
+      aria-expanded="true"
+      aria-controls={`${type}-listbox`}
+      aria-activedescendant={`${type}-option-${value}`}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    >
+      {options.map(({ value: optionValue, label }) => (
+        <option
+          key={optionValue}
+          value={optionValue}
+          id={`${type}-option-${optionValue}`}
+          role="option"
+          aria-selected={value === optionValue}
+        >
           {label}
         </option>
       ))}

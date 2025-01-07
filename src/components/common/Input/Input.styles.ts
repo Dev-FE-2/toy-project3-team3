@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FloatingLabelProps, StyledInputProps } from '@/types/common';
+import { FloatingLabelProps, StyledInputProps } from '@/types';
 
 export const InputWrapper = styled.div`
   position: relative;
