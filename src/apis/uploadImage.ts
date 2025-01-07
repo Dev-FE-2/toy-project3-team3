@@ -15,9 +15,6 @@ const generateFileName = (file: File): string => {
 
   const newFileName = `${fileName}.${fileExtension}`;
 
-  console.log(fileName);
-  console.log(newFileName);
-
   return newFileName;
 };
 
