@@ -87,8 +87,6 @@ const SignUpPage = () => {
     data: watch(),
   });
 
-  console.log(watchedEmail && !errors.email ? '사용 가능한 이메일입니다.' : '');
-
   return (
     <S.SignUpFormContainer>
       <S.SignUpFormTitle>회원가입</S.SignUpFormTitle>

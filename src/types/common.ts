@@ -1,5 +1,3 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
-
 // Icon
 export type IconType =
   | 'like'
@@ -151,11 +149,9 @@ export interface EachPlaylistProps {
 // Input
 interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
   ref?: React.Ref<T>;
-  register?: UseFormRegisterReturn;
   errorMessage?: string;
   placeholder: string;
   id: string;
-  spellCheck?: boolean;
 }
 interface TextInputProps extends BaseInputProps<HTMLInputElement> {
   type: 'text' | 'email' | 'password';
@@ -165,6 +161,7 @@ interface TextInputProps extends BaseInputProps<HTMLInputElement> {
 }
 interface TextAreaProps extends BaseInputProps<HTMLTextAreaElement> {
   type: 'textarea';
+  spellCheck?: boolean;
 }
 
 export type InputProps = TextInputProps | TextAreaProps;

@@ -1,13 +1,16 @@
 import * as S from './Input.styles';
-import { useState, forwardRef, TextareaHTMLAttributes } from 'react';
+import {
+  useState,
+  forwardRef,
+  InputHTMLAttributes,
+  TextareaHTMLAttributes,
+} from 'react';
 import { InputProps } from '@/types';
 
 export const Input = forwardRef<
   HTMLInputElement | HTMLTextAreaElement,
   InputProps
 >((props, ref) => {
-  console.log('Props in Input.tsx:', props);
-
   // TextInput일 때만 사용되는 상태
   const [isFocused, setIsFocused] = useState(false);
   const handleFocus = () => setIsFocused(true);
@@ -16,9 +19,8 @@ export const Input = forwardRef<
   const { type } = props;
   // TextArea
   if (type === 'textarea') {
-    const { id, register, errorMessage, placeholder, ...rest } = props;
+    const { id, errorMessage, placeholder, ...rest } = props;
     const textareaProps = {
-      ...register,
       id,
       $errorMessage: !!errorMessage,
       placeholder,
@@ -50,7 +52,6 @@ export const Input = forwardRef<
   // TextInput
   const {
     id,
-    register,
     label,
     placeholder,
     errorMessage,
@@ -58,21 +59,24 @@ export const Input = forwardRef<
     validatedMessage,
     ...rest
   } = props;
+  const textInputProps = {
+    id,
+    $errorMessage: !!errorMessage,
+    $validatedMessage: validatedMessage,
+    placeholder: '',
+    autoComplete: 'off',
+    'aria-invalid': !!errorMessage,
+    'aria-describedby': errorMessage ? `${id}-error` : undefined,
+    ...rest,
+  };
+
   return (
     <S.InputWrapper>
       <S.StyledTextInput
         ref={ref as React.Ref<HTMLInputElement>}
-        id={id}
-        {...register}
-        $errorMessage={!!errorMessage}
-        $validatedMessage={validatedMessage}
-        placeholder=""
+        {...(textInputProps as InputHTMLAttributes<HTMLInputElement>)}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        autoComplete="off"
-        aria-invalid={!!errorMessage}
-        aria-describedby={errorMessage ? `${id}-error` : undefined}
-        {...rest}
       />
       {errorMessage ? (
         <S.BaseMessage

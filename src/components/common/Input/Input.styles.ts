@@ -15,6 +15,7 @@ export const FloatingLabel = styled.span<FloatingLabelProps>`
     $isActive
       ? `
       top: -${theme.space.sm};
+      padding: 0 ${theme.space.xsm};
       font-size: ${theme.fontSize.xsm};
       background-color: ${theme.colors.background};
       color: ${$errorMessage ? theme.colors.error : theme.colors.gray}};
@@ -34,9 +35,9 @@ export const StyledTextInput = styled.input<StyledInputProps>`
   &:focus {
     outline: 1px solid
       ${({ $errorMessage, theme }) =>
-        $errorMessage ? theme.colors.error : theme.colors.primary};
+        $errorMessage ? theme.colors.error : theme.colors.gray.dark};
     border-color: ${({ $errorMessage, theme }) =>
-      $errorMessage ? theme.colors.error : theme.colors.primary};
+      $errorMessage ? theme.colors.error : theme.colors.gray.dark};
     ${FloatingLabel};
   }
 `;
@@ -63,7 +64,7 @@ export const BaseMessage = styled.p<StyledInputProps>`
   left: ${({ theme }) => theme.space.xxsm};
   font-size: ${({ theme }) => theme.fontSize.xsm};
   color: ${({ $errorMessage, theme }) =>
-    $errorMessage ? theme.colors.error : theme.colors.gray.medium};
+    $errorMessage ? theme.colors.error : theme.colors.gray.dark};
 `;
 
 export const TextAreaErrorMessage = styled(BaseMessage)`
