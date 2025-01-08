@@ -12,7 +12,6 @@ const SignUpPage = () => {
   //   nickname?: boolean;
   //   email?: boolean;
   // }>({});
-
   const {
     register,
     handleSubmit,
