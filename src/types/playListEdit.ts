@@ -13,3 +13,8 @@ export interface VideoSearchHookResult {
   isError: boolean;
   filteredData: Video[];
 }
+
+export type PlayListEditFormValues = {
+  title: string;
+  description: string;
+};
