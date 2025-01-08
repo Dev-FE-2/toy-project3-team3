@@ -9,17 +9,14 @@ export const useDragAndDrop = <T extends { id: string }>(
   const [dropPosition, setDropPosition] = useState<'top' | 'bottom' | null>(
     null,
   );
-  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const handleDragStart = (
-    e: React.DragEvent<HTMLLIElement>,
-    index: number,
-  ) => {
+  const handleDragStart = (e: React.DragEvent, index: number) => {
     setDraggingIndex(index);
     e.currentTarget.classList.add('dragging');
   };
 
-  const handleDragOver = (e: React.DragEvent<HTMLLIElement>, index: number) => {
+  const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault();
 
     if (e.currentTarget.classList.contains('dragging')) return;
@@ -46,10 +43,7 @@ export const useDragAndDrop = <T extends { id: string }>(
     setDropTargetIndex(index);
   };
 
-  const handleDrop = (
-    e: React.DragEvent<HTMLLIElement>,
-    targetIndex: number,
-  ) => {
+  const handleDrop = (e: React.DragEvent, targetIndex: number) => {
     e.preventDefault();
 
     if (

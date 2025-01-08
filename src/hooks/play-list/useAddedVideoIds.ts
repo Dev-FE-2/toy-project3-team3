@@ -20,8 +20,21 @@ export const useAddedVideoIds = (playList: Video[], videoData?: Video[]) => {
     updateAddedVideoIds();
   }, [updateAddedVideoIds]);
 
+  const addVideoId = (videoId: string) => {
+    setAddedVideoIds((prev) => new Set(prev).add(videoId));
+  };
+
+  const removeVideoId = (videoId: string) => {
+    setAddedVideoIds((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(videoId);
+      return newSet;
+    });
+  };
+
   return {
     addedVideoIds,
-    setAddedVideoIds,
+    addVideoId,
+    removeVideoId,
   };
 };
