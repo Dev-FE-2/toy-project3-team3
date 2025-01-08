@@ -18,7 +18,6 @@ import {
   NotFoundPage,
 } from '@/pages';
 import { ROUTES } from '@/constants';
-import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallback } from '@/components';
 
 const {
@@ -41,24 +40,16 @@ const {
 
 const router = createBrowserRouter([
   {
-    element: (
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <AuthLayout />
-      </ErrorBoundary>
-    ),
-    errorElement: <NotFoundPage />,
+    element: <AuthLayout />,
+    errorElement: <ErrorFallback />,
     children: [
       { path: SIGN_IN, element: <SignInPage /> },
       { path: SIGN_UP, element: <SignUpPage /> },
     ],
   },
   {
-    element: (
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Layout />
-      </ErrorBoundary>
-    ),
-    errorElement: <NotFoundPage />,
+    element: <Layout />,
+    errorElement: <ErrorFallback />,
     children: [
       { path: HOME, element: <HomePage /> },
       { path: ALERT, element: <AlertPage /> },
@@ -72,9 +63,9 @@ const router = createBrowserRouter([
       { path: SEARCH, element: <SearchPage /> },
       { path: USER_FOLLOW, element: <UserFollowPage /> },
       { path: USER, element: <UserPage /> },
-      { path: NOT_FOUND, element: <NotFoundPage /> },
     ],
   },
+  { path: NOT_FOUND, element: <NotFoundPage /> },
 ]);
 
 export default router;

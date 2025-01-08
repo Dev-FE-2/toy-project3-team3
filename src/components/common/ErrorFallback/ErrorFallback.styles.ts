@@ -14,19 +14,23 @@ export const ErrorContainer = styled.div`
 
 export const ErrorText = styled.h1`
   color: ${({ theme }) => theme.colors.error};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const ErrorDetailText = styled.p`
   font-size: ${({ theme }) => theme.fontSize.lg};
+  color: ${({ theme }) => theme.colors.gray.dark};
 `;
 
-export const RetryBtn = styled.button`
+export const BtnWrapper = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.space.sm};
+`;
+
+const BaseBtn = styled.button`
   position: relative;
   color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.space.sm};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
-  background-color: ${({ theme }) => theme.colors.gray.extraLight};
   transition: background-color 0.3s;
   &:hover {
     overflow: hidden;
@@ -41,4 +45,12 @@ export const RetryBtn = styled.button`
       pointer-events: none;
     }
   }
+`;
+
+export const RetryBtn = styled(BaseBtn)`
+  background-color: ${({ theme }) => theme.colors.primary};
+`;
+
+export const HomeBtn = styled(BaseBtn)`
+  background-color: ${({ theme }) => theme.colors.gray.extraLight};
 `;
