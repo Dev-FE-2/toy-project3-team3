@@ -1,5 +1,3 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
-
 // Icon
 export type IconType =
   | 'like'
@@ -149,21 +147,31 @@ export interface EachPlaylistProps {
 }
 
 // Input
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
-  type: 'text' | 'textarea' | 'email' | 'password';
-  id: string;
-  register?: UseFormRegisterReturn;
-  errorMessage: string;
+interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
+  ref?: React.Ref<T>;
+  errorMessage?: string;
   placeholder: string;
-  label: string; // input 필드 오른쪽 위에 붙을 한글 이름
+  id: string;
 }
+interface TextInputProps extends BaseInputProps<HTMLInputElement> {
+  type: 'text' | 'email' | 'password';
+  watchedValue: string;
+  label: string; // 인풋 왼쪽 위 작은 placeholder
+  validatedMessage?: string;
+}
+interface TextAreaProps extends BaseInputProps<HTMLTextAreaElement> {
+  type: 'textarea';
+  spellCheck?: boolean;
+}
+
+export type InputProps = TextInputProps | TextAreaProps;
 
 export interface StyledInputProps {
-  $errorMessage: boolean;
+  $errorMessage?: boolean;
+  $validatedMessage?: string;
 }
 
-export interface FloatingLabelProps extends StyledInputProps {
+export interface FloatingLabelProps {
   htmlFor: string;
   $errorMessage: boolean;
   $isActive: boolean;
