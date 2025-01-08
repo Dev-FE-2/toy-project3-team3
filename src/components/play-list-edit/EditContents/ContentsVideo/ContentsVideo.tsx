@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import * as S from './ContentsVideo.styles';
 import { Button, Icon } from '@/components/common';
-import { youtubeService } from '@/services/youtube';
+import { youtubeService } from '@/services';
 import { QUERY_KEYS } from '@/constants';
-import { useDragAndDrop, usePlayListEdit } from '@/hooks';
+import {
+  useAddedVideoIds,
+  useDragAndDrop,
+  usePlayListVideoEdit,
+} from '@/hooks';
+import type { Video } from '@/types';
 
 const ContentsVideo = () => {
-  const [currentQuery, setCurrentQuery] = React.useState('');
-  const [searchedQuery, setSearchedQuery] = React.useState('');
-  const { playList, addToPlayList, setPlayList } = usePlayListEdit();
+  const [currentQuery, setCurrentQuery] = useState('');
+  const [searchedQuery, setSearchedQuery] = useState('');
+  const { playList, setPlayList, addToPlayList, removeFromPlayList } =
+    usePlayListVideoEdit();
   const {
     itemRefs,
     handleDragStart,
@@ -17,12 +23,19 @@ const ContentsVideo = () => {
     handleDrop,
     handleDragEnd,
   } = useDragAndDrop(playList, setPlayList);
-
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: videoData,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: [QUERY_KEYS.YOUTUBE_SEARCH, searchedQuery],
     queryFn: () => youtubeService.searchVideos(searchedQuery),
     enabled: !!searchedQuery,
   });
+  const { addedVideoIds, setAddedVideoIds } = useAddedVideoIds(
+    playList,
+    videoData,
+  );
 
   const handleSearch = () => {
     if (currentQuery.trim()) {
@@ -35,6 +48,36 @@ const ContentsVideo = () => {
       handleSearch();
     }
   };
+
+  const handleAddToPlayList = (video: Video) => {
+    addToPlayList(video);
+    setAddedVideoIds((prev) => new Set(prev).add(video.id));
+  };
+
+  const handleRemoveFromPlayList = (e: React.MouseEvent, videoId: string) => {
+    if (!videoData) return;
+
+    e.stopPropagation();
+    removeFromPlayList(videoId);
+
+    if (videoData.some((data) => data.id === videoId)) {
+      setAddedVideoIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(videoId);
+
+        return newSet;
+      });
+    } else {
+      setAddedVideoIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(videoId);
+        return newSet;
+      });
+    }
+  };
+
+  const filteredData =
+    videoData?.filter((data) => !addedVideoIds.has(data.id)) || [];
 
   return (
     <div>
@@ -53,8 +96,11 @@ const ContentsVideo = () => {
       {isError && <div>에러</div>}
 
       <S.VideoWrapper>
-        {data?.map((video) => (
-          <S.VideoContainer key={video.id} onClick={() => addToPlayList(video)}>
+        {filteredData?.map((video) => (
+          <S.VideoContainer
+            key={video.id}
+            onClick={() => handleAddToPlayList(video)}
+          >
             <S.VideoThumbnail src={video.thumbnail} alt={video.title} />
             <S.VideoInfoContainer>
               <S.VideoTitle>{video.title}</S.VideoTitle>
@@ -84,7 +130,9 @@ const ContentsVideo = () => {
               <S.VideoTitle>{video.title}</S.VideoTitle>
               <S.VideoChannel>{video.channelTitle}</S.VideoChannel>
             </S.VideoInfoContainer>
-            <S.VideoDeleteWrapper>
+            <S.VideoDeleteWrapper
+              onClick={(e) => handleRemoveFromPlayList(e, video.id)}
+            >
               <Icon type="cancel" />
             </S.VideoDeleteWrapper>
           </S.VideoContainer>
