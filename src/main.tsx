@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
+import { SupabaseProvider } from './supabase/SupabaseContext.tsx';
 import { DeferredLoader, ErrorFallback } from './components';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@/styles/theme';
@@ -34,19 +35,21 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <QueryClientProvider client={queryClient}>
-        <QueryErrorResetBoundary>
-          {({ reset }) => (
-            <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
-              <NuqsAdapter>
-                <Suspense fallback={<DeferredLoader />}>
-                  <RouterProvider router={router} />
-                </Suspense>
-              </NuqsAdapter>
-            </ErrorBoundary>
-          )}
-        </QueryErrorResetBoundary>
-      </QueryClientProvider>
+      <SupabaseProvider>
+        <QueryClientProvider client={queryClient}>
+          <QueryErrorResetBoundary>
+            {({ reset }) => (
+              <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
+                <NuqsAdapter>
+                  <Suspense fallback={<DeferredLoader />}>
+                    <RouterProvider router={router} />
+                  </Suspense>
+                </NuqsAdapter>
+              </ErrorBoundary>
+            )}
+          </QueryErrorResetBoundary>
+        </QueryClientProvider>
+      </SupabaseProvider>
     </ThemeProvider>
   </StrictMode>,
 );
