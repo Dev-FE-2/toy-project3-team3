@@ -5,3 +5,5 @@ import { Video, type EditMode } from '@/types';
 export const editModeAtom = atom<EditMode>('add');
 
 export const playListAtom = atom<Video[]>([]);
+
+export const hashtagAtom = atom<string[]>([]);
