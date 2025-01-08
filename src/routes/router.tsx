@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Layout } from '@/components';
+import { Layout, AuthLayout } from '@/components';
 import {
   AlertPage,
   HomePage,
@@ -15,9 +15,10 @@ import {
   MyInfoEditPage,
   UserFollowPage,
   UserPage,
+  NotFoundPage,
 } from '@/pages';
 import { ROUTES } from '@/constants';
-import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage';
+import { ErrorFallback } from '@/components';
 
 const {
   HOME,
@@ -38,10 +39,17 @@ const {
 } = ROUTES;
 
 const router = createBrowserRouter([
-  { path: SIGN_IN, element: <SignInPage /> },
-  { path: SIGN_UP, element: <SignUpPage /> },
+  {
+    element: <AuthLayout />,
+    errorElement: <ErrorFallback />,
+    children: [
+      { path: SIGN_IN, element: <SignInPage /> },
+      { path: SIGN_UP, element: <SignUpPage /> },
+    ],
+  },
   {
     element: <Layout />,
+    errorElement: <ErrorFallback />,
     children: [
       { path: HOME, element: <HomePage /> },
       { path: ALERT, element: <AlertPage /> },
@@ -55,9 +63,9 @@ const router = createBrowserRouter([
       { path: SEARCH, element: <SearchPage /> },
       { path: USER_FOLLOW, element: <UserFollowPage /> },
       { path: USER, element: <UserPage /> },
-      { path: NOT_FOUND, element: <NotFoundPage /> },
     ],
   },
+  { path: NOT_FOUND, element: <NotFoundPage /> },
 ]);
 
 export default router;
