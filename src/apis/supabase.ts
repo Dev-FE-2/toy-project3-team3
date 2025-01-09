@@ -1,11 +1,21 @@
+import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/types/database.types';
+import type { Database } from '@/types/database.types';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseKey) {
+if (!SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error('❌Supabase 환경 변수를 확인해주세요.');
 }
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+export const supabaseDB = axios.create({
+  baseURL: `${SUPABASE_URL}/rest/v1`,
+  headers: {
+    apikey: SUPABASE_KEY,
+    Authorization: `Bearer ${SUPABASE_KEY}`,
+    'Content-Type': 'application/json',
+  },
+});
+
+export const supabaseAuth = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
