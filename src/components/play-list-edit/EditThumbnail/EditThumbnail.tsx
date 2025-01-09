@@ -3,13 +3,15 @@ import { deleteImage, uploadImage } from '@/apis';
 import { useMutation } from '@tanstack/react-query';
 import * as S from './EditThumbnail.styles';
 import { Button } from '@/components/common';
-import type { FilePath } from '@/types';
+import type { PlayListEditFormValues, FilePath } from '@/types';
 import { FILE_PATH } from '@/constants';
+import { useFormContext } from 'react-hook-form';
 
 const EditThumbnail = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImgUrl, setUploadedImgUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { setValue } = useFormContext<PlayListEditFormValues>();
 
   const uploadFileMutation = useMutation<
     string,
@@ -22,6 +24,7 @@ const EditThumbnail = () => {
     },
     onSuccess: (imageUrl) => {
       setUploadedImgUrl(imageUrl);
+      setValue('thumbnailUrl', imageUrl);
     },
     onError: (error) => {
       console.error(error);

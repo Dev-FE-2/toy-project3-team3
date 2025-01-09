@@ -1,52 +1,50 @@
-import { useState } from 'react';
-import { useAtom } from 'jotai';
+import { useEffect, useState } from 'react';
 import * as S from './ContentsHashtag.styles';
 import { Button, Icon } from '@/components/common';
-import { hashtagAtom } from '@/atoms';
+import { PlayListEditFormValues } from '@/types';
+import { useFormContext } from 'react-hook-form';
 
 const ContentsHashtag = () => {
-  const [currentInput, setCurrentInput] = useState('');
-  const [isComposing, setIsComposing] = useState(false);
-  const [hashtags, setHashtags] = useAtom(hashtagAtom);
+  const [currentHashtag, setCurrentHashtag] = useState<string>('');
+
+  const { register, watch, setValue } =
+    useFormContext<PlayListEditFormValues>();
+  const watchedHashtags = watch('hashtags');
+
+  useEffect(() => {
+    register('hashtags');
+  }, [register]);
+
+  const handleHashtagsChange = (newHashtags: string[]) => {
+    setValue('hashtags', newHashtags);
+  };
 
   const handleAddHashtag = () => {
-    const trimmedInput = currentInput.trim();
-    console.log('trimmedInput:', trimmedInput);
-    console.log('hashtags before update:', hashtags);
+    const trimmedInput = currentHashtag.trim();
 
-    if (trimmedInput && !hashtags.includes(trimmedInput)) {
-      if (hashtags.length < 10) {
-        setHashtags((prevHashtags) => {
-          const newHashtags = [...prevHashtags, trimmedInput];
-          console.log('newHashtags:', newHashtags);
-          return newHashtags;
-        });
-        setCurrentInput('');
+    if (trimmedInput && !watchedHashtags.includes(trimmedInput)) {
+      if (watchedHashtags.length < 10) {
+        const updatedHashtags = [...watchedHashtags, currentHashtag];
+        handleHashtagsChange(updatedHashtags);
+        setCurrentHashtag('');
       } else {
         // 📌 10개까지만 추가 가능하다는 에러 메시지 추가
       }
-    } else if (hashtags.includes(trimmedInput)) {
+    } else if (watchedHashtags.includes(trimmedInput)) {
       // 📌 이미 존재한다는 에러 메시지 추가
     }
   };
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentInput(e.target.value);
+  const handleRemoveHashtag = (hashtag: string) => {
+    const updatedHashtags = watchedHashtags.filter((tag) => tag !== hashtag);
+    handleHashtagsChange(updatedHashtags);
   };
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !isComposing) {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleAddHashtag();
     }
-  };
-
-  const handleCompositionStart = () => {
-    setIsComposing(true);
-  };
-
-  const handleCompositionEnd = () => {
-    setIsComposing(false);
   };
 
   return (
@@ -54,19 +52,20 @@ const ContentsHashtag = () => {
       <S.InputAndButtonContainer>
         <S.TempInput
           type="text"
-          value={currentInput}
-          onChange={handleOnChange}
+          value={currentHashtag}
+          onChange={(e) => setCurrentHashtag(e.target.value)}
+          placeholder="해시태그를 입력해주세요."
           onKeyDown={handleOnKeyDown}
-          onCompositionStart={handleCompositionStart}
-          onCompositionEnd={handleCompositionEnd}
         />
-        <Button onClick={handleAddHashtag}>추가</Button>
+        <Button type="button" onClick={handleAddHashtag}>
+          추가
+        </Button>
       </S.InputAndButtonContainer>
       <S.HashtagAndIconContainer>
-        {hashtags.map((hashtag, index) => (
-          <S.HashtagContainer key={index}>
+        {watchedHashtags.map((hashtag) => (
+          <S.HashtagContainer key={hashtag}>
             <S.Hashtags># {hashtag}</S.Hashtags>
-            <Icon type="cancel" />
+            <Icon type="cancel" onClick={() => handleRemoveHashtag(hashtag)} />
           </S.HashtagContainer>
         ))}
       </S.HashtagAndIconContainer>

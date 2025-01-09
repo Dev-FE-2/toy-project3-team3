@@ -1,3 +1,5 @@
+import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import * as S from './PlayListEditPage.styles';
 import {
   Backward,
@@ -5,15 +7,48 @@ import {
   EditPlayList,
   EditThumbnail,
 } from '@/components';
+import { playListEditSchema } from '@/schemas/play-list-edit/playListEditSchema';
+import type { CategoryType, PlayListEditFormValues, Video } from '@/types';
 
 const PlayListEditPage = () => {
+  const methods = useForm<PlayListEditFormValues>({
+    resolver: zodResolver(playListEditSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      category: 'all',
+      thumbnailUrl: '',
+      hashtags: [],
+      playLists: [],
+    },
+  });
+
+  const handleOnSubmit = (data: {
+    title: string;
+    description: string;
+    category: CategoryType;
+    thumbnailUrl: string;
+    hashtags: string[];
+    playLists: Video[];
+  }) => {
+    console.log(data);
+
+    // DB 저장함수 추가 필요
+    // 비동기 함수로 변경 필요
+  };
+
   return (
-    <S.PlayListEditPageWrapper>
-      <Backward />
-      <EditThumbnail />
-      <EditContents />
-      <EditPlayList />
-    </S.PlayListEditPageWrapper>
+    <FormProvider {...methods}>
+      <S.PlayListEditPageWrapper>
+        <Backward />
+        <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
+          <EditThumbnail />
+          <EditContents />
+          <EditPlayList />
+          <S.SubmitButton type="submit">저장</S.SubmitButton>
+        </form>
+      </S.PlayListEditPageWrapper>
+    </FormProvider>
   );
 };
 

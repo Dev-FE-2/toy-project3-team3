@@ -1,40 +1,41 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import VideoSearchBar from '@/components/play-list-edit/EditPlayList/VideoSearchBar/VideoSearchBar';
 import VideoItems from '@/components/play-list-edit/EditPlayList/VideoItems/VideoItems';
 import { youtubeService } from '@/services/youtube';
 import { QUERY_KEYS } from '@/constants';
 import {
-  useAddedVideoIds,
+  // useAddedVideoIds,
   useDragAndDrop,
-  usePlayListVideoEdit,
+  // usePlayListVideoEdit,
 } from '@/hooks';
-import type { Video } from '@/types';
+import type { PlayListEditFormValues, Video } from '@/types';
+import { useFormContext } from 'react-hook-form';
 
 const EditPlayList = () => {
   const [searchedQuery, setSearchedQuery] = useState('');
-  const { playList, setPlayList, addToPlayList, removeFromPlayList } =
-    usePlayListVideoEdit();
+  const { watch, setValue } = useFormContext<PlayListEditFormValues>();
+  const playLists = watch('playLists');
+
   const {
     itemRefs,
     handleDragStart,
     handleDragOver,
     handleDrop,
     handleDragEnd,
-  } = useDragAndDrop(playList, setPlayList);
+  } = useDragAndDrop(playLists, (newPlayList) => {
+    setValue('playLists', newPlayList);
+  });
+
   const {
     data: videoData,
     isLoading,
     isError,
-  } = useQuery({
+  } = useQuery<Video[], Error>({
     queryKey: [QUERY_KEYS.YOUTUBE_SEARCH, searchedQuery],
     queryFn: () => youtubeService.searchVideos(searchedQuery),
     enabled: !!searchedQuery,
   });
-  const { addedVideoIds, addVideoId, removeVideoId } = useAddedVideoIds(
-    playList,
-    videoData,
-  );
 
   const handleSearch = (q: string) => {
     if (q.trim()) {
@@ -43,24 +44,28 @@ const EditPlayList = () => {
   };
 
   const handleAddToPlayList = (video: Video) => {
-    addToPlayList(video);
-    addVideoId(video.id);
+    const updatedPlayList = [...playLists, video];
+    setValue('playLists', updatedPlayList);
   };
 
   const handleRemoveFromPlayList = (e: React.MouseEvent, videoId: string) => {
     e.stopPropagation();
-    removeFromPlayList(videoId);
-    removeVideoId(videoId);
+    const updatedPlayList = playLists.filter((video) => video.id !== videoId);
+    setValue('playLists', updatedPlayList);
   };
 
-  const filteredData =
-    videoData?.filter((data) => !addedVideoIds.has(data.id)) || [];
+  const filteredData = useMemo(() => {
+    return (
+      videoData?.filter((data) => !playLists.some((v) => v.id === data.id)) ||
+      []
+    );
+  }, [videoData, playLists]);
 
   return (
     <div>
       {isLoading && <div>로딩</div>}
       {isError && <div>에러</div>}
-      <VideoSearchBar onSearch={handleSearch} />
+      <VideoSearchBar handleSearch={handleSearch} />
       {filteredData.map((video) => (
         <VideoItems
           key={video.id}
@@ -69,7 +74,7 @@ const EditPlayList = () => {
         />
       ))}
       <h2>Playlist</h2>
-      {playList.map((video, index) => (
+      {playLists.map((video, index) => (
         <VideoItems
           key={video.id}
           video={video}

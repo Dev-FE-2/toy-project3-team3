@@ -2,15 +2,19 @@ import { useState } from 'react';
 import { Button } from '@/components/common';
 
 type SearchBarProps = {
-  onSearch: (q: string) => void;
+  handleSearch: (q: string) => void;
 };
 
-const VideoSearchBar = ({ onSearch }: SearchBarProps) => {
+const VideoSearchBar = ({ handleSearch }: SearchBarProps) => {
   const [currentQuery, setCurrentQuery] = useState('');
+
+  const handleSearchQuery = () => {
+    handleSearch(currentQuery);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      onSearch(currentQuery);
+      handleSearchQuery();
     }
   };
 
@@ -23,11 +27,7 @@ const VideoSearchBar = ({ onSearch }: SearchBarProps) => {
         onKeyDown={handleKeyDown}
         placeholder="검색어를 입력해주세요."
       />
-      <Button
-        type="button"
-        color="secondary"
-        onClick={() => onSearch(currentQuery)}
-      >
+      <Button type="button" color="secondary" onClick={handleSearchQuery}>
         검색
       </Button>
     </div>

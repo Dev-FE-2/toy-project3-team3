@@ -1,3 +1,4 @@
+import { FormStyle } from '@/components';
 import styled from 'styled-components';
 
 export const PlayListEditPageWrapper = styled.div`
@@ -6,3 +7,5 @@ export const PlayListEditPageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
+export const { SubmitButton } = FormStyle;

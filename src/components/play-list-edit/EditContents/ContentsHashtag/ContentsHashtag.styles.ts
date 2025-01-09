@@ -1,3 +1,4 @@
+import { FormStyle } from '@/components/common';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -35,3 +36,5 @@ export const Hashtags = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+
+export const { FormField, FormInput } = FormStyle;
