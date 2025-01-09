@@ -6,7 +6,7 @@ import type { TablesInsert, TablesUpdate } from '@/types/database.types';
 const { USERS } = API_ENDPOINTS;
 
 export const fetchUsers = async () => {
-  const response = await supabaseDB.get(API_ENDPOINTS.USERS.BASE);
+  const response = await supabaseDB.get(USERS.BASE);
   return response.data;
 };
 
