@@ -18,4 +18,9 @@ export const API_ENDPOINTS = {
     ) =>
       `${API_ENDPOINTS.FOLLOWS.BASE}?and=(follower_user_id.eq.${followerUserId},following_user_id.eq.${followingUserId})`,
   },
+  PLAYLISTS: {
+    BASE: '/PLAYLISTS',
+    BY_PLAYLIST_ID: (playlistId: string) =>
+      `/PLAYLISTS?playlist_id=eq.${playlistId}`,
+  },
 };
