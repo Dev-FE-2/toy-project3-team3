@@ -1,2 +1,3 @@
 export * from './example';
 export * from './userService';
+export * from './followService';

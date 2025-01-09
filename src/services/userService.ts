@@ -32,3 +32,13 @@ export const deleteUser = async (userId: string) => {
   const response = await supabaseDB.delete(USERS.BY_USER_ID(userId));
   return response.data;
 };
+
+export const fetchUserIdByNickname = async (nickname: string) => {
+  const response = await supabaseDB.get(
+    `${USERS.BASE}?nickname=eq.${nickname}`,
+  );
+  if (response.data.length === 0)
+    throw new Error('존재하지 않는 사용자입니다.');
+
+  return response.data[0].user_id;
+};
