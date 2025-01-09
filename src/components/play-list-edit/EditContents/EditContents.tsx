@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as S from './EditContents.styles';
 import { Select } from '@/components/common';
-import ContentsVideo from '@/components/play-list-edit/EditContents/ContentsVideo/ContentsVideo';
 import type { CategoryType, PlayListEditFormValues } from '@/types';
 import { useForm } from 'react-hook-form';
 import ContentsHashtag from '@/components/play-list-edit/EditContents/ContentsHashtag/ContentsHashtag';
@@ -16,7 +15,7 @@ const EditContents = () => {
   const {
     register,
     handleSubmit,
-    trigger,
+    // trigger,
     formState: { /*isSubmitting,*/ errors, touchedFields },
     // getValues,
     watch,
@@ -31,10 +30,6 @@ const EditContents = () => {
 
   const watchedTitle = watch('title');
   const watchedDescription = watch('description');
-
-  useEffect(() => {
-    trigger(['title', 'description']);
-  }, [trigger]);
 
   const onSubmit = async (data: PlayListEditFormValues) => {
     // await saveData(data)
@@ -85,7 +80,6 @@ const EditContents = () => {
           onChange={(value) => setCategory(value)}
         />
         <ContentsHashtag />
-        <ContentsVideo />
         <S.SubmitButton>저장</S.SubmitButton>
       </S.Form>
     </S.FormContainer>
