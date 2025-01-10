@@ -4,4 +4,6 @@ export const QUERY_KEYS = {
   FOLLOWS: 'follows',
   PLAYLISTS: 'playlists',
   PLAYLIST: 'playlist',
+  SUBSCRIBES: 'subscribes',
+  SUBSCRIBE: 'subscribe',
 };
