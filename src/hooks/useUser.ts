@@ -17,7 +17,7 @@ export const useFetchUsers = () =>
     USERS.BASE,
   );
 
-export const useFetchUserByOneId = (userId: string) =>
+export const useFetchUserByUserId = (userId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['USERS']['Row']>(
     queryKey,
     USERS.BY_USER_ID,
@@ -26,8 +26,8 @@ export const useFetchUserByOneId = (userId: string) =>
 
 export const useCreateUser = () => useCreateData<'USERS'>(queryKey, USERS.BASE);
 
-export const useUpdateUserByOneId = () =>
+export const useUpdateUserByUserId = () =>
   useUpdateDataByOneId<'USERS'>(queryKey, USERS.BY_USER_ID);
 
-export const useDeleteUserByOneId = () =>
+export const useDeleteUserByUserId = () =>
   useDeleteDataByOneId(queryKey, USERS.BY_USER_ID);
