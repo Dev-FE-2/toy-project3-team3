@@ -57,7 +57,7 @@ export const API_ENDPOINTS = {
     BY_PLAYLIST_ID_AND_USER_ID: (playlistId: string, userId: string) =>
       `${API_ENDPOINTS.LIKES.BASE}?and=(playlist_id.eq.${playlistId},user_id.eq.${userId})`,
     BY_COMMENT_ID_AND_USER_ID: (commentId: string, userId: string) =>
-      `${API_ENDPOINTS.SUBSCRIBES.BASE}?and=(comments_id.eq.${commentId},user_id.eq.${userId})`,
+      `${API_ENDPOINTS.LIKES.BASE}?and=(comments_id.eq.${commentId},user_id.eq.${userId})`,
   },
   COMMENTS: {
     BASE: 'COMMENTS',
@@ -68,9 +68,9 @@ export const API_ENDPOINTS = {
     BY_COMMENT_ID: (commentId: string) =>
       `${API_ENDPOINTS.COMMENTS.BASE}?target_comments_id=eq.${commentId}`,
     BY_PLAYLIST_ID_AND_USER_ID: (playlistId: string, userId: string) =>
-      `${API_ENDPOINTS.LIKES.BASE}?and=(target_playlist_id.eq.${playlistId},user_id.eq.${userId})`,
+      `${API_ENDPOINTS.COMMENTS.BASE}?and=(target_playlist_id.eq.${playlistId},user_id.eq.${userId})`,
     BY_COMMENT_ID_AND_USER_ID: (commentId: string, userId: string) =>
-      `${API_ENDPOINTS.SUBSCRIBES.BASE}?and=(target_comments_id.eq.${commentId},user_id.eq.${userId})`,
+      `${API_ENDPOINTS.COMMENTS.BASE}?and=(target_comments_id.eq.${commentId},user_id.eq.${userId})`,
   },
   ALERTS: {
     BASE: 'ALERTS',
