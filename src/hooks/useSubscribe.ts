@@ -40,5 +40,5 @@ export const useUpdateSubscribeByPlaylistIdAndUserId = () =>
     SUBSCRIBES.BY_PLAYLIST_ID_AND_USER_ID,
   );
 
-export const useDeleteSubscribeByUserIdAndPlaylistId = () =>
+export const useDeleteSubscribeByPlaylistIdAndUserId = () =>
   useDeleteDataByTwoId(queryKey, SUBSCRIBES.BY_PLAYLIST_ID_AND_USER_ID);
