@@ -8,6 +8,8 @@ import {
   updateDataByTwoId,
   removeDataByOneId,
   removeDataByTwoId,
+  fetchDataLengthByOneId,
+  fetchDataLengthByTwoId,
 } from '@/services';
 import type {
   Database,
@@ -44,6 +46,30 @@ export const useFetchDataByTwoId = <T>(
   return useQuery<T>({
     queryKey,
     queryFn: () => fetchDataByTwoId<T>(endpoint, firstId, secondId),
+  });
+};
+
+export const useFetchDataLengthByOneId = (
+  queryKey: string[],
+  endpoint: EndpointByOneId,
+  id: string,
+) => {
+  return useQuery<number>({
+    queryKey,
+    queryFn: () => fetchDataLengthByOneId<{ length: number }>(endpoint, id),
+  });
+};
+
+export const useFetchDataLengthByTwoId = (
+  queryKey: string[],
+  endpoint: EndpointByTwoId,
+  firstId: string,
+  secondId: string,
+) => {
+  return useQuery<number>({
+    queryKey,
+    queryFn: () =>
+      fetchDataLengthByTwoId<{ length: number }>(endpoint, firstId, secondId),
   });
 };
 
