@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
-import { supabaseAuth } from '../apis/supabase';
+import { supabase } from '../apis/supabase';
 import { SupabaseContext } from '@/contexts/SupabaseContext';
 
 type SupabaseProviderProps = {
@@ -13,14 +13,14 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data } = await supabaseAuth.auth.getSession();
+      const { data } = await supabase.auth.getSession();
       setSession(data?.session || null);
       setUser(data?.session?.user || null);
     };
 
     getSession();
 
-    const { data: listener } = supabaseAuth.auth.onAuthStateChange(
+    const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
         setUser(session?.user || null);

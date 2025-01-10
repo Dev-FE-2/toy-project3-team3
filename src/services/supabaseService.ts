@@ -1,7 +1,5 @@
 import { supabaseRest } from '@/apis/supabase';
-
-type EndpointByOneId = (id: string) => string;
-type EndpointByTwoId = (firstId: string, secondId: string) => string;
+import type { EndpointByOneId, EndpointByTwoId } from '@/types';
 
 export const fetchDataAll = async <T>(endpoint: string): Promise<T[]> => {
   const response = await supabaseRest.get<T[]>(endpoint);
@@ -9,7 +7,7 @@ export const fetchDataAll = async <T>(endpoint: string): Promise<T[]> => {
   return response.data;
 };
 
-export const fetchDatahByOneId = async <T>(
+export const fetchDataByOneId = async <T>(
   endpoint: EndpointByOneId,
   id: string,
 ): Promise<T> => {
@@ -18,7 +16,7 @@ export const fetchDatahByOneId = async <T>(
   return response.data[0];
 };
 
-export const fetchDatahByTwoId = async <T>(
+export const fetchDataByTwoId = async <T>(
   endpoint: EndpointByTwoId,
   firstId: string,
   secondId: string,

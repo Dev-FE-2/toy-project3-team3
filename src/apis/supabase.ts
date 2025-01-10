@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
-import type { Database } from '@/types/database.types';
+import type { Database } from '@/types';
 import { API_BASE_PATH } from '@/constants/endpoint';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -10,7 +10,7 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error('❌Supabase 환경 변수를 확인해주세요.');
 }
 
-export const supabaseDB = axios.create({
+export const supabaseRest = axios.create({
   baseURL: `${SUPABASE_URL}${API_BASE_PATH}`,
   headers: {
     apikey: SUPABASE_KEY,
@@ -19,4 +19,4 @@ export const supabaseDB = axios.create({
   },
 });
 
-export const supabaseAuth = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
+export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
