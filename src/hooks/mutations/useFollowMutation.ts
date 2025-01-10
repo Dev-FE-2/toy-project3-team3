@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFollowing, deleteFollowing } from '@/services/followService';
 import { QUERY_KEYS } from '@/constants';
-import type { TablesInsert } from '@/types/database.types';
+import type { TablesInsert } from '@/types';
 import { useSupabase } from '@/hooks/useSupabase';
 
 export const useCreateFollowing = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (followData: TablesInsert<'FOLLOW'>) =>
+    mutationFn: (followData: TablesInsert<'FOLLOWS'>) =>
       createFollowing(followData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.FOLLOWS] });

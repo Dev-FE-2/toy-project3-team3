@@ -1,7 +1,7 @@
 // src/services/userService.ts
 import { API_ENDPOINTS } from '@/constants';
 import { supabaseDB } from '../apis/supabase';
-import type { TablesInsert, TablesUpdate } from '@/types/database.types';
+import type { TablesInsert, TablesUpdate } from '@/types';
 
 const { USERS } = API_ENDPOINTS;
 
@@ -15,14 +15,14 @@ export const fetchUserByUserId = async (userId: string) => {
   return response.data[0];
 };
 
-export const createUser = async (userData: TablesInsert<'USER'>) => {
+export const createUser = async (userData: TablesInsert<'USERS'>) => {
   const response = await supabaseDB.post(USERS.BASE, userData);
   return response.data;
 };
 
 export const updateUser = async (
   userId: string,
-  userData: TablesUpdate<'USER'>,
+  userData: TablesUpdate<'USERS'>,
 ) => {
   const response = await supabaseDB.patch(USERS.BY_USER_ID(userId), userData);
   return response.data;

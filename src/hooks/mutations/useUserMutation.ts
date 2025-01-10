@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { TablesInsert, TablesUpdate } from '@/types/database.types';
+import type { TablesInsert, TablesUpdate } from '@/types';
 import { createUser, updateUser, deleteUser } from '@/services';
 import { QUERY_KEYS } from '@/constants';
 
@@ -9,7 +9,7 @@ export const useCreateUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (userData: TablesInsert<'USER'>) => createUser(userData),
+    mutationFn: (userData: TablesInsert<'USERS'>) => createUser(userData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.USERS] });
     },
@@ -25,7 +25,7 @@ export const useUpdateUser = () => {
       userData,
     }: {
       userId: string;
-      userData: TablesUpdate<'USER'>;
+      userData: TablesUpdate<'USERS'>;
     }) => updateUser(userId, userData),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.USERS] });

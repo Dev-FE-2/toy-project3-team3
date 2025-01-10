@@ -15,7 +15,7 @@ export const fetchPlaylistById = async (playlistId: string) => {
 };
 
 export const createPlaylist = async (
-  playlistData: TablesInsert<'PLAYLIST'>,
+  playlistData: TablesInsert<'PLAYLISTS'>,
 ) => {
   const response = await supabaseDB.post(PLAYLISTS.BASE, playlistData);
   return response.data;
@@ -23,7 +23,7 @@ export const createPlaylist = async (
 
 export const updatePlaylist = async (
   playlistId: string,
-  playlistData: TablesUpdate<'PLAYLIST'>,
+  playlistData: TablesUpdate<'PLAYLISTS'>,
 ) => {
   const response = await supabaseDB.patch(
     PLAYLISTS.BY_PLAYLIST_ID(playlistId),

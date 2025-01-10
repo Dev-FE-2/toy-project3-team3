@@ -8,7 +8,7 @@ export const useCreatePlaylist = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (playlistData: TablesInsert<'PLAYLIST'>) =>
+    mutationFn: (playlistData: TablesInsert<'PLAYLISTS'>) =>
       createPlaylist(playlistData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PLAYLISTS] });
@@ -21,7 +21,7 @@ export const useUpdatePlaylist = () => {
   const { playlist_id } = useParams<{ playlist_id: string }>();
 
   return useMutation({
-    mutationFn: (playlistData: TablesUpdate<'PLAYLIST'>) => {
+    mutationFn: (playlistData: TablesUpdate<'PLAYLISTS'>) => {
       if (!playlist_id) throw new Error('playlist_id가 필요합니다.');
 
       return updatePlaylist(playlist_id, playlistData);

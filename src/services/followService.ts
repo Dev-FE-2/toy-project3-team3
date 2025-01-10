@@ -1,6 +1,6 @@
 // src/services/followService.ts
 import { supabaseDB } from '../apis/supabase';
-import type { TablesInsert } from '@/types/database.types';
+import type { TablesInsert } from '@/types';
 import { API_ENDPOINTS } from '@/constants';
 
 const { FOLLOWS } = API_ENDPOINTS;
@@ -20,7 +20,7 @@ export const fetchFollowingsByUserId = async (userId: string) => {
   return response.data;
 };
 
-export const createFollowing = async (followData: TablesInsert<'FOLLOW'>) => {
+export const createFollowing = async (followData: TablesInsert<'FOLLOWS'>) => {
   const response = await supabaseDB.post(FOLLOWS.BASE, followData);
   return response.data;
 };
