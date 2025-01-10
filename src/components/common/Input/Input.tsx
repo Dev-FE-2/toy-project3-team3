@@ -1,4 +1,5 @@
 import * as S from './Input.styles';
+import { FocusEvent } from 'react';
 import {
   useState,
   forwardRef,
@@ -14,7 +15,16 @@ export const Input = forwardRef<
   // TextInput일 때만 사용되는 상태
   const [isFocused, setIsFocused] = useState(false);
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
+  const handleBlur = (
+    e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setIsFocused(false);
+    if (e.target instanceof HTMLInputElement) {
+      props.onBlur?.(e as FocusEvent<HTMLInputElement>); // Input일 때
+    } else if (e.target instanceof HTMLTextAreaElement) {
+      props.onBlur?.(e as FocusEvent<HTMLTextAreaElement>); // TextArea일 때
+    }
+  };
 
   const { type } = props;
   // TextArea

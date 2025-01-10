@@ -8,4 +8,6 @@ if (!supabaseUrl || !supabaseKey) {
   throw new Error('❌Supabase 환경 변수를 확인해주세요.');
 }
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+
+export default supabase;

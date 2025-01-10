@@ -1,0 +1,29 @@
+import { ROUTES } from './routes';
+
+const {
+  ALERT,
+  MY_COMMENT,
+  MY_FOLLOWING,
+  MY_LIKE,
+  MY_SUBSCRIBE,
+  MY_INFO_EDIT,
+  PLAY_LIST_EDIT,
+  PLAY_LIST,
+  SEARCH,
+  USER_FOLLOW,
+  USER,
+} = ROUTES;
+
+export const PROTECTED_PATHS = [
+  ALERT,
+  MY_COMMENT,
+  MY_FOLLOWING,
+  MY_LIKE,
+  MY_SUBSCRIBE,
+  MY_INFO_EDIT,
+  PLAY_LIST_EDIT,
+  PLAY_LIST,
+  SEARCH,
+  USER_FOLLOW,
+  USER,
+] as const;

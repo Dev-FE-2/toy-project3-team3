@@ -6,7 +6,7 @@ export const editProfileSchema = z
     nickname: baseUserSchema.shape.nickname.optional(),
     password: baseUserSchema.shape.password.optional(),
     confirmPassword: baseUserSchema.shape.confirmPassword.optional(),
-    profilePicturePath: z.string().optional(),
+    profileImg: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: '비밀번호가 일치하지 않습니다',
@@ -14,11 +14,3 @@ export const editProfileSchema = z
   });
 
 export type EditProfileFormValues = z.infer<typeof editProfileSchema>;
-
-export interface EditProfileRequestValues {
-  password?: string;
-  data: {
-    nickname?: string;
-    profile_picture_path?: string | undefined;
-  };
-}

@@ -152,6 +152,11 @@ interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
   errorMessage?: string;
   placeholder: string;
   id: string;
+  onBlur?: (
+    e:
+      | React.FocusEvent<HTMLInputElement>
+      | React.FocusEvent<HTMLTextAreaElement>,
+  ) => void;
 }
 interface TextInputProps extends BaseInputProps<HTMLInputElement> {
   type: 'text' | 'email' | 'password';

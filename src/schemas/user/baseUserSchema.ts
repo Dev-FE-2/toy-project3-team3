@@ -13,6 +13,9 @@ export const baseUserSchema = z.object({
     .min(1, { message: '닉네임을 입력해주세요' })
     .max(NICKNAME_MAX_LENGTH, {
       message: `닉네임은 ${NICKNAME_MAX_LENGTH}자 이하로 입력해주세요`,
+    })
+    .refine((value) => /^[a-zA-Z0-9가-힣._-]+$/.test(value), {
+      message: '닉네임은 영문, 한글, 숫자, 특수문자(._-)만 사용 가능합니다',
     }),
   email: z
     .string()
@@ -32,6 +35,9 @@ export const baseUserSchema = z.object({
     )
     .max(PASSWORD_MAX_LENGTH, {
       message: `비밀번호는 ${PASSWORD_MAX_LENGTH}자 이하로 입력해주세요`,
+    })
+    .refine((value) => /^[a-zA-Z0-9]+$/.test(value), {
+      message: '비밀번호는 영문과 숫자만 사용 가능합니다',
     }),
   confirmPassword: z
     .string()

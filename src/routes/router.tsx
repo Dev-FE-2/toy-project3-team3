@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Layout, AuthLayout } from '@/components';
+import { Layout } from '@/components';
 import {
   AlertPage,
   HomePage,
@@ -18,7 +18,7 @@ import {
   NotFoundPage,
 } from '@/pages';
 import { ROUTES } from '@/constants';
-import { ErrorFallback } from '@/components';
+import { ErrorFallback, Auth } from '@/components';
 
 const {
   HOME,
@@ -39,16 +39,15 @@ const {
 } = ROUTES;
 
 const router = createBrowserRouter([
+  { path: SIGN_IN, element: <SignInPage /> },
+  { path: SIGN_UP, element: <SignUpPage /> },
+  { path: '/auth/callback', element: <HomePage /> },
   {
-    element: <AuthLayout />,
-    errorElement: <ErrorFallback />,
-    children: [
-      { path: SIGN_IN, element: <SignInPage /> },
-      { path: SIGN_UP, element: <SignUpPage /> },
-    ],
-  },
-  {
-    element: <Layout />,
+    element: (
+      <Auth>
+        <Layout />
+      </Auth>
+    ),
     errorElement: <ErrorFallback />,
     children: [
       { path: HOME, element: <HomePage /> },
