@@ -56,14 +56,8 @@ export const useFetchLikeByCommentIdAndUserId = (
 
 export const useCreateLike = () => useCreateData<'LIKES'>(queryKey, LIKES.BASE);
 
-export const useUpdateLikeByPlaylistIdAndUserId = () =>
-  useUpdateDataByTwoId<'LIKES'>(queryKey, LIKES.BY_PLAYLIST_ID_AND_USER_ID);
+export const useUpdateLikeByIdAndUserId = () =>
+  useUpdateDataByTwoId<'LIKES'>(queryKey, LIKES.BY_ID_AND_USER_ID);
 
-export const useUpdateLikeByCommentIdAndUserId = () =>
-  useUpdateDataByTwoId<'LIKES'>(queryKey, LIKES.BY_COMMENT_ID_AND_USER_ID);
-
-export const useDeleteLikeByPlaylistIdAndUserId = () =>
-  useDeleteDataByTwoId(queryKey, LIKES.BY_PLAYLIST_ID_AND_USER_ID);
-
-export const useDeleteLikeByCommentIdAndUserId = () =>
-  useDeleteDataByTwoId(queryKey, LIKES.BY_COMMENT_ID_AND_USER_ID);
+export const useDeleteLikeByIdAndUserId = () =>
+  useDeleteDataByTwoId(queryKey, LIKES.BY_ID_AND_USER_ID);

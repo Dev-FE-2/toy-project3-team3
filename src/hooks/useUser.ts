@@ -9,25 +9,26 @@ import {
 import type { Database } from '@/types';
 
 const { USERS } = API_ENDPOINTS;
-const queryKey = [QUERY_KEYS.USERS];
+const usersQueryKey = QUERY_KEYS.USERS;
 
 export const useFetchUsers = () =>
   useFetchDataAll<Database['public']['Tables']['USERS']['Row']>(
-    queryKey,
+    [usersQueryKey],
     USERS.BASE,
   );
 
 export const useFetchUserByUserId = (userId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['USERS']['Row']>(
-    queryKey,
-    USERS.BY_USER_ID,
+    [usersQueryKey],
+    USERS.BY_ID,
     userId,
   );
 
-export const useCreateUser = () => useCreateData<'USERS'>(queryKey, USERS.BASE);
+export const useCreateUser = () =>
+  useCreateData<'USERS'>([usersQueryKey], USERS.BASE);
 
 export const useUpdateUserByUserId = () =>
-  useUpdateDataByOneId<'USERS'>(queryKey, USERS.BY_USER_ID);
+  useUpdateDataByOneId<'USERS'>([usersQueryKey], USERS.BY_ID);
 
 export const useDeleteUserByUserId = () =>
-  useDeleteDataByOneId(queryKey, USERS.BY_USER_ID);
+  useDeleteDataByOneId([usersQueryKey], USERS.BY_ID);

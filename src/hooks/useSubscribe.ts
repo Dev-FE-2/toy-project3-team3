@@ -9,36 +9,36 @@ import {
 import type { Database } from '@/types';
 
 const { SUBSCRIBES } = API_ENDPOINTS;
-const queryKey = [QUERY_KEYS.SUBSCRIBES];
+const subscribesQueryKey = QUERY_KEYS.SUBSCRIBES;
 
 export const useFetchSubscribes = () =>
   useFetchDataAll<Database['public']['Tables']['SUBSCRIBES']['Row']>(
-    queryKey,
+    [subscribesQueryKey],
     SUBSCRIBES.BASE,
   );
 
 export const useFetchSubscribeByUserId = (userId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['SUBSCRIBES']['Row']>(
-    [QUERY_KEYS.SUBSCRIBES, userId],
+    [subscribesQueryKey, userId],
     SUBSCRIBES.BY_USER_ID,
     userId,
   );
 
 export const useFetchSubscribeByPlaylistId = (playlistId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['SUBSCRIBES']['Row']>(
-    [QUERY_KEYS.SUBSCRIBES, playlistId],
+    [subscribesQueryKey, playlistId],
     SUBSCRIBES.BY_PLAYLIST_ID,
     playlistId,
   );
 
 export const useCreateSubscribe = () =>
-  useCreateData<'SUBSCRIBES'>(queryKey, SUBSCRIBES.BASE);
+  useCreateData<'SUBSCRIBES'>([subscribesQueryKey], SUBSCRIBES.BASE);
 
-export const useUpdateSubscribeByPlaylistIdAndUserId = () =>
+export const useUpdateSubscribeByIdAndUserId = () =>
   useUpdateDataByTwoId<'SUBSCRIBES'>(
-    queryKey,
-    SUBSCRIBES.BY_PLAYLIST_ID_AND_USER_ID,
+    [subscribesQueryKey],
+    SUBSCRIBES.BY_ID_AND_USER_ID,
   );
 
-export const useDeleteSubscribeByPlaylistIdAndUserId = () =>
-  useDeleteDataByTwoId(queryKey, SUBSCRIBES.BY_PLAYLIST_ID_AND_USER_ID);
+export const useDeleteSubscribeByIdAndUserId = () =>
+  useDeleteDataByTwoId([subscribesQueryKey], SUBSCRIBES.BY_ID_AND_USER_ID);

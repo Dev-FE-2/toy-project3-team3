@@ -3,7 +3,7 @@ export const API_BASE_PATH = '/rest/v1';
 export const API_ENDPOINTS = {
   USERS: {
     BASE: '/USERS',
-    BY_USER_ID: (userId: string) =>
+    BY_ID: (userId: string) =>
       `${API_ENDPOINTS.USERS.BASE}?user_id=eq.${userId}`,
   },
   FOLLOWS: {
@@ -20,34 +20,42 @@ export const API_ENDPOINTS = {
   },
   PLAYLISTS: {
     BASE: '/PLAYLISTS',
+    BY_ID: (playlistId: string) =>
+      `${API_ENDPOINTS.PLAYLISTS.BASE}?playlist_id=eq.${playlistId}`,
     BY_USER_ID: (userId: string) =>
       `${API_ENDPOINTS.PLAYLISTS.BASE}?user_id=eq.${userId}`,
-    BY_PLAYLIST_ID: (playlistId: string) =>
-      `${API_ENDPOINTS.PLAYLISTS.BASE}?playlist_id=eq.${playlistId}`,
-    BY_PLAYLIST_ID_AND_USER_ID: (playlistId: string, userId: string) =>
+    BY_ID_AND_USER_ID: (playlistId: string, userId: string) =>
       `${API_ENDPOINTS.PLAYLISTS.BASE}?and=(playlist_id.eq.${playlistId},user_id.eq.${userId})`,
   },
   PLAYLIST_VIDEOS: {
     BASE: 'PLAYLIST_VIDEOS',
+    BY_ID: (playlistVideoId: string) =>
+      `${API_ENDPOINTS.PLAYLIST_VIDEOS.BASE}?playlist_videos_id=eq.${playlistVideoId}`,
     BY_PLAYLIST_ID: (playlistId: string) =>
       `${API_ENDPOINTS.PLAYLIST_VIDEOS.BASE}?playlist_id=eq.${playlistId}`,
   },
   HASHTAGS: {
     BASE: 'HASHTAGS',
+    BY_ID: (hashtagId: string) =>
+      `${API_ENDPOINTS.HASHTAGS.BASE}?hashtag_id=eq.${hashtagId}`,
     BY_PLAYLIST_ID: (playlistId: string) =>
       `${API_ENDPOINTS.HASHTAGS.BASE}?playlist_id=eq.${playlistId}`,
   },
   SUBSCRIBES: {
     BASE: '/SUBSCRIBES',
+    BY_ID: (subscribeId: string) =>
+      `${API_ENDPOINTS.SUBSCRIBES.BASE}?subscribe_id=eq.${subscribeId}`,
     BY_USER_ID: (userId: string) =>
       `${API_ENDPOINTS.SUBSCRIBES.BASE}?user_id=eq.${userId}`,
     BY_PLAYLIST_ID: (playlistId: string) =>
       `${API_ENDPOINTS.SUBSCRIBES.BASE}?playlist_id=eq.${playlistId}`,
-    BY_PLAYLIST_ID_AND_USER_ID: (playlistId: string, userId: string) =>
-      `${API_ENDPOINTS.SUBSCRIBES.BASE}?and=(playlist_id.eq.${playlistId},user_id.eq.${userId})`,
+    BY_ID_AND_USER_ID: (subscribeId: string, userId: string) =>
+      `${API_ENDPOINTS.SUBSCRIBES.BASE}?and=(subscribe_id.eq.${subscribeId},user_id.eq.${userId})`,
   },
   LIKES: {
     BASE: '/LIKES',
+    BY_ID: (likeId: string) =>
+      `${API_ENDPOINTS.LIKES.BASE}?likes_id=eq.${likeId}`,
     BY_USER_ID: (userId: string) =>
       `${API_ENDPOINTS.LIKES.BASE}?user_id=eq.${userId}`,
     BY_PLAYLIST_ID: (playlistId: string) =>
@@ -58,6 +66,8 @@ export const API_ENDPOINTS = {
       `${API_ENDPOINTS.LIKES.BASE}?and=(playlist_id.eq.${playlistId},user_id.eq.${userId})`,
     BY_COMMENT_ID_AND_USER_ID: (commentId: string, userId: string) =>
       `${API_ENDPOINTS.LIKES.BASE}?and=(comments_id.eq.${commentId},user_id.eq.${userId})`,
+    BY_ID_AND_USER_ID: (likeId: string, userId: string) =>
+      `${API_ENDPOINTS.LIKES.BASE}?and=(likes_id.eq.${likeId},user_id.eq.${userId})`,
   },
   COMMENTS: {
     BASE: 'COMMENTS',

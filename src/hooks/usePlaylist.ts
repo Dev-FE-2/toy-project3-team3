@@ -9,36 +9,37 @@ import {
 import type { Database } from '@/types';
 
 const { PLAYLISTS } = API_ENDPOINTS;
-const queryKey = [QUERY_KEYS.PLAYLISTS];
+const playlistsQueryKey = QUERY_KEYS.PLAYLISTS;
+const playlistQueryKey = QUERY_KEYS.PLAYLIST;
 
 export const useFetchPlaylists = () =>
   useFetchDataAll<Database['public']['Tables']['PLAYLISTS']['Row']>(
-    queryKey,
+    [playlistsQueryKey],
     PLAYLISTS.BASE,
   );
 
-export const useFetchPlaylistByPlaylistId = (playlistId: string) =>
+export const useFetchPlaylistById = (playlistId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['PLAYLISTS']['Row']>(
-    [QUERY_KEYS.PLAYLIST, playlistId],
-    PLAYLISTS.BY_PLAYLIST_ID,
+    [playlistQueryKey, playlistId],
+    PLAYLISTS.BY_ID,
     playlistId,
   );
 
 export const useFetchPlaylistByUserId = (userId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['PLAYLISTS']['Row']>(
-    [QUERY_KEYS.PLAYLISTS, userId],
+    [playlistsQueryKey, userId],
     PLAYLISTS.BY_USER_ID,
     userId,
   );
 
 export const useCreatePlaylist = () =>
-  useCreateData<'PLAYLISTS'>(queryKey, PLAYLISTS.BASE);
+  useCreateData<'PLAYLISTS'>([playlistsQueryKey], PLAYLISTS.BASE);
 
-export const useUpdatePlaylistByPlaylistIdAndUserId = () =>
+export const useUpdatePlaylistByIdAndUserId = () =>
   useUpdateDataByTwoId<'PLAYLISTS'>(
-    queryKey,
-    PLAYLISTS.BY_PLAYLIST_ID_AND_USER_ID,
+    [playlistsQueryKey],
+    PLAYLISTS.BY_ID_AND_USER_ID,
   );
 
-export const useDeletePlaylistByPlaylistIdAndUserId = () =>
-  useDeleteDataByTwoId(queryKey, PLAYLISTS.BY_PLAYLIST_ID_AND_USER_ID);
+export const useDeletePlaylistByIdAndUserId = () =>
+  useDeleteDataByTwoId([playlistsQueryKey], PLAYLISTS.BY_ID_AND_USER_ID);

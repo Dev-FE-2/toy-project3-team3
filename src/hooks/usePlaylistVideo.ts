@@ -9,29 +9,32 @@ import {
 import type { Database } from '@/types';
 
 const { PLAYLIST_VIDEOS } = API_ENDPOINTS;
-const queryKey = [QUERY_KEYS.PLAYLIST_VIDEOS];
+const playlistVideosQueryKey = QUERY_KEYS.PLAYLIST_VIDEOS;
 
 export const useFetchPlaylistVideos = () =>
   useFetchDataAll<Database['public']['Tables']['PLAYLIST_VIDEOS']['Row']>(
-    queryKey,
+    [playlistVideosQueryKey],
     PLAYLIST_VIDEOS.BASE,
   );
 
 export const useFetchPlaylistVideoByPlaylistId = (playlistId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['PLAYLIST_VIDEOS']['Row']>(
-    [QUERY_KEYS.PLAYLIST_VIDEOS, playlistId],
+    [playlistVideosQueryKey, playlistId],
     PLAYLIST_VIDEOS.BY_PLAYLIST_ID,
     playlistId,
   );
 
 export const useCreatePlaylistVideo = () =>
-  useCreateData<'PLAYLIST_VIDEOS'>(queryKey, PLAYLIST_VIDEOS.BASE);
-
-export const useUpdatePlaylistVideoByPlaylistId = () =>
-  useUpdateDataByOneId<'PLAYLIST_VIDEOS'>(
-    queryKey,
-    PLAYLIST_VIDEOS.BY_PLAYLIST_ID,
+  useCreateData<'PLAYLIST_VIDEOS'>(
+    [playlistVideosQueryKey],
+    PLAYLIST_VIDEOS.BASE,
   );
 
-export const useDeletePlaylistVideoByPlaylistId = () =>
-  useDeleteDataByOneId(queryKey, PLAYLIST_VIDEOS.BY_PLAYLIST_ID);
+export const useUpdatePlaylistVideoById = () =>
+  useUpdateDataByOneId<'PLAYLIST_VIDEOS'>(
+    [playlistVideosQueryKey],
+    PLAYLIST_VIDEOS.BY_ID,
+  );
+
+export const useDeletePlaylistVideoById = () =>
+  useDeleteDataByOneId([playlistVideosQueryKey], PLAYLIST_VIDEOS.BY_ID);
