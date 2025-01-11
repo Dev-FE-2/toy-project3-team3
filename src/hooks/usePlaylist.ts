@@ -4,6 +4,7 @@ import {
   useDeleteDataByTwoId,
   useFetchDataAll,
   useFetchDataByOneId,
+  useFetchDataByOneIds,
   useUpdateDataByTwoId,
 } from '@/hooks/useSupabaseCrud';
 import type { Database } from '@/types';
@@ -23,6 +24,13 @@ export const useFetchPlaylistById = (playlistId: string) =>
     [playlistQueryKey, playlistId],
     PLAYLISTS.BY_ID,
     playlistId,
+  );
+
+export const useFetchPlaylistByIds = (playlistIds: string[]) =>
+  useFetchDataByOneIds<Database['public']['Tables']['PLAYLISTS']['Row']>(
+    [QUERY_KEYS.PLAYLISTS, playlistIds.join(',')],
+    PLAYLISTS.BY_IDS,
+    playlistIds,
   );
 
 export const useFetchPlaylistByUserId = (userId: string) =>

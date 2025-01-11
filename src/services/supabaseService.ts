@@ -1,5 +1,9 @@
 import { supabaseRest } from '@/apis/supabase';
-import type { EndpointByOneId, EndpointByTwoId } from '@/types';
+import type {
+  EndpointByOneId,
+  EndpointByOneIds,
+  EndpointByTwoId,
+} from '@/types';
 
 export const fetchDataAll = async <T>(endpoint: string): Promise<T[]> => {
   const response = await supabaseRest.get<T[]>(endpoint);
@@ -14,6 +18,15 @@ export const fetchDataByOneId = async <T>(
   const response = await supabaseRest.get<T[]>(`${endpoint(id)}`);
 
   return response.data[0];
+};
+
+export const fetchDataByOneIds = async <T>(
+  endpoint: EndpointByOneIds,
+  ids: string[],
+): Promise<T[]> => {
+  const response = await supabaseRest.get<T[]>(`${endpoint(ids)}`);
+
+  return response.data;
 };
 
 export const fetchDataByTwoId = async <T>(

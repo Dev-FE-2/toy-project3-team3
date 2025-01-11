@@ -22,6 +22,8 @@ export const API_ENDPOINTS = {
     BASE: '/PLAYLISTS',
     BY_ID: (playlistId: string) =>
       `${API_ENDPOINTS.PLAYLISTS.BASE}?playlist_id=eq.${playlistId}`,
+    BY_IDS: (playlistIds: string[]) =>
+      `${API_ENDPOINTS.PLAYLISTS.BASE}?playlist_id=in.(${playlistIds.join(',')})`,
     BY_USER_ID: (userId: string) =>
       `${API_ENDPOINTS.PLAYLISTS.BASE}?user_id=eq.${userId}`,
     BY_ID_AND_USER_ID: (playlistId: string, userId: string) =>
