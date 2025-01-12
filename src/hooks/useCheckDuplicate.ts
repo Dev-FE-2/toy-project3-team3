@@ -8,10 +8,13 @@ const useCheckDuplicate = () => {
     if (field === 'nickname' && user?.nickname === value)
       return { data: false };
 
+    console.log('supabase 검색 결과', { field, value });
     const { data, error } = await supabase
       .from('USERS')
       .select('*')
       .eq(field, value);
+
+    console.log('supabase 검색 결과', data);
 
     if (error) throw error;
 

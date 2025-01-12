@@ -35,13 +35,23 @@ const {
   SIGN_UP,
   USER_FOLLOW,
   USER,
+  AUTH_CALLBACK,
   NOT_FOUND,
 } = ROUTES;
 
-const router = createBrowserRouter([
-  { path: SIGN_IN, element: <SignInPage /> },
-  { path: SIGN_UP, element: <SignUpPage /> },
-  { path: '/auth/callback', element: <HomePage /> },
+const publicRoutes = [
+  {
+    element: <Layout />,
+    errorElement: <ErrorFallback />,
+    children: [
+      { path: SIGN_IN, element: <SignInPage /> },
+      { path: SIGN_UP, element: <SignUpPage /> },
+      { path: AUTH_CALLBACK, element: <HomePage /> }, // 구글 로그인 콜백
+    ],
+  },
+];
+
+const privateRoutes = [
   {
     element: (
       <Auth>
@@ -64,6 +74,11 @@ const router = createBrowserRouter([
       { path: USER, element: <UserPage /> },
     ],
   },
+];
+
+const router = createBrowserRouter([
+  ...publicRoutes,
+  ...privateRoutes,
   { path: NOT_FOUND, element: <NotFoundPage /> },
 ]);
 

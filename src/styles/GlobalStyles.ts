@@ -40,7 +40,9 @@ const GlobalStyles = createGlobalStyle`
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
   }
+
 
   p, h1, h2, h3, h4, div, span {
     word-break: keep-all; // 단어 단위 줄바꿈

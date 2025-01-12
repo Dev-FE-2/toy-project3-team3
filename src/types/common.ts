@@ -1,12 +1,19 @@
 // Icon
 export type IconType =
   | 'like'
-  | 'comment'
   | 'subscribe'
+  | 'menu'
+  | 'alarm'
+  | 'comment'
   | 'cancel'
   | 'backward'
-  | 'alarm'
-  | 'search';
+  | 'search'
+  | 'home'
+  | 'searchNav'
+  | 'signUp'
+  | 'signIn'
+  | 'following'
+  | 'profile';
 
 export interface IconProps {
   type: IconType;
@@ -14,8 +21,13 @@ export interface IconProps {
   onClick?: () => void;
 }
 
+// nav
+export interface StyledNavProps {
+  $isActive: boolean;
+}
+
 // Avatar
-export type AvatarSize = 'small' | 'medium';
+export type AvatarSize = 'xsmall' | 'small' | 'medium';
 
 export interface AvatarProps {
   size: AvatarSize;

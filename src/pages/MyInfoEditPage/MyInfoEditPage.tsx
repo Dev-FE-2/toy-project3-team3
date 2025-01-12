@@ -11,7 +11,7 @@ import { useEditProfile } from '@/hooks/mutations';
 import { useDeactivateAccount } from '@/hooks/mutations';
 import { useAuthStateChange } from '@/hooks';
 import { Button } from '@/components';
-import { DEFAULT_PROFILE_PATH } from '@/constants/user';
+import { DEFAULT_PROFILE_PATH } from '@/constants';
 import { useEffect } from 'react';
 
 const MyInfoEditPage = () => {
@@ -78,22 +78,18 @@ const MyInfoEditPage = () => {
   const { checkDuplicate: checkNickname } = useCheckDuplicate();
 
   const checkDuplicateNickname = useCallback(async () => {
-    const currNickname = getValues('nickname'); // 중복 확인 버튼 클릭시점에 가져온 값
-    if (!currNickname || currNickname === user?.nickname) {
-      return setError('nickname', { message: '현재 닉네임과 동일합니다' });
-    }
+    const value = getValues('nickname'); // 중복 확인 버튼 클릭시점에 가져온 값
+    if (!value) return;
 
-    const result = await checkNickname('nickname', currNickname);
+    const result = await checkNickname('nickname', value);
 
     if (result.data) {
       setError('nickname', {
         message: '이미 사용 중인 닉네임입니다',
       });
-      setValidNickname(false);
-    } else {
-      setValidNickname(true);
+      setValidNickname(!result.data);
     }
-  }, [setError, user?.nickname, checkNickname, getValues]);
+  }, [setError, checkNickname, getValues]);
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<EditProfileFormValues> = async (formData) => {

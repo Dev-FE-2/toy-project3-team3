@@ -13,5 +13,6 @@ export const ROUTES = {
   SIGN_UP: '/sign-up',
   USER: '/users/:userId', // 사용자 닉네임과 충돌 방지하기 위해 users 추가
   USER_FOLLOW: '/users/:userId/follow',
+  AUTH_CALLBACK: '/auth/callback',
   NOT_FOUND: '*',
 };

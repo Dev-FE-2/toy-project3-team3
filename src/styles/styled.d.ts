@@ -58,5 +58,15 @@ declare module 'styled-components' {
       xlg: string;
       xxlg: string;
     };
+    layout: {
+      nav: {
+        baseHeight: string;
+        withSafeArea: string;
+      };
+      header: {
+        baseHeight: string;
+        withSafeArea: string;
+      };
+    };
   }
 }

@@ -5,6 +5,7 @@ import { signInSchema, SignInFormValues } from '@/schemas/user/signInSchema';
 import { useSignIn, useGoogleSignIn, useSignOut } from '@/hooks/mutations';
 import { useEffect } from 'react';
 import { Button } from '@/components';
+// import { GRAM_LOGO } from '@/constants';
 
 const SignInPage = () => {
   const { signOut, isPending: signoutPending } = useSignOut(); // 임시 로그아웃

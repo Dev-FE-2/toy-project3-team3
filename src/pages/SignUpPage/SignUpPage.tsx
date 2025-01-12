@@ -1,12 +1,11 @@
 import * as S from './SignUpPage.styles';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signUpSchema, SignUpFormValues } from '@/schemas/user/signUpSchema';
 import { useCheckDuplicate } from '@/hooks';
 import { useSignUp } from '@/hooks/mutations';
-
-import { useEffect } from 'react';
+// import { GRAM_LOGO } from '@/constants';
 
 const SignUpPage = () => {
   // 중복 확인 해야하는 필드 valid 여부
@@ -56,22 +55,21 @@ const SignUpPage = () => {
 
   const checkDuplicateNicknameOrEmail = useCallback(
     async (field: 'nickname' | 'email') => {
-      const currNickname = getValues('nickname');
-      const currEmail = getValues('email');
+      const value = getValues(field);
+      if (!value) return;
+      const result = await checkDuplicate(field, value);
 
-      const result = await (field === 'nickname'
-        ? checkDuplicate('nickname', currNickname)
-        : checkDuplicate('email', currEmail));
+      console.log(result);
+
       if (result.data) {
+        console.log('supabase 검색 결과', result.data);
         setError(field, {
           message:
             field === 'nickname'
               ? '이미 사용 중인 닉네임입니다'
               : '이미 가입된 이메일입니다',
         });
-        setValidFields((prev) => ({ ...prev, [field]: false }));
-      } else {
-        setValidFields((prev) => ({ ...prev, [field]: true }));
+        setValidFields((prev) => ({ ...prev, [field]: !result.data }));
       }
     },
     [setError, checkDuplicate, getValues],
@@ -83,10 +81,10 @@ const SignUpPage = () => {
   };
 
   // 디버깅용
-  console.log('current sign up form', {
-    errors: errors,
-    data: watch(),
-  });
+  // console.log('current sign up form', {
+  //   errors: errors,
+  //   data: watch(),
+  // });
 
   return (
     <S.SignUpFormContainer>

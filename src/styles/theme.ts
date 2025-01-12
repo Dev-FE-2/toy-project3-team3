@@ -1,5 +1,6 @@
 import { DefaultTheme } from 'styled-components';
 import mediaQuery from './mediaQuery';
+import { SAFE_AREA } from '@/constants';
 
 export const theme: DefaultTheme = {
   colors: {
@@ -63,6 +64,16 @@ export const theme: DefaultTheme = {
     lg: '32px',
     xlg: '64px',
     xxlg: '128px',
+  },
+  layout: {
+    nav: {
+      baseHeight: '50px',
+      withSafeArea: `max(50px, calc(50px + ${SAFE_AREA.bottom}))`,
+    },
+    header: {
+      baseHeight: '40px',
+      withSafeArea: `max(40px, calc(40px + ${SAFE_AREA.top}))`,
+    },
   },
   ...mediaQuery,
 } as const;

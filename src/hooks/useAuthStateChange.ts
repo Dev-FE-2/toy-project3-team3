@@ -37,17 +37,17 @@ const useAuthStateChange = () => {
         case 'USER_UPDATED':
         case 'TOKEN_REFRESHED': {
           // 프로필 데이터 새로 가져오기
-          if (!session?.user) return;
+          if (!currentSession?.user) return;
           const userData = await queryClient.fetchQuery({
-            queryKey: ['userProfile', session.user.id],
-            queryFn: () => fetchUserProfile(session.user.id),
+            queryKey: ['userProfile', currentSession.user.id],
+            queryFn: () => fetchUserProfile(currentSession.user.id),
             staleTime: Infinity,
           });
           if ('error' in userData) {
             console.error('user data 가져오기 실패:', userData);
             return;
           }
-          updateUser(session, userData as SupabaseUserData);
+          updateUser(currentSession, userData as SupabaseUserData);
           break;
         }
 
@@ -59,7 +59,7 @@ const useAuthStateChange = () => {
         }
       }
     },
-    [session], // 의존성 배열은 여기에 위치해야 함
+    [],
   );
 
   useEffect(() => {
