@@ -46,7 +46,7 @@ export const FormInputw = styled(Input)`
 `;
 
 export const DuplicateCheckBtn = styled(Button)`
-  width: auto;
+  flex-shrink: 0;
   white-space: nowrap;
 `;
 

@@ -12,7 +12,6 @@ import { useDeactivateAccount } from '@/hooks/mutations';
 import { useAuthStateChange } from '@/hooks';
 import { Button } from '@/components';
 import { DEFAULT_PROFILE_PATH } from '@/constants';
-import { useEffect } from 'react';
 
 const MyInfoEditPage = () => {
   const { user } = useAuthStateChange();
@@ -35,9 +34,9 @@ const MyInfoEditPage = () => {
     formState: { isSubmitting, errors, touchedFields },
     setValue,
     setError,
+    trigger,
     clearErrors,
     getValues,
-    trigger,
     reset,
     watch, // 디버깅용
   } = useForm<EditProfileFormValues>({
@@ -50,12 +49,6 @@ const MyInfoEditPage = () => {
       profileImg: user?.profileImg,
     },
   });
-
-  // 초기 유효성 검사
-  useEffect(() => {
-    trigger();
-  }, [trigger]);
-
   // input 컴포넌트에서 입력 잇는지 검사 용도
   const watchedNickname = watch('nickname');
   const watchedPassword = watch('password');

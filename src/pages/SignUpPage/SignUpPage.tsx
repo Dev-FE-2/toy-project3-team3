@@ -1,5 +1,5 @@
 import * as S from './SignUpPage.styles';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signUpSchema, SignUpFormValues } from '@/schemas/user/signUpSchema';
@@ -15,7 +15,6 @@ const SignUpPage = () => {
   const {
     register,
     handleSubmit,
-    trigger,
     formState: { isSubmitting, errors, touchedFields },
     setError,
     getValues,
@@ -30,11 +29,6 @@ const SignUpPage = () => {
       confirmPassword: '',
     },
   });
-
-  // 초기 유효성 검사
-  useEffect(() => {
-    trigger();
-  }, [trigger]);
 
   // input 컴포넌트에서 입력 잇는지 검사 용도
   const watchedNickname = watch('nickname');
