@@ -47,6 +47,8 @@ const publicRoutes = [
       { path: SIGN_IN, element: <SignInPage /> },
       { path: SIGN_UP, element: <SignUpPage /> },
       { path: AUTH_CALLBACK, element: <HomePage /> }, // 구글 로그인 콜백
+      { path: HOME, element: <HomePage /> },
+      { path: SEARCH, element: <SearchPage /> },
     ],
   },
 ];
@@ -60,7 +62,6 @@ const privateRoutes = [
     ),
     errorElement: <ErrorFallback />,
     children: [
-      { path: HOME, element: <HomePage /> },
       { path: ALERT, element: <AlertPage /> },
       { path: MY_COMMENT, element: <MyCommentPage /> },
       { path: MY_FOLLOWING, element: <MyFollowingPage /> },
@@ -69,7 +70,6 @@ const privateRoutes = [
       { path: MY_INFO_EDIT, element: <MyInfoEditPage /> },
       { path: PLAY_LIST_EDIT, element: <PlayListEditPage /> },
       { path: PLAY_LIST, element: <PlayListPage /> },
-      { path: SEARCH, element: <SearchPage /> },
       { path: USER_FOLLOW, element: <UserFollowPage /> },
       { path: USER, element: <UserPage /> },
     ],

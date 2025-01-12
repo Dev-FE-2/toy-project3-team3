@@ -108,11 +108,11 @@ export const NavItem = styled.div<StyledNavProps>`
   font-weight: ${({ theme, $isActive }) =>
     $isActive ? theme.fontWeight.bold : theme.fontWeight.regular};
   color: ${({ theme, $isActive }) =>
-    $isActive ? theme.colors.gray.extraDark : theme.colors.gray.medium};
+    $isActive ? theme.colors.accent : theme.colors.gray.medium};
   transition: color 0.3s;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.gray.dark};
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 

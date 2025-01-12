@@ -1,12 +1,11 @@
-// import styled from 'styled-components'
 import { FormStyle } from '@/components';
 
-export const SignUpFormContainer = FormStyle.FormContainer;
-export const SignUpFormTitle = FormStyle.FormTitle;
+export const SignUpPageContainer = FormStyle.FormContainer;
 export const SignUpForm = FormStyle.Form;
 
 export const {
   FormField,
+  Logo,
   InputwithDuplicateBtn,
   FormInput,
   FormInputw,

@@ -5,7 +5,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { signUpSchema, SignUpFormValues } from '@/schemas/user/signUpSchema';
 import { useCheckDuplicate } from '@/hooks';
 import { useSignUp } from '@/hooks/mutations';
-// import { GRAM_LOGO } from '@/constants';
 
 const SignUpPage = () => {
   // 중복 확인 해야하는 필드 valid 여부
@@ -87,8 +86,8 @@ const SignUpPage = () => {
   // });
 
   return (
-    <S.SignUpFormContainer>
-      <S.SignUpFormTitle>회원가입</S.SignUpFormTitle>
+    <S.SignUpPageContainer>
+      <S.Logo />
       <S.SignUpForm onSubmit={handleSubmit(onSubmit)}>
         <S.FormField>
           <S.InputwithDuplicateBtn>
@@ -199,7 +198,7 @@ const SignUpPage = () => {
           회원가입이 되어 있으신가요?
         </S.ToOtherPageText>
       </S.SignUpForm>
-    </S.SignUpFormContainer>
+    </S.SignUpPageContainer>
   );
 };
 

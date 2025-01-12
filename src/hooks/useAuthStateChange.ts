@@ -33,6 +33,7 @@ const useAuthStateChange = () => {
       console.log('Event type:', event);
       setSession(() => currentSession);
       switch (event) {
+        case 'INITIAL_SESSION':
         case 'SIGNED_IN':
         case 'USER_UPDATED':
         case 'TOKEN_REFRESHED': {
@@ -55,6 +56,7 @@ const useAuthStateChange = () => {
           updateUser(null);
           queryClient.clear();
           localStorage.removeItem('user');
+          localStorage.removeItem('lastPath');
           break;
         }
       }

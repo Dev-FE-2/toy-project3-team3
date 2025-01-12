@@ -1,9 +1,18 @@
 import styled from 'styled-components';
 import { Button, Input } from '@/components';
+import { GRAM_LOGO } from '@/constants';
 
 export const FormContainer = styled.section`
-  width: 100%;
   text-align: center;
+`;
+
+export const Logo = styled.img.attrs({
+  src: GRAM_LOGO,
+  alt: 'Gram Logo',
+})`
+  height: 100px;
+  width: auto;
+  margin: 0 auto ${({ theme }) => theme.space.md};
 `;
 
 export const FormTitle = styled.h1`
@@ -24,10 +33,11 @@ export const FormField = styled.div`
 `;
 
 export const InputwithDuplicateBtn = styled.div`
-  display: flex;
-  gap: ${({ theme }) => theme.space.md};
   width: 100%;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.space.md};
 `;
 
 export const FormInputw = styled(Input)`
@@ -37,10 +47,18 @@ export const FormInputw = styled(Input)`
 
 export const DuplicateCheckBtn = styled(Button)`
   width: auto;
+  white-space: nowrap;
 `;
 
 export const FormInput = styled(Input)`
   width: 100%;
+`;
+
+export const SubmitButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space.md};
 `;
 
 export const SubmitButton = styled(Button)`

@@ -3,23 +3,18 @@ import { FormStyle } from '@/components';
 import { Button } from '@/components';
 import { FcGoogle } from 'react-icons/fc';
 
-export const SignInFormContainer = FormStyle.FormContainer;
-
-export const SignInFormTitle = FormStyle.FormTitle;
+export const SignpInageContainer = FormStyle.FormContainer;
 
 export const SignInForm = FormStyle.Form;
 
-export const { FormField, FormInput, SubmitButton, ToOtherPageText } =
-  FormStyle;
-
-export const OtherSignInText = styled.div`
-  align-self: flex-start;
-  margin-top: ${({ theme }) => theme.space.lg};
-  width: 100%;
-  text-align: left;
-  padding-bottom: ${({ theme }) => theme.space.sm};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.white};
-`;
+export const {
+  Logo,
+  FormField,
+  FormInput,
+  SubmitButtonContainer,
+  SubmitButton,
+  ToOtherPageText,
+} = FormStyle;
 
 export const GoogleSignInBtn = styled(Button)`
   width: 100%;

@@ -5,7 +5,6 @@ import { signInSchema, SignInFormValues } from '@/schemas/user/signInSchema';
 import { useSignIn, useGoogleSignIn, useSignOut } from '@/hooks/mutations';
 import { useEffect } from 'react';
 import { Button } from '@/components';
-// import { GRAM_LOGO } from '@/constants';
 
 const SignInPage = () => {
   const { signOut, isPending: signoutPending } = useSignOut(); // 임시 로그아웃
@@ -53,8 +52,8 @@ const SignInPage = () => {
   });
 
   return (
-    <S.SignInFormContainer>
-      <S.SignInFormTitle>로그인</S.SignInFormTitle>
+    <S.SignpInageContainer>
+      <S.Logo />
       <S.SignInForm onSubmit={handleSubmit(onSubmit)}>
         <S.FormField>
           <S.FormInput
@@ -87,28 +86,30 @@ const SignInPage = () => {
           />
         </S.FormField>
 
-        <S.SubmitButton
-          color="primary"
-          disabled={
-            isSubmitting || Object.keys(errors).length > 0 || isSignInPending
-          }
-        >
-          {isSignInPending ? '로그인 중...' : '로그인'}
-        </S.SubmitButton>
-        <S.GoogleSignInBtn
-          type="button"
-          size="small"
-          onClick={() => handleGoogleSignIn()}
-        >
-          <S.GoogleBtnTextWrapper>
-            <S.GoogleIcon />
-            <p>
-              {isGoogleSignInPending
-                ? '로그인 중...'
-                : 'Google 계정으로 로그인'}
-            </p>
-          </S.GoogleBtnTextWrapper>
-        </S.GoogleSignInBtn>
+        <S.SubmitButtonContainer>
+          <S.SubmitButton
+            color="primary"
+            disabled={
+              isSubmitting || Object.keys(errors).length > 0 || isSignInPending
+            }
+          >
+            {isSignInPending ? '로그인 중...' : '로그인'}
+          </S.SubmitButton>
+          <S.GoogleSignInBtn
+            type="button"
+            size="small"
+            onClick={() => handleGoogleSignIn()}
+          >
+            <S.GoogleBtnTextWrapper>
+              <S.GoogleIcon />
+              <p>
+                {isGoogleSignInPending
+                  ? '로그인 중...'
+                  : 'Google 계정으로 로그인'}
+              </p>
+            </S.GoogleBtnTextWrapper>
+          </S.GoogleSignInBtn>
+        </S.SubmitButtonContainer>
         <S.ToOtherPageText href="/sign-up">
           회원가입이 되어 있지 않으신가요?
         </S.ToOtherPageText>
@@ -122,7 +123,7 @@ const SignInPage = () => {
           {signoutPending ? '로그아웃 중...' : '임시 로그아웃'}
         </Button>
       </S.SignInForm>
-    </S.SignInFormContainer>
+    </S.SignpInageContainer>
   );
 };
 
