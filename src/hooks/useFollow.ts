@@ -33,8 +33,8 @@ export const useFetchFollowingsByUserId = (userId: string) =>
 export const useCreateFollow = () =>
   useCreateData<'FOLLOWS'>([followsQueryKey], FOLLOWS.BASE);
 
-export const useDeleteFollowByTwoId = () =>
+export const useDeleteFollowByFollowerUserIdAndFollowingUserId = () =>
   useDeleteDataByTwoId(
     [followsQueryKey],
-    FOLLOWS.BY_FOLLOWING_USER_ID_AND_FOLLOWER_USER_ID,
+    FOLLOWS.BY_FOLLOWER_USER_ID_AND_FOLLOWING_USER_ID,
   );

@@ -11,7 +11,7 @@ export const useFetchUsers = () =>
     USERS.BASE,
   );
 
-export const useFetchUserByUserId = (userId: string) =>
+export const useFetchUserById = (userId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['USERS']['Row']>(
     [usersQueryKey],
     USERS.BY_ID,

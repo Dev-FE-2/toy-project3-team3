@@ -8,7 +8,7 @@ export const API_ENDPOINTS = {
   },
   FOLLOWS: {
     BASE: '/FOLLOWS',
-    BY_FOLLOWING_USER_ID_AND_FOLLOWER_USER_ID: (
+    BY_FOLLOWER_USER_ID_AND_FOLLOWING_USER_ID: (
       followerUserId: string,
       followingUserId: string,
     ) =>
