@@ -1,29 +1,11 @@
 import { ROUTES } from './routes';
 
-const {
-  ALERT,
-  MY_COMMENT,
-  MY_FOLLOWING,
-  MY_LIKE,
-  MY_SUBSCRIBE,
-  MY_INFO_EDIT,
-  PLAY_LIST_EDIT,
-  PLAY_LIST,
-  SEARCH,
-  USER_FOLLOW,
-  USER,
-} = ROUTES;
+const { AUTH_CALLBACK, SIGN_IN, SIGN_UP, SEARCH, HOME } = ROUTES;
 
-export const PROTECTED_PATHS = [
-  ALERT,
-  MY_COMMENT,
-  MY_FOLLOWING,
-  MY_LIKE,
-  MY_SUBSCRIBE,
-  MY_INFO_EDIT,
-  PLAY_LIST_EDIT,
-  PLAY_LIST,
+export const PUBLIC_PATHS = [
+  AUTH_CALLBACK,
+  SIGN_IN,
+  SIGN_UP,
   SEARCH,
-  USER_FOLLOW,
-  USER,
+  HOME,
 ] as const;

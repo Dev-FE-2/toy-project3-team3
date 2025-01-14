@@ -3,8 +3,7 @@ import { useState, useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signUpSchema, SignUpFormValues } from '@/schemas/user/signUpSchema';
-import { useCheckDuplicate } from '@/hooks';
-import { useSignUp } from '@/hooks/mutations';
+import { useCheckDuplicate, useSignUp } from '@/hooks';
 
 const SignUpPage = () => {
   // 중복 확인 해야하는 필드 valid 여부
@@ -12,6 +11,7 @@ const SignUpPage = () => {
     nickname?: boolean;
     email?: boolean;
   }>({});
+
   const {
     register,
     handleSubmit,
@@ -44,29 +44,46 @@ const SignUpPage = () => {
   );
 
   // 닉네임, 이메일 중복 체크
-  const { checkDuplicate } = useCheckDuplicate();
+  const { checkDuplicate: checkNickname, isPending: isCheckNicknamePending } =
+    useCheckDuplicate();
+  const { checkDuplicate: checkEmail, isPending: isCheckEmailPending } =
+    useCheckDuplicate();
 
-  const checkDuplicateNicknameOrEmail = useCallback(
-    async (field: 'nickname' | 'email') => {
-      const value = getValues(field);
-      if (!value) return;
-      const result = await checkDuplicate(field, value);
+  // 닉네임 중복 체크
+  const checkDuplicateNickname = useCallback(async () => {
+    const currNickname = getValues('nickname');
+    const isDuplicate = await checkNickname({
+      field: 'nickname',
+      value: currNickname,
+    });
 
-      console.log(result);
+    if (isDuplicate) {
+      setError('nickname', {
+        message: '이미 사용 중인 닉네임입니다',
+      });
+      setValidFields((prev) => ({ ...prev, nickname: false }));
+    } else {
+      setValidFields((prev) => ({ ...prev, nickname: true }));
+    }
+  }, [setError, checkNickname, getValues]);
 
-      if (result.data) {
-        console.log('supabase 검색 결과', result.data);
-        setError(field, {
-          message:
-            field === 'nickname'
-              ? '이미 사용 중인 닉네임입니다'
-              : '이미 가입된 이메일입니다',
-        });
-        setValidFields((prev) => ({ ...prev, [field]: !result.data }));
-      }
-    },
-    [setError, checkDuplicate, getValues],
-  );
+  // 이메일 중복 체크
+  const checkDuplicateEmail = useCallback(async () => {
+    const currEmail = getValues('email');
+    const isDuplicate = await checkEmail({
+      field: 'email',
+      value: currEmail,
+    });
+
+    if (isDuplicate) {
+      setError('email', {
+        message: '이미 가입된 이메일입니다',
+      });
+      setValidFields((prev) => ({ ...prev, email: false }));
+    } else {
+      setValidFields((prev) => ({ ...prev, email: true }));
+    }
+  }, [setError, checkEmail, getValues]);
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<SignUpFormValues> = async (formData) => {
@@ -74,10 +91,10 @@ const SignUpPage = () => {
   };
 
   // 디버깅용
-  // console.log('current sign up form', {
-  //   errors: errors,
-  //   data: watch(),
-  // });
+  console.log('current sign up form', {
+    errors: errors,
+    data: watch(),
+  });
 
   return (
     <S.SignUpPageContainer>
@@ -107,9 +124,9 @@ const SignUpPage = () => {
               color="primary"
               size="small"
               disabled={!getValues('nickname')}
-              onClick={() => checkDuplicateNicknameOrEmail('nickname')}
+              onClick={checkDuplicateNickname}
             >
-              중복 확인
+              {isCheckNicknamePending ? '확인 중... ' : '중복 확인'}
             </S.DuplicateCheckBtn>
           </S.InputwithDuplicateBtn>
         </S.FormField>
@@ -137,9 +154,9 @@ const SignUpPage = () => {
               color="primary"
               size="small"
               disabled={!getValues('email')}
-              onClick={() => checkDuplicateNicknameOrEmail('email')}
+              onClick={checkDuplicateEmail}
             >
-              중복 확인
+              {isCheckEmailPending ? '확인 중... ' : '중복 확인'}
             </S.DuplicateCheckBtn>
           </S.InputwithDuplicateBtn>
         </S.FormField>

@@ -25,6 +25,9 @@ const useSignIn = (setError: UseFormSetError<SignInFormValues>) => {
     onError: (error) => {
       if (isApiError(error) && error.status >= 400 && error.status < 500) {
         // 400번재 에러는 폼에 에러 메시지 표시
+        setError('email', {
+          message: '',
+        });
         setError('password', {
           message: '이메일과 비밀번호를 다시 확인해주세요',
         });

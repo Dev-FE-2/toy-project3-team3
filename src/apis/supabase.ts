@@ -8,6 +8,12 @@ if (!supabaseUrl || !supabaseKey) {
   throw new Error('❌Supabase 환경 변수를 확인해주세요.');
 }
 
-const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+const supabase = createClient<Database>(supabaseUrl, supabaseKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+  },
+});
 
 export default supabase;

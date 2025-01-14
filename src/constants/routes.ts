@@ -9,10 +9,10 @@ export const ROUTES = {
   PLAY_LIST_EDIT: '/play-list/:playListId/edit',
   PLAY_LIST: '/play-list/:playListId',
   SEARCH: '/search',
-  SIGN_IN: '/sign-in',
-  SIGN_UP: '/sign-up',
+  SIGN_IN: '/auth/sign-in',
+  SIGN_UP: '/auth/sign-up',
+  AUTH_CALLBACK: '/auth/callback',
   USER: '/users/:userId', // 사용자 닉네임과 충돌 방지하기 위해 users 추가
   USER_FOLLOW: '/users/:userId/follow',
-  AUTH_CALLBACK: '/auth/callback',
   NOT_FOUND: '*',
 };

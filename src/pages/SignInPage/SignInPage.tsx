@@ -2,7 +2,7 @@ import * as S from './SignInPage.styles';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signInSchema, SignInFormValues } from '@/schemas/user/signInSchema';
-import { useSignIn, useGoogleSignIn, useSignOut } from '@/hooks/mutations';
+import { useSignIn, useGoogleSignIn, useSignOut } from '@/hooks';
 import { Button } from '@/components';
 
 const SignInPage = () => {

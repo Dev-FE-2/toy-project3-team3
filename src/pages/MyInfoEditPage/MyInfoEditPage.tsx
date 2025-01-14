@@ -6,27 +6,44 @@ import {
   editProfileSchema,
   EditProfileFormValues,
 } from '@/schemas/user/editProfileSchema';
-import { useCheckDuplicate } from '@/hooks';
-import { useEditProfile } from '@/hooks/mutations';
-import { useDeactivateAccount } from '@/hooks/mutations';
-import { useAuthStateChange } from '@/hooks';
-import { Button } from '@/components';
+import {
+  useEditProfile,
+  useDeactivateAccount,
+  useAuthStateChange,
+  useCheckDuplicate,
+} from '@/hooks';
+import { Button, Confirm, Alert } from '@/components';
 import { DEFAULT_PROFILE_PATH } from '@/constants';
+// import { ConfirmContent } from '@/types';
 
 const MyInfoEditPage = () => {
+  // 모달 관련
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const { user } = useAuthStateChange();
-  const { editProfile, isPending: isEditProfilePending } = useEditProfile();
   const { deactivateAccount, isPending: isDeactivateAccountPending } =
     useDeactivateAccount();
 
   // 사집 업로드
   const imgRef = useRef<HTMLInputElement>(null);
   const [imgPreview, setImgPreview] = useState<string>(
-    user?.profileImg ?? DEFAULT_PROFILE_PATH,
+    user?.profileImage ?? DEFAULT_PROFILE_PATH,
   );
 
   // 중복 확인 해야하는 필드 valid 여부
   const [validNickname, setValidNickname] = useState<boolean>(false);
+
+  const defaultValues = useMemo(
+    () => ({
+      nickname: user?.nickname,
+      password: '',
+      confirmPassword: '',
+      profileImage: user?.profileImage,
+    }),
+    [user],
+  );
 
   const {
     register,
@@ -42,17 +59,15 @@ const MyInfoEditPage = () => {
   } = useForm<EditProfileFormValues>({
     resolver: zodResolver(editProfileSchema),
     mode: 'onChange',
-    defaultValues: {
-      nickname: user?.nickname,
-      password: '',
-      confirmPassword: '',
-      profileImg: user?.profileImg,
-    },
+    defaultValues,
   });
   // input 컴포넌트에서 입력 잇는지 검사 용도
   const watchedNickname = watch('nickname');
   const watchedPassword = watch('password');
   const watchedConfirmPassword = watch('confirmPassword');
+
+  const { editProfile, isPending: isEditProfilePending } =
+    useEditProfile(setError);
 
   // 이미지 변경 반영
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,57 +76,51 @@ const MyInfoEditPage = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImgPreview(reader.result as string);
-        setValue('profileImg', reader.result as string);
+        setValue('profileImage', reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
   // 닉네임 중복 체크
-  const { checkDuplicate: checkNickname } = useCheckDuplicate();
+  const { checkDuplicate: checkNickname, isPending: isCheckNicknamePending } =
+    useCheckDuplicate();
 
   const checkDuplicateNickname = useCallback(async () => {
-    const value = getValues('nickname'); // 중복 확인 버튼 클릭시점에 가져온 값
-    if (!value) return;
+    const currNickname = getValues('nickname'); // 중복 확인 버튼 클릭시점에 가져온 값
+    if (!currNickname) return;
 
-    const result = await checkNickname('nickname', value);
+    const isDuplicate = await checkNickname({
+      field: 'nickname',
+      value: currNickname ?? '',
+    });
 
-    if (result.data) {
+    if (isDuplicate) {
       setError('nickname', {
         message: '이미 사용 중인 닉네임입니다',
       });
-      setValidNickname(!result.data);
+      setValidNickname(false);
+    } else {
+      setValidNickname(true);
     }
   }, [setError, checkNickname, getValues]);
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<EditProfileFormValues> = async (formData) => {
-    const mergedData = {
-      ...user,
-      ...formData,
-    };
-
-    // 병합된 데이터를 서버로 전송
-    await editProfile(mergedData);
+    console.log('formData', formData);
+    await editProfile(formData);
   };
 
   // 변경 사항 유무 추적
   const formData = watch();
   const isFormChanged = useMemo(() => {
-    const defaultValues = {
-      nickname: user?.nickname,
-      password: '',
-      confirmPassword: '',
-      profileImg: user?.profileImg,
-    };
-
     return (
-      formData.nickname !== defaultValues.nickname ||
-      (formData.password ?? '') !== defaultValues.password ||
-      (formData.confirmPassword ?? '') !== defaultValues.confirmPassword ||
-      formData.profileImg !== defaultValues.profileImg
-    );
-  }, [formData, user]);
+      Object.keys(defaultValues) as Array<keyof typeof defaultValues>
+    ).some((key) => formData[key] !== defaultValues[key]);
+  }, [formData, defaultValues]);
+  const isNicknameChanged = useMemo(() => {
+    return formData.nickname !== user?.nickname;
+  }, [formData.nickname, user?.nickname]);
 
   // 변경 사항 되돌리기
   const handleCancel = () => {
@@ -119,65 +128,26 @@ const MyInfoEditPage = () => {
       nickname: user?.nickname,
       password: '',
       confirmPassword: '',
-      profileImg: user?.profileImg,
+      profileImage: user?.profileImage,
     });
     if (imgRef.current) imgRef.current.value = '';
-    setImgPreview(user?.profileImg ?? '');
+    setImgPreview(user?.profileImage ?? '');
   };
 
-  // 계정 해지
-  // const handleDeactiveAccount = () => {
-  //   toast.dismiss(); // 이미 존재하는 토스트 모두 제거
-
-  //   toast(
-  //     <S.ToastDAContainer>
-  //       <p>⚠️ 정말 계정을 해지하시겠습니까?</p>
-  //       <S.ToastDABtnContainer>
-  //         <S.ToastDACancleBtn
-  //           type="button"
-  //           color="gray"
-  //           size="small"
-  //           padding="var(--space-xsmall) var(--space-small)"
-  //           onClick={() => toast.dismiss()}
-  //         >
-  //           취소
-  //         </S.ToastDACancleBtn>
-  //         <S.ToastDAAcceptBtn
-  //           type="button"
-  //           color="pink"
-  //           size="small"
-  //           padding="var(--space-xsmall) var(--space-small)"
-  //           onClick={async () => {
-  //             toast.dismiss();
-  //             toast.promise(
-  //               deactivateAccount(),
-  //               {
-  //                 loading: '해지 중...',
-  //                 success: '계정이 성공적으로 해지되었습니다.',
-  //                 error: '계정 해지 중 오류가 발생했습니다.',
-  //               },
-  //               {
-  //                 id: 'deactivate-process',
-  //                 duration: 3000, // success, error 표시
-  //                 position: 'top-center',
-  //               },
-  //             );
-  //           }}
-  //         >
-  //           해지
-  //         </S.ToastDAAcceptBtn>
-  //       </S.ToastDABtnContainer>
-  //     </S.ToastDAContainer>,
-  //     {
-  //       position: 'top-center',
-  //       duration: Infinity,
-  //       id: 'deactivate-account', // 토스트 중복 방지를 위한 id
-  //       style: {
-  //         background: 'var(--color-pale-gray)',
-  //       },
-  //     },
-  //   );
-  // };
+  // 회원 탈퇴 confirm 버튼
+  const handleConfirmLeft = async () => {
+    try {
+      await deactivateAccount();
+      setAlertMessage('회원 탈퇴되었습니다.');
+      setShowAlert(true);
+    } catch (error) {
+      console.error(error);
+      setAlertMessage('회원 탈퇴 중 오류가 발생했습니다.');
+      setShowAlert(true);
+    } finally {
+      setShowConfirm(false);
+    }
+  };
 
   // 디버깅용
   console.log('current edit profile form', {
@@ -192,7 +162,7 @@ const MyInfoEditPage = () => {
       <S.EditProfileFormTitle>프로필 수정</S.EditProfileFormTitle>
       <S.EditProfileForm onSubmit={handleSubmit(onSubmit)}>
         <S.ProfileImg
-          src={imgPreview ?? user?.profileImg}
+          src={imgPreview ?? user?.profileImage}
           alt="profileImg"
           onError={(e) => {
             e.currentTarget.src = DEFAULT_PROFILE_PATH; // 폴백 이미지
@@ -201,7 +171,7 @@ const MyInfoEditPage = () => {
         <S.PictureInput
           type="file"
           id="profileImg"
-          {...register('profileImg')}
+          {...register('profileImage')}
           ref={imgRef}
           onChange={handleImageChange}
         />
@@ -244,7 +214,7 @@ const MyInfoEditPage = () => {
               disabled={!getValues('nickname')}
               onClick={checkDuplicateNickname}
             >
-              중복 확인
+              {isCheckNicknamePending ? '확인 중... ' : '중복 확인'}
             </Button>
           </S.InputwithDuplicateBtn>
         </S.FormField>
@@ -304,6 +274,7 @@ const MyInfoEditPage = () => {
             color="primary"
             disabled={
               !isFormChanged ||
+              (isNicknameChanged && !validNickname) ||
               isSubmitting ||
               Object.keys(errors).length > 0 ||
               isEditProfilePending
@@ -318,13 +289,27 @@ const MyInfoEditPage = () => {
           color="gray"
           size="small"
           borderType="round"
-          onClick={() => {
-            deactivateAccount();
-            alert('회원 탈퇴 합니다');
-          }}
+          onClick={() => setShowConfirm(true)}
         >
-          {isDeactivateAccountPending ? '퇼퇴 중...' : '회원 탈퇴'}
+          {isDeactivateAccountPending ? '탈퇴 중...' : '회원 탈퇴'}
         </S.DeactivateAccountButton>
+        {showConfirm && (
+          <Confirm
+            content={{
+              text: '⚠️ 회원 탈퇴 하시겠습니까?',
+              leftBtn: '예',
+              rightBtn: '아니오',
+            }}
+            onClickLeftBtn={handleConfirmLeft}
+            onClickRightBtn={() => setShowConfirm(false)}
+          />
+        )}
+        {showAlert && (
+          <Alert
+            text={alertMessage}
+            status={alertMessage.includes('완료') ? 'success' : 'error'}
+          />
+        )}
       </S.EditProfileForm>
     </S.EditProfileFormContainer>
   );

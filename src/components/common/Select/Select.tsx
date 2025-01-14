@@ -1,5 +1,5 @@
 import * as S from './Select.styles';
-import { SelectProps } from '@/types';
+import { SelectProps, SelectType } from '@/types';
 import {
   CATEGORY_OPTIONS,
   SORT_COMMENT_OPTIONS,
@@ -27,7 +27,7 @@ export const Select = ({ type, value, onChange }: SelectProps) => {
       aria-controls={`${type}-listbox`}
       aria-activedescendant={`${type}-option-${value}`}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange(e.target.value as SelectType)}
     >
       {options.map(({ value: optionValue, label }) => (
         <option

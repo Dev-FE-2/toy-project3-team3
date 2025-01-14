@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 // Icon
 export type IconType =
   | 'like'
@@ -101,12 +103,12 @@ export type CategoryType =
 export type SortCommentType = 'latest' | 'likes';
 export type SortEtcType = 'latest' | 'likes' | 'subscribers';
 
-type SelectType = 'category' | 'sortComment' | 'sortEtc';
+export type SelectType = 'category' | 'sortComment' | 'sortEtc';
 
 export interface SelectProps {
   type: SelectType;
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: SelectType) => void;
 }
 
 // Search
@@ -192,4 +194,32 @@ export interface FloatingLabelProps {
   htmlFor: string;
   $errorMessage: boolean;
   $isActive: boolean;
+}
+
+// modal
+export interface ModalPortalProps {
+  children: ReactNode;
+  blockClick?: boolean;
+}
+export type AlertStatus = 'success' | 'error';
+export interface AlertProps {
+  status: AlertStatus;
+  text: string;
+}
+
+export interface StyledAlertProps {
+  $status: AlertStatus;
+  $show: boolean;
+}
+
+export type ConfirmContent = {
+  text: string;
+  leftBtn: string;
+  rightBtn: string;
+};
+
+export interface ConfirmProps {
+  content: ConfirmContent;
+  onClickLeftBtn: () => void;
+  onClickRightBtn: () => void;
 }

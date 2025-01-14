@@ -1,8 +1,8 @@
 export interface User {
-  userId?: string;
+  userId: string;
   nickname: string;
   email: string;
-  profileImg: string;
+  profileImage: string;
 }
 
 export interface SupabaseUserData {
@@ -21,4 +21,9 @@ export interface EditProfileRequestValues {
 
 export interface AuthProps {
   children: React.ReactNode;
+}
+
+export interface CheckDuplicateProps {
+  field: 'nickname' | 'email';
+  value: string;
 }
