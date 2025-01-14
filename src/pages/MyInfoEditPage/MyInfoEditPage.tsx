@@ -17,7 +17,6 @@ import { Backward, Button, Confirm } from '@/components';
 import { DEFAULT_PROFILE_PATH } from '@/constants';
 
 const MyInfoEditPage = () => {
-  // 모달 관련
   const [showConfirm, setShowConfirm] = useState(false);
 
   const { user } = useAuth();
@@ -141,7 +140,7 @@ const MyInfoEditPage = () => {
   };
 
   // 회원 탈퇴 confirm 버튼
-  const handleConfirmLeft = async () => {
+  const handleConfirmLeftBtn = async () => {
     await deactivateAccount();
   };
 
@@ -194,13 +193,12 @@ const MyInfoEditPage = () => {
               watchedValue={watchedNickname ?? ''}
               placeholder="닉네임을 입력해주세요"
               errorMessage={
-                (touchedFields.nickname &&
-                  errors.nickname &&
-                  errors.nickname?.message) ||
-                ''
+                (touchedFields.nickname && errors.nickname?.message) || ''
               }
               validatedMessage={
-                validNickname ? '사용 가능한 닉네임입니다' : undefined
+                !errors.nickname && validNickname
+                  ? '사용 가능한 닉네임입니다'
+                  : undefined
               }
             />
             <S.DuplicateCheckBtn
@@ -223,10 +221,7 @@ const MyInfoEditPage = () => {
             watchedValue={watchedShortIntro ?? ''}
             placeholder="한줄소개를 입력해주세요"
             errorMessage={
-              (touchedFields.shortIntro &&
-                errors.shortIntro &&
-                errors.shortIntro?.message) ||
-              ''
+              (touchedFields.shortIntro && errors.shortIntro?.message) || ''
             }
           />
         </S.FormField>
@@ -252,10 +247,7 @@ const MyInfoEditPage = () => {
             watchedValue={watchedPassword ?? ''}
             placeholder="비밀번호를 입력해주세요 (6자 이상)"
             errorMessage={
-              (touchedFields.password &&
-                errors.password &&
-                errors.password?.message) ||
-              ''
+              (touchedFields.password && errors.password?.message) || ''
             }
           />
         </S.FormField>
@@ -319,7 +311,7 @@ const MyInfoEditPage = () => {
               leftBtn: '예',
               rightBtn: '아니오',
             }}
-            onClickLeftBtn={handleConfirmLeft}
+            onClickLeftBtn={handleConfirmLeftBtn}
             onClickRightBtn={() => setShowConfirm(false)}
           />
         )}

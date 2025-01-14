@@ -37,3 +37,23 @@ const Confirm = ({
 };
 
 export default Confirm;
+
+/** 사용 예시
+ * const [showConfirm, setShowConfirm] = useState(false);
+ * 
+ * const handleConfirmLeftBtn = async () => {
+    await deactivateAccount();
+  };
+ * 
+ *  {showConfirm && (
+      <Confirm
+        content={{
+          text: '회원 탈퇴 하시겠습니까?',
+          leftBtn: '예',
+          rightBtn: '아니오',
+        }}
+        onClickLeftBtn={handleConfirmLeftBtn}
+        onClickRightBtn={() => setShowConfirm(false)}
+      />
+    )}
+ */

@@ -30,7 +30,7 @@ export const editProfileSchema = z
     profileImage: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.nickname && !/^[a-zA-Z0-9가-힣._-]+$/.test(data.nickname)) {
+    if (data.nickname && !/^[a-zA-Z0-9ㄱ-ㅎ가-힣._-]+$/.test(data.nickname)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: '영문, 한글, 숫자, . _ - 만 사용 가능해요',

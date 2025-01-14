@@ -116,7 +116,9 @@ const SignUpPage = () => {
                 (touchedFields.nickname && errors.nickname?.message) || ''
               }
               validatedMessage={
-                validFields.nickname ? '사용 가능한 닉네임입니다' : undefined
+                !errors.nickname && validFields.nickname
+                  ? '사용 가능한 닉네임입니다'
+                  : undefined
               }
             />
             <S.DuplicateCheckBtn
@@ -146,7 +148,9 @@ const SignUpPage = () => {
                 (touchedFields.email && errors.email?.message) || ''
               }
               validatedMessage={
-                validFields.email ? '사용 가능한 이메일입니다.' : ''
+                !errors.email && validFields.email
+                  ? '사용 가능한 이메일입니다.'
+                  : ''
               }
             />
             <S.DuplicateCheckBtn
