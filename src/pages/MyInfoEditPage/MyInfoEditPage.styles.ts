@@ -4,15 +4,14 @@ import { Button } from '@/components';
 
 export const EditProfileFormContainer = FormStyle.FormContainer;
 
-export const EditProfileFormTitle = FormStyle.FormTitle;
-
 export const EditProfileForm = FormStyle.Form;
 
 export const ProfileImg = styled.img`
   border-radius: ${({ theme }) => theme.borderRadius.xlg};
   width: 150px;
-  object-fit: contain;
-  margin-bottom: calc(var(--space-medium) * -1);
+  height: 150px;
+  object-fit: fill;
+  margin-bottom: calc(${({ theme }) => theme.space.md} * -1);
 `;
 
 export const PictureInput = styled.input`
@@ -21,7 +20,12 @@ export const PictureInput = styled.input`
 
 export const ChangeImageButton = styled(Button)``;
 
-export const { FormField, InputwithDuplicateBtn, FormInput } = FormStyle;
+export const {
+  FormField,
+  InputwithDuplicateBtn,
+  DuplicateCheckBtn,
+  FormInput,
+} = FormStyle;
 
 export const FormButtonContainer = styled.div`
   display: flex;
@@ -39,21 +43,3 @@ export const SubmitButton = styled(Button)`
 export const DeactivateAccountButton = styled(Button)`
   margin-top: ${({ theme }) => theme.space.lg};
 `;
-
-// 계정 해지 확인 토스트
-export const ToastDAContainer = styled.div`
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space.md};
-  align-items: center;
-`;
-
-export const ToastDABtnContainer = styled.div`
-  display: flex;
-  gap: ${({ theme }) => theme.space.lg};
-`;
-
-export const ToastDACancleBtn = styled(Button)``;
-
-export const ToastDAAcceptBtn = styled(Button)``;

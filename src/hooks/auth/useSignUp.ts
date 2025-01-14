@@ -1,4 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/constants';
 import { supabase } from '@/apis';
 import { SignUpFormValues } from '@/schemas/user/signUpSchema';
 import { useErrorHandler } from '@/hooks';
@@ -8,6 +10,8 @@ const useSignUp = (
   onError: (field: keyof SignUpFormValues, message: string) => void,
 ) => {
   const handleError = useErrorHandler();
+  const navigate = useNavigate();
+  const { HOME } = ROUTES;
 
   const { mutateAsync: signUp, isPending } = useMutation<
     void,
@@ -27,6 +31,9 @@ const useSignUp = (
       });
 
       if (error) throw error; // onError에서 처리
+    },
+    onSuccess: () => {
+      navigate(HOME, { replace: true });
     },
     onError: (error) => {
       if (isApiError(error) && error.status >= 400 && error.status < 500) {

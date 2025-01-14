@@ -77,3 +77,5 @@ export const theme: DefaultTheme = {
   },
   ...mediaQuery,
 } as const;
+
+export type Theme = typeof theme;

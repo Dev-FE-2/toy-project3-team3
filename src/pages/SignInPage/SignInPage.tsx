@@ -2,11 +2,9 @@ import * as S from './SignInPage.styles';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signInSchema, SignInFormValues } from '@/schemas/user/signInSchema';
-import { useSignIn, useGoogleSignIn, useSignOut } from '@/hooks';
-import { Button } from '@/components';
+import { useSignIn, useGoogleSignIn } from '@/hooks';
 
 const SignInPage = () => {
-  const { signOut, isPending: signoutPending } = useSignOut(); // 임시 로그아웃
   const {
     register,
     handleSubmit,
@@ -106,15 +104,6 @@ const SignInPage = () => {
         <S.ToOtherPageText href="/sign-up">
           회원가입이 되어 있지 않으신가요?
         </S.ToOtherPageText>
-        <Button
-          type="button"
-          color="gray"
-          size="small"
-          onClick={() => signOut()}
-          disabled={signoutPending}
-        >
-          {signoutPending ? '로그아웃 중...' : '임시 로그아웃'}
-        </Button>
       </S.SignInForm>
     </S.SignpInageContainer>
   );

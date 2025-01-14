@@ -1,10 +1,10 @@
 import { supabase } from '@/apis';
 import { useMutation } from '@tanstack/react-query';
-import { useErrorHandler, useAuthStateChange } from '@/hooks';
+import { useErrorHandler, useAuth } from '@/hooks';
 import { CheckDuplicateProps } from '@/types';
 
 const useCheckDuplicate = () => {
-  const { user } = useAuthStateChange();
+  const { user } = useAuth();
   const handleError = useErrorHandler();
 
   const { mutateAsync: checkDuplicate, isPending } = useMutation<

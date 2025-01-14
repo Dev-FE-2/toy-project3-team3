@@ -15,12 +15,6 @@ export const Logo = styled.img.attrs({
   margin: 0 auto ${({ theme }) => theme.space.md};
 `;
 
-export const FormTitle = styled.h1`
-  font-size: ${({ theme }) => theme.fontSize.lg};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  margin-bottom: ${({ theme }) => theme.space.lg};
-`;
-
 export const Form = styled.form`
   display: flex;
   flex-direction: column;

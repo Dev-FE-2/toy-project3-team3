@@ -2,10 +2,10 @@ import * as S from './Layout.styles';
 import { Outlet } from 'react-router-dom';
 import Header from './Header/Header';
 import Nav from './Nav/Nav';
-import { useAuthStateChange } from '@/hooks';
+import { useAuth } from '@/hooks';
 
 export const Layout = () => {
-  const { user } = useAuthStateChange();
+  const { user } = useAuth();
   return (
     <S.MainContainer>
       {user ? <Header /> : null}

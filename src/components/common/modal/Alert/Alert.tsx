@@ -1,25 +1,41 @@
+import * as S from './Alert.styles';
 import { useEffect, useState } from 'react';
 import ModalPortal from '../ModalPortal/ModalPortal';
-import * as S from './Alert.styles';
 import { AlertProps } from '@/types';
 
 const Alert = ({ text, status }: AlertProps) => {
   const [show, setShow] = useState(true);
+  const [shouldRender, setShouldRender] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShow(false), 3000);
-    return () => clearTimeout(timer);
+    const fadeOutTimer = setTimeout(() => {
+      setShow(false);
+    }, 2500); // fadeOut 시작 시점
+
+    const unmountTimer = setTimeout(() => {
+      setShouldRender(false);
+    }, 3000); // 컴포넌트 제거 시점
+
+    return () => {
+      clearTimeout(fadeOutTimer);
+      clearTimeout(unmountTimer);
+    };
   }, []);
 
-  if (!show) return null;
+  if (!shouldRender) return null;
 
   return (
     <ModalPortal>
       <S.AlertContainer $status={status} $show={show}>
-        {text}
+        {status === 'success' ? '✅' : '❌'} {text}
       </S.AlertContainer>
     </ModalPortal>
   );
 };
 
 export default Alert;
+
+/** 사용법
+ * alert.success('성공했습니다')
+ * alert.error('실패했습니다')
+ */

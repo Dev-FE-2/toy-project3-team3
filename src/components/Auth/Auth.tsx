@@ -1,40 +1,26 @@
 import { useLocation, Navigate } from 'react-router-dom';
-import { ROUTES } from '@/constants';
+import { ROUTES, PUBLIC_PATHS } from '@/constants';
 import { AuthProps } from '@/types';
-// import { PUBLIC_PATHS } from '@/constants';
-import { useAuthStateChange } from '@/hooks';
-// import { useEffect } from 'react';
+import { useAuth } from '@/hooks';
 
-// session에 따라 컴포넌트 보호
+// user에 따라 컴포넌트 보호
 const Auth = ({ children }: AuthProps) => {
-  const { SIGN_IN } = ROUTES;
-  const { user } = useAuthStateChange();
+  const { SIGN_IN, SIGN_UP, HOME } = ROUTES;
+  const { user } = useAuth();
   const { pathname } = useLocation();
-  // const navigate = useNavigate();
+  const isPublicRoute = PUBLIC_PATHS.includes(pathname);
+  const AUTH_PATHS = [SIGN_IN, SIGN_UP];
+  const isAuthPath = AUTH_PATHS.includes(pathname);
 
   console.log({
     user,
     pathname,
   });
 
-  // useEffect(() => {
-  //   // 퍼블릭 경로에서 세션이 없는 경우
-  //   if (
-  //     !user &&
-  //     !PUBLIC_PATHS.includes(pathname as (typeof PUBLIC_PATHS)[number])
-  //   ) {
-  //     navigate(SIGN_IN, { replace: true });
-  //   }
-  //   // // 보호된 경로에서 세션이 있는 경우
-  //   // if (
-  //   //   user &&
-  //   //   PUBLIC_PATHS.includes(pathname as (typeof PUBLIC_PATHS)[number])
-  //   // ) {
-  //   //   navigate(HOME, { replace: true });
-  //   // }
-  // }, [user, pathname, navigate, SIGN_IN]);
-
-  if (!user) return <Navigate to={SIGN_IN} replace />;
+  if (!user && !isPublicRoute) return <Navigate to={SIGN_IN} replace />;
+  if (user && isAuthPath) {
+    return <Navigate to={HOME} replace />;
+  }
 
   return children;
 };

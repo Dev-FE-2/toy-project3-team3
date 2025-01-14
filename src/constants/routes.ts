@@ -16,3 +16,11 @@ export const ROUTES = {
   USER_FOLLOW: '/users/:userId/follow',
   NOT_FOUND: '*',
 };
+
+export const PUBLIC_PATHS = [
+  ROUTES.AUTH_CALLBACK,
+  ROUTES.SIGN_IN,
+  ROUTES.SIGN_UP,
+  ROUTES.SEARCH,
+  ROUTES.HOME,
+] as const;

@@ -207,6 +207,11 @@ export interface AlertProps {
   text: string;
 }
 
+export interface AlertContextType {
+  addAlert: (text: string, status: 'success' | 'error') => void;
+  removeAlert: (id: string) => void;
+}
+
 export interface StyledAlertProps {
   $status: AlertStatus;
   $show: boolean;

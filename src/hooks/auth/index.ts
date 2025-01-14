@@ -6,3 +6,4 @@ export { default as useEditProfile } from './useEditProfile';
 export { default as useDeactivateAccount } from './useDeactivateAccount';
 export { default as useCheckDuplicate } from './useCheckDuplicate';
 export { default as useAuthStateChange } from './useAuthStateChange';
+export { default as useAuth } from './useAuth';

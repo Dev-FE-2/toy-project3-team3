@@ -1,8 +1,11 @@
 import * as S from './Icon.styles';
 import { IconProps } from '@/types';
 import { Avatar } from '@/components';
+import { useAuth } from '@/hooks';
 
 const Icon = ({ type, isActive = false, onClick }: IconProps) => {
+  const { user } = useAuth();
+
   const getAriaLabel = () => {
     const labels = {
       like: `${isActive ? '좋아요 취소' : '좋아요'}`,
@@ -111,8 +114,8 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
       >
         <Avatar
           size="xsmall"
-          imageUrl="defaultprofile"
-          altText="User Profile"
+          imageUrl={user?.profileImage}
+          altText={`${user?.nickname} 프로필`}
         />
         <S.NavText>프로필</S.NavText>
       </S.NavItem>

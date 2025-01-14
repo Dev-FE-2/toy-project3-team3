@@ -1,9 +1,10 @@
 import * as S from './Header.styles';
 import { useLocation } from 'react-router-dom';
+import { memo } from 'react';
 import { Icon } from '@/components';
 import { ROUTES } from '@/constants';
 
-const Header = () => {
+const Header = memo(() => {
   const { pathname } = useLocation();
   const { USER } = ROUTES;
   const handleMenuClick = () => {
@@ -20,6 +21,6 @@ const Header = () => {
       </S.RightSection>
     </S.HeaderContainer>
   );
-};
+});
 
 export default Header;

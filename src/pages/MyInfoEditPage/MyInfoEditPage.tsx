@@ -1,7 +1,7 @@
 import * as S from './MyInfoEditPage.styles';
 import { useRef, useState, useCallback, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form';
 import {
   editProfileSchema,
   EditProfileFormValues,
@@ -9,22 +9,22 @@ import {
 import {
   useEditProfile,
   useDeactivateAccount,
-  useAuthStateChange,
+  useAuth,
   useCheckDuplicate,
+  useSignOut,
 } from '@/hooks';
-import { Button, Confirm, Alert } from '@/components';
+import { Backward, Button, Confirm } from '@/components';
 import { DEFAULT_PROFILE_PATH } from '@/constants';
-// import { ConfirmContent } from '@/types';
 
 const MyInfoEditPage = () => {
   // 모달 관련
   const [showConfirm, setShowConfirm] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
 
-  const { user } = useAuthStateChange();
+  const { user } = useAuth();
   const { deactivateAccount, isPending: isDeactivateAccountPending } =
     useDeactivateAccount();
+
+  const { signOut, isPending: signoutPending } = useSignOut(); // 임시 로그아웃
 
   // 사집 업로드
   const imgRef = useRef<HTMLInputElement>(null);
@@ -41,6 +41,7 @@ const MyInfoEditPage = () => {
       password: '',
       confirmPassword: '',
       profileImage: user?.profileImage,
+      shortIntro: user?.shortIntro,
     }),
     [user],
   );
@@ -63,6 +64,7 @@ const MyInfoEditPage = () => {
   });
   // input 컴포넌트에서 입력 잇는지 검사 용도
   const watchedNickname = watch('nickname');
+  const watchedShortIntro = watch('shortIntro');
   const watchedPassword = watch('password');
   const watchedConfirmPassword = watch('confirmPassword');
 
@@ -107,8 +109,11 @@ const MyInfoEditPage = () => {
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<EditProfileFormValues> = async (formData) => {
-    console.log('formData', formData);
     await editProfile(formData);
+  };
+
+  const onError: SubmitErrorHandler<EditProfileFormValues> = (errors) => {
+    console.log('Form Errors:', errors);
   };
 
   // 변경 사항 유무 추적
@@ -129,6 +134,7 @@ const MyInfoEditPage = () => {
       password: '',
       confirmPassword: '',
       profileImage: user?.profileImage,
+      shortIntro: user?.shortIntro,
     });
     if (imgRef.current) imgRef.current.value = '';
     setImgPreview(user?.profileImage ?? '');
@@ -136,31 +142,21 @@ const MyInfoEditPage = () => {
 
   // 회원 탈퇴 confirm 버튼
   const handleConfirmLeft = async () => {
-    try {
-      await deactivateAccount();
-      setAlertMessage('회원 탈퇴되었습니다.');
-      setShowAlert(true);
-    } catch (error) {
-      console.error(error);
-      setAlertMessage('회원 탈퇴 중 오류가 발생했습니다.');
-      setShowAlert(true);
-    } finally {
-      setShowConfirm(false);
-    }
+    await deactivateAccount();
   };
 
   // 디버깅용
-  console.log('current edit profile form', {
-    errors: errors,
-    data: watch(),
-    validNickname: validNickname,
-    isFormChanged,
-  });
+  // console.log('current edit profile form', {
+  //   errors: errors,
+  //   data: watch(),
+  //   validNickname: validNickname,
+  //   isFormChanged,
+  // });
 
   return (
     <S.EditProfileFormContainer>
-      <S.EditProfileFormTitle>프로필 수정</S.EditProfileFormTitle>
-      <S.EditProfileForm onSubmit={handleSubmit(onSubmit)}>
+      <Backward />
+      <S.EditProfileForm onSubmit={handleSubmit(onSubmit, onError)}>
         <S.ProfileImg
           src={imgPreview ?? user?.profileImage}
           alt="profileImg"
@@ -207,7 +203,7 @@ const MyInfoEditPage = () => {
                 validNickname ? '사용 가능한 닉네임입니다' : undefined
               }
             />
-            <Button
+            <S.DuplicateCheckBtn
               type="button"
               color="primary"
               size="small"
@@ -215,8 +211,24 @@ const MyInfoEditPage = () => {
               onClick={checkDuplicateNickname}
             >
               {isCheckNicknamePending ? '확인 중... ' : '중복 확인'}
-            </Button>
+            </S.DuplicateCheckBtn>
           </S.InputwithDuplicateBtn>
+        </S.FormField>
+        <S.FormField>
+          <S.FormInput
+            type="text"
+            id="shortIntro"
+            label="한줄 소개"
+            {...register('shortIntro')}
+            watchedValue={watchedShortIntro ?? ''}
+            placeholder="한줄소개를 입력해주세요"
+            errorMessage={
+              (touchedFields.shortIntro &&
+                errors.shortIntro &&
+                errors.shortIntro?.message) ||
+              ''
+            }
+          />
         </S.FormField>
         <S.FormField>
           <S.FormInput
@@ -256,10 +268,7 @@ const MyInfoEditPage = () => {
             placeholder="비밀번호를 다시 입력해주세요"
             watchedValue={watchedConfirmPassword ?? ''}
             errorMessage={
-              (touchedFields.confirmPassword &&
-                errors.confirmPassword &&
-                errors.confirmPassword?.message) ||
-              ''
+              (errors.confirmPassword && errors.confirmPassword?.message) || ''
             }
           />
         </S.FormField>
@@ -284,6 +293,16 @@ const MyInfoEditPage = () => {
           </S.SubmitButton>
         </S.FormButtonContainer>
 
+        <Button
+          type="button"
+          color="gray"
+          size="small"
+          onClick={() => signOut()}
+          disabled={signoutPending}
+        >
+          {signoutPending ? '로그아웃 중...' : '임시 로그아웃'}
+        </Button>
+
         <S.DeactivateAccountButton
           type="button"
           color="gray"
@@ -296,18 +315,12 @@ const MyInfoEditPage = () => {
         {showConfirm && (
           <Confirm
             content={{
-              text: '⚠️ 회원 탈퇴 하시겠습니까?',
+              text: '회원 탈퇴 하시겠습니까?',
               leftBtn: '예',
               rightBtn: '아니오',
             }}
             onClickLeftBtn={handleConfirmLeft}
             onClickRightBtn={() => setShowConfirm(false)}
-          />
-        )}
-        {showAlert && (
-          <Alert
-            text={alertMessage}
-            status={alertMessage.includes('완료') ? 'success' : 'error'}
           />
         )}
       </S.EditProfileForm>

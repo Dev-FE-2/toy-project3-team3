@@ -10,6 +10,8 @@ import { queryClient } from './apis';
 import { ErrorBoundary } from 'react-error-boundary';
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
 import { DeferredLoader, ErrorFallback } from './components';
+import { AuthProvider } from './contexts/auth';
+import { AlertProvider } from '@/components';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@/styles/theme';
 import GlobalStyles from '@/styles/GlobalStyles';
@@ -25,7 +27,11 @@ createRoot(document.getElementById('root')!).render(
             <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
               <NuqsAdapter>
                 <Suspense fallback={<DeferredLoader />}>
-                  <RouterProvider router={router} />
+                  <AuthProvider>
+                    <AlertProvider>
+                      <RouterProvider router={router} />
+                    </AlertProvider>
+                  </AuthProvider>
                 </Suspense>
               </NuqsAdapter>
             </ErrorBoundary>

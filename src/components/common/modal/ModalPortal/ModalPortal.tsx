@@ -11,7 +11,9 @@ const ModalPortal = ({ children, blockClick }: ModalPortalProps) => {
     }
   };
   return createPortal(
-    <S.Overlay onClick={handleOverlayClick}>{children}</S.Overlay>,
+    <S.Overlay $blockClick={blockClick} onClick={handleOverlayClick}>
+      {children}
+    </S.Overlay>,
     modalRoot,
   );
 };

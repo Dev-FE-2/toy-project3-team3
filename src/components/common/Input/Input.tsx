@@ -88,7 +88,7 @@ export const Input = forwardRef<
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
-      {errorMessage ? (
+      {errorMessage && errorMessage !== '.' ? (
         <S.BaseMessage
           id={`${id}-error`}
           role="alert"

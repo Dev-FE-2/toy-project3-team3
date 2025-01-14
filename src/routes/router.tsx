@@ -39,21 +39,7 @@ const {
   NOT_FOUND,
 } = ROUTES;
 
-const publicRoutes = [
-  {
-    element: <Layout />,
-    errorElement: <ErrorFallback />,
-    children: [
-      { path: SIGN_IN, element: <SignInPage /> },
-      { path: SIGN_UP, element: <SignUpPage /> },
-      { path: AUTH_CALLBACK, element: <HomePage /> }, // 구글 로그인 콜백
-      { path: HOME, element: <HomePage /> },
-      { path: SEARCH, element: <SearchPage /> },
-    ],
-  },
-];
-
-const privateRoutes = [
+const router = createBrowserRouter([
   {
     element: (
       <Auth>
@@ -62,6 +48,11 @@ const privateRoutes = [
     ),
     errorElement: <ErrorFallback />,
     children: [
+      { path: SIGN_IN, element: <SignInPage /> },
+      { path: SIGN_UP, element: <SignUpPage /> },
+      { path: AUTH_CALLBACK, element: <HomePage /> }, // 구글 로그인 콜백
+      { path: HOME, element: <HomePage /> },
+      { path: SEARCH, element: <SearchPage /> },
       { path: ALERT, element: <AlertPage /> },
       { path: MY_COMMENT, element: <MyCommentPage /> },
       { path: MY_FOLLOWING, element: <MyFollowingPage /> },
@@ -74,11 +65,6 @@ const privateRoutes = [
       { path: USER, element: <UserPage /> },
     ],
   },
-];
-
-const router = createBrowserRouter([
-  ...publicRoutes,
-  ...privateRoutes,
   { path: NOT_FOUND, element: <NotFoundPage /> },
 ]);
 

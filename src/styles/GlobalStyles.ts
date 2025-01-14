@@ -1,9 +1,14 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import mediaQuery from './mediaQuery';
+import { createLayoutTokens } from './designTokens';
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
+
+  :root {
+    ${({ theme }) => createLayoutTokens(theme)}
+  }
 
   * {
     box-sizing: border-box;
@@ -42,7 +47,6 @@ const GlobalStyles = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     -webkit-overflow-scrolling: touch;
   }
-
 
   p, h1, h2, h3, h4, div, span {
     word-break: keep-all; // 단어 단위 줄바꿈

@@ -1,14 +1,14 @@
 import * as S from './Nav.styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { memo, useMemo } from 'react';
-import { useAuthStateChange } from '@/hooks';
+import { useAuth } from '@/hooks';
 import { Icon } from '@/components';
 import { ROUTES } from '@/constants';
 import { IconType } from '@/types';
 
 const Nav = memo(() => {
   const { pathname } = useLocation();
-  const { user } = useAuthStateChange();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const { HOME, PLAY_LIST_EDIT, SEARCH, SIGN_IN, SIGN_UP, USER_FOLLOW, USER } =

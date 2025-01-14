@@ -11,6 +11,7 @@ const Confirm = ({
   return (
     <ModalPortal blockClick={true}>
       <S.ConfirmContainer>
+        <S.WarningIcon />
         <p>{content.text}</p>
         <S.BtnContainer>
           <Button
