@@ -1,9 +1,12 @@
 import { Database } from '@/types';
 import * as S from './CommentItems.styles';
-import { Avatar, Icon } from '@/components/common';
+import { Icon } from '@/components/common';
 import { useFetchLikeByCommentId } from '@/hooks/useLike';
 import { useFetchCommentByTargetCommentId } from '@/hooks/useComment';
 import { useNavigate } from 'react-router-dom';
+import { getRelativeTime } from '@/utils';
+import { useFetchUserById } from '@/hooks';
+import UserProfile from '@/components/playlist/common/UserProfile/UserProfile';
 
 interface CommentItemsProps {
   comment: Database['public']['Tables']['COMMENTS']['Row'];
@@ -27,35 +30,7 @@ const CommentItems = ({
   const { data: replyData } = useFetchCommentByTargetCommentId(
     comment.comments_id,
   );
-
-  const getRelativeTime = (createdAt: string): string => {
-    const now = new Date();
-    const writedAt = new Date(createdAt);
-    const diffInMs = now.getTime() - writedAt.getTime();
-
-    const diffInSeconds = Math.floor(diffInMs / 1000);
-    const diffInMinutes = Math.floor(diffInSeconds / 60);
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    const diffInDays = Math.floor(diffInHours / 24);
-    const diffInMonths = Math.floor(diffInDays / 30);
-
-    if (diffInMonths > 0) {
-      return `${diffInMonths}달 전`;
-    }
-    if (diffInDays > 0) {
-      return `${diffInDays}일 전`;
-    }
-    if (diffInHours > 0) {
-      return `${diffInHours}시간 전`;
-    }
-    if (diffInMinutes > 0) {
-      return `${diffInMinutes}분 전`;
-    }
-    if (diffInSeconds > 0) {
-      return `${diffInSeconds}초 전`;
-    }
-    return '방금';
-  };
+  const { data: userData } = useFetchUserById(comment.user_id);
 
   const relativeTime = getRelativeTime(comment.created_at);
 
@@ -66,10 +41,10 @@ const CommentItems = ({
   return (
     <S.CommentWrapper key={comment.comments_id}>
       <div>
-        <S.UserWrapper>
-          <Avatar size="small" />
-          <S.UserNickname>userNickname</S.UserNickname>
-        </S.UserWrapper>
+        <UserProfile
+          profileImageUrl={userData?.[0]?.profile_image || ''}
+          nickname={userData?.[0]?.nickname || ''}
+        />
         <S.CommentContainer>
           <S.TaggedUserNickname
             onClick={() => handleClickTaggedUserNickname(taggedUserNickname)}

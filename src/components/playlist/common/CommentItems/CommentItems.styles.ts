@@ -9,13 +9,6 @@ export const CommentWrapper = styled.div`
   border-bottom: 1px dashed ${({ theme }) => theme.colors.gray.extraLight};
 `;
 
-export const UserWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.sm};
-`;
-
 export const IconWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,11 +40,6 @@ export const Comment = styled.div`
 export const TaggedUserNickname = styled.div`
   color: ${({ theme }) => theme.colors.highlight};
   cursor: pointer;
-`;
-
-export const UserNickname = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const RelativeTime = styled.div`
