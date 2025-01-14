@@ -1,11 +1,5 @@
 import { API_ENDPOINTS, QUERY_KEYS } from '@/constants';
-import {
-  useCreateData,
-  useDeleteDataByOneId,
-  useFetchDataAll,
-  useFetchDataByOneId,
-  useUpdateDataByOneId,
-} from '@/hooks/useSupabaseCrud';
+import { useFetchDataAll, useFetchDataByOneId } from '@/hooks/useSupabaseCrud';
 import type { Database } from '@/types';
 
 const { USERS } = API_ENDPOINTS;
@@ -23,12 +17,3 @@ export const useFetchUserByUserId = (userId: string) =>
     USERS.BY_ID,
     userId,
   );
-
-export const useCreateUser = () =>
-  useCreateData<'USERS'>([usersQueryKey], USERS.BASE);
-
-export const useUpdateUserByUserId = () =>
-  useUpdateDataByOneId<'USERS'>([usersQueryKey], USERS.BY_ID);
-
-export const useDeleteUserByUserId = () =>
-  useDeleteDataByOneId([usersQueryKey], USERS.BY_ID);
