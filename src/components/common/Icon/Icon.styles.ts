@@ -7,6 +7,7 @@ import { IoArrowBack } from 'react-icons/io5';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { GoBell } from 'react-icons/go';
 import { IoSearch } from 'react-icons/io5';
+import { BiCommentDetail, BiSolidCommentDetail } from 'react-icons/bi';
 
 const IconButton = css`
   display: flex;
@@ -59,11 +60,16 @@ export const AlarmDot = styled.div`
   pointer-events: none;
 `;
 
-export const CommentIcon = styled(IoArrowBack)`
+export const CommentIconEmpty = styled(BiCommentDetail)`
   ${IconButton};
   &:hover {
-    color: ${({ theme }) => theme.colors.gray.extraDark};
+    color: ${({ theme }) => theme.colors.secondary};
   }
+`;
+
+export const CommentIconFilled = styled(BiSolidCommentDetail)`
+  ${IconButton};
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const SearchIcon = styled(IoSearch)`

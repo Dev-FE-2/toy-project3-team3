@@ -31,7 +31,11 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
         {isActive && <S.AlarmDot aria-hidden="true" />}
       </S.AlarmIconWrapper>
     ),
-    comment: <S.CommentIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    comment: isActive ? (
+      <S.CommentIconFilled onClick={onClick} aria-label={getAriaLabel()} />
+    ) : (
+      <S.CommentIconEmpty onClick={onClick} aria-label={getAriaLabel()} />
+    ),
     cancel: <S.CancleIcon onClick={onClick} aria-label={getAriaLabel()} />,
     backward: <S.BackwardIcon onClick={onClick} aria-label={getAriaLabel()} />,
     search: <S.SearchIcon onClick={onClick} aria-label={getAriaLabel()} />,
