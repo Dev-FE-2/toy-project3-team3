@@ -1,5 +1,5 @@
-const PlayListEditPage = () => {
-  return <div>PlayListEditPage</div>;
+const PlaylistEditPage = () => {
+  return <div>PlaylistEditPage</div>;
 };
 
-export default PlayListEditPage;
+export default PlaylistEditPage;
