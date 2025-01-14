@@ -17,6 +17,13 @@ export const useFetchComments = () =>
     COMMENTS.BASE,
   );
 
+export const useFetchCommentById = (commentId: string) =>
+  useFetchDataByOneId<Database['public']['Tables']['COMMENTS']['Row']>(
+    [QUERY_KEYS.COMMENTS, commentId],
+    COMMENTS.BY_ID,
+    commentId,
+  );
+
 export const useFetchCommentByUserId = (userId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['COMMENTS']['Row']>(
     [QUERY_KEYS.COMMENTS, userId],
