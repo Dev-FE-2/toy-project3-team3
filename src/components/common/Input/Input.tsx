@@ -3,6 +3,7 @@ import { FocusEvent } from 'react';
 import {
   useState,
   forwardRef,
+  Ref,
   InputHTMLAttributes,
   TextareaHTMLAttributes,
 } from 'react';
@@ -44,7 +45,7 @@ export const Input = forwardRef<
     return (
       <S.InputWrapper>
         <S.StyledTextarea
-          ref={ref as React.Ref<HTMLTextAreaElement>}
+          ref={ref as Ref<HTMLTextAreaElement>}
           {...(textareaProps as TextareaHTMLAttributes<HTMLTextAreaElement>)}
         />
         <S.TextAreaErrorMessage
@@ -65,7 +66,8 @@ export const Input = forwardRef<
     label,
     placeholder,
     errorMessage,
-    watchedValue,
+    watchedValue, //react-hook-form 쓸때 값 감지
+    value, //onCange 쓸때 값 감지
     validatedMessage,
     ...rest
   } = props;
@@ -80,10 +82,11 @@ export const Input = forwardRef<
     ...rest,
   };
 
+  const isfilled = isFocused || !!watchedValue || !!value;
   return (
     <S.InputWrapper>
       <S.StyledTextInput
-        ref={ref as React.Ref<HTMLInputElement>}
+        ref={ref as Ref<HTMLInputElement>}
         {...(textInputProps as InputHTMLAttributes<HTMLInputElement>)}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -110,10 +113,10 @@ export const Input = forwardRef<
       ) : null}
       <S.FloatingLabel
         htmlFor={id}
-        $isActive={isFocused || !!watchedValue}
+        $isActive={isfilled}
         $errorMessage={!!errorMessage}
       >
-        {isFocused || !!watchedValue ? label : placeholder}
+        {isfilled ? label : placeholder}
       </S.FloatingLabel>
     </S.InputWrapper>
   );
@@ -132,6 +135,15 @@ export default Input;
     />
 
     <Input
+      type={'text'}
+      id={'hastag'}
+      label="해시태그"
+      value={hastag}
+      placeholder={'hastag'}
+      onChange={(e) => setHastag(e.target.value)}
+    />
+
+    <Input
       type="email"
       id="email"
       label="이메일"
@@ -140,7 +152,6 @@ export default Input;
       placeholder="이메일 (example@email.com)"
       errorMessage={
         (touchedFields.email &&
-          errors.email &&
           errors.email?.message) ||
         ''
       }

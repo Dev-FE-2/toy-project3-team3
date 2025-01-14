@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
+import { CATEGORIES } from '@/constants';
 
 // Icon
 export type IconType =
@@ -87,28 +88,23 @@ export interface StyledBtnProps {
 }
 
 // Select
-export type CategoryType =
-  | 'all'
-  | 'korean'
-  | 'chinese'
-  | 'western'
-  | 'japanese'
-  | 'fusion'
-  | 'southeast'
-  | 'middleEast'
-  | 'southAmerica'
-  | 'northEurope'
-  | 'africa'
-  | 'indian';
+export type CategoryType = (typeof CATEGORIES)[number];
+
 export type SortCommentType = 'latest' | 'likes';
 export type SortEtcType = 'latest' | 'likes' | 'subscribers';
 
 export type SelectType = 'category' | 'sortComment' | 'sortEtc';
 
 export interface SelectProps {
+  ref?: React.Ref<HTMLSelectElement>;
   type: SelectType;
-  value: string;
-  onChange: (value: SelectType) => void;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
+  errorMessage?: string;
+}
+
+export interface StyledSelectProps {
+  $errorMessage?: boolean;
 }
 
 // Search
@@ -166,6 +162,8 @@ interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
   errorMessage?: string;
   placeholder: string;
   id: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<T>) => void;
   onBlur?: (
     e:
       | React.FocusEvent<HTMLInputElement>
@@ -174,7 +172,7 @@ interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
 }
 interface TextInputProps extends BaseInputProps<HTMLInputElement> {
   type: 'text' | 'email' | 'password';
-  watchedValue: string;
+  watchedValue?: string;
   label: string; // 인풋 왼쪽 위 작은 placeholder
   validatedMessage?: string;
 }

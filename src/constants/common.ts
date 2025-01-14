@@ -23,6 +23,8 @@ export const CATEGORY_OPTIONS = {
   indian: '인도',
 } as const;
 
+export const CATEGORIES = ['all', ...Object.keys(CATEGORY_OPTIONS)] as const;
+
 export const SORT_COMMENT_OPTIONS = {
   latest: '최신순',
   likes: '좋아요순',
