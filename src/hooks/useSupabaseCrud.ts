@@ -33,7 +33,7 @@ export const useFetchDataByOneId = <T>(
   endpoint: EndpointByOneId,
   id: string,
 ) => {
-  return useQuery<T>({
+  return useQuery<T[]>({
     queryKey,
     queryFn: () => fetchDataByOneId<T>(endpoint, id),
   });
@@ -56,7 +56,7 @@ export const useFetchDataByTwoId = <T>(
   firstId: string,
   secondId: string,
 ) => {
-  return useQuery<T>({
+  return useQuery<T[]>({
     queryKey,
     queryFn: () => fetchDataByTwoId<T>(endpoint, firstId, secondId),
   });

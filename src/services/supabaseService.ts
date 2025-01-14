@@ -14,10 +14,10 @@ export const fetchDataAll = async <T>(endpoint: string): Promise<T[]> => {
 export const fetchDataByOneId = async <T>(
   endpoint: EndpointByOneId,
   id: string,
-): Promise<T> => {
+): Promise<T[]> => {
   const response = await supabaseRest.get<T[]>(`${endpoint(id)}`);
 
-  return response.data[0];
+  return response.data;
 };
 
 export const fetchDataByOneIds = async <T>(
@@ -33,12 +33,12 @@ export const fetchDataByTwoId = async <T>(
   endpoint: EndpointByTwoId,
   firstId: string,
   secondId: string,
-): Promise<T> => {
+): Promise<T[]> => {
   const response = await supabaseRest.get<T[]>(
     `${endpoint(firstId, secondId)}`,
   );
 
-  return response.data[0];
+  return response.data;
 };
 
 export const fetchDataLengthByOneId = async <T extends { length: number }>(
