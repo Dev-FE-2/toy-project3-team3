@@ -9,10 +9,14 @@ const PlaylistContents = () => {
 
   const searchParams = new URLSearchParams(loc.search);
   const tab = searchParams.get('tab');
+  const target = searchParams.get('target');
 
   const handleTabChange = (newTab: string) => {
-    searchParams.set('tab', newTab);
-    nav(`${loc.pathname}?${searchParams.toString()}`);
+    if (tab !== newTab || target) {
+      searchParams.set('tab', newTab);
+      searchParams.delete('target');
+      nav(`${loc.pathname}?${searchParams.toString()}`);
+    }
   };
 
   return (
