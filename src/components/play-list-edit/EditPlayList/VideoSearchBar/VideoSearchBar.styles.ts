@@ -2,7 +2,9 @@ import styled from 'styled-components';
 
 export const InputAndButtonWrapper = styled.div`
   display: flex;
+  align-items: center;
   gap: ${({ theme }) => theme.space.md};
+  margin-bottom: ${({ theme }) => theme.space.lg};
 `;
 
 export const ButtonContainer = styled.div`

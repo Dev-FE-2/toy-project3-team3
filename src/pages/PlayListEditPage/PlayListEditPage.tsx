@@ -41,11 +41,11 @@ const PlaylistEditPage = () => {
     <FormProvider {...methods}>
       <S.PlayListEditPageWrapper>
         <Backward />
-        <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
+        <S.Form onSubmit={methods.handleSubmit(handleOnSubmit)}>
           <EditContents />
           <EditPlayList />
           <S.SubmitButton type="submit">저장</S.SubmitButton>
-        </form>
+        </S.Form>
       </S.PlayListEditPageWrapper>
     </FormProvider>
   );

@@ -53,7 +53,7 @@ const ContentsHashtag = () => {
           onKeyDown={handleOnKeyDown}
         />
         <S.ButtonContainer>
-          <Button type="button" onClick={handleAddHashtag}>
+          <Button color="secondary" type="button" onClick={handleAddHashtag}>
             추가
           </Button>
         </S.ButtonContainer>

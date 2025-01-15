@@ -17,7 +17,7 @@ const EditContents = () => {
   console.log(watchedCategory);
 
   return (
-    <S.FormContainer>
+    <S.ContentsForm>
       <S.FormInput
         type="text"
         id="title"
@@ -42,7 +42,7 @@ const EditContents = () => {
         errorMessage={errors.category?.message}
       />
       <ContentsHashtag />
-    </S.FormContainer>
+    </S.ContentsForm>
   );
 };
 

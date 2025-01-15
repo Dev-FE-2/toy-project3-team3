@@ -32,7 +32,7 @@ export const VideoThumbnail = styled.img`
 `;
 
 export const VideoInfoContainer = styled.div`
-  width: 300px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
