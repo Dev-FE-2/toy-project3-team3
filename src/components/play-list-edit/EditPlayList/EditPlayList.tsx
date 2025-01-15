@@ -1,31 +1,38 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import * as S from './EditPlayList.styles';
 import VideoSearchBar from '@/components/play-list-edit/EditPlayList/VideoSearchBar/VideoSearchBar';
 import VideoItems from '@/components/play-list-edit/EditPlayList/VideoItems/VideoItems';
 import { youtubeService } from '@/services/youtube';
 import { QUERY_KEYS } from '@/constants';
-import {
-  // useAddedVideoIds,
-  useDragAndDrop,
-  // usePlayListVideoEdit,
-} from '@/hooks';
+import { useDragAndDrop } from '@/hooks';
 import type { PlayListEditFormValues, Video } from '@/types';
 import { useFormContext } from 'react-hook-form';
+import { Icon } from '@/components/common';
 
 const EditPlayList = () => {
   const [searchedQuery, setSearchedQuery] = useState('');
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const { watch, setValue } = useFormContext<PlayListEditFormValues>();
   const playLists = watch('playLists');
 
   const {
     itemRefs,
-    handleDragStart,
-    handleDragOver,
-    handleDrop,
-    handleDragEnd,
-  } = useDragAndDrop(playLists, (newPlayList) => {
-    setValue('playLists', newPlayList);
-  });
+    bottomSheetRef,
+    handleItemDragStart,
+    handleItemDragOver,
+    handleItemDrop,
+    handleItemDragEnd,
+    handleBottomSheetDragStart,
+    handleBottomSheetDragMove,
+    handleBottomSheetDragEnd,
+  } = useDragAndDrop(
+    playLists,
+    (newPlayList) => {
+      setValue('playLists', newPlayList);
+    },
+    () => setIsBottomSheetOpen(false),
+  );
 
   const {
     data: videoData,
@@ -37,7 +44,7 @@ const EditPlayList = () => {
     enabled: !!searchedQuery,
   });
 
-  const handleSearch = (q: string) => {
+  const handleSearch = async (q: string) => {
     if (q.trim()) {
       setSearchedQuery(q);
     }
@@ -61,19 +68,62 @@ const EditPlayList = () => {
     );
   }, [videoData, playLists]);
 
+  const handleOpenBottomSheet = (
+    query: string,
+    setError: (message: string) => void,
+  ) => {
+    if (!query) {
+      setError('검색어를 입력해주세요');
+    } else {
+      setIsBottomSheetOpen(true);
+      setError('');
+    }
+  };
+
   return (
     <div>
       {isLoading && <div>로딩</div>}
       {isError && <div>에러</div>}
-      <VideoSearchBar handleSearch={handleSearch} />
-      {filteredData.map((video) => (
-        <VideoItems
-          key={video.id}
-          video={video}
-          onVideoClick={handleAddToPlayList}
-        />
-      ))}
-      <h2>Playlist</h2>
+      <VideoSearchBar
+        handleSearch={handleSearch}
+        handleOpenBottomSheet={handleOpenBottomSheet}
+      />
+      <S.Overlay
+        isOpen={isBottomSheetOpen}
+        onClick={() => setIsBottomSheetOpen(false)}
+      />
+      <S.BottomSheet
+        isOpen={isBottomSheetOpen}
+        ref={bottomSheetRef}
+        onMouseDown={handleBottomSheetDragStart}
+        onMouseMove={handleBottomSheetDragMove}
+        onMouseUp={handleBottomSheetDragEnd}
+        onMouseLeave={handleBottomSheetDragEnd}
+        onTouchStart={handleBottomSheetDragStart}
+        onTouchMove={handleBottomSheetDragMove}
+        onTouchEnd={handleBottomSheetDragEnd}
+      >
+        <S.BottomSheetHeader
+          onMouseDown={handleBottomSheetDragStart}
+          onTouchStart={handleBottomSheetDragStart}
+        >
+          <h2>검색 결과</h2>
+          <S.BottomSheetIconContainer>
+            <Icon type="bottomSheet" />
+          </S.BottomSheetIconContainer>
+          <Icon type="cancel" onClick={() => setIsBottomSheetOpen(false)} />
+        </S.BottomSheetHeader>
+        <S.BottomSheetContent>
+          {filteredData.map((video) => (
+            <VideoItems
+              key={video.id}
+              video={video}
+              onVideoClick={handleAddToPlayList}
+            />
+          ))}
+        </S.BottomSheetContent>
+      </S.BottomSheet>
+
       {playLists.map((video, index) => (
         <VideoItems
           key={video.id}
@@ -82,10 +132,10 @@ const EditPlayList = () => {
           onRemove={handleRemoveFromPlayList}
           dragProps={{
             ref: (el) => (itemRefs.current[index] = el),
-            onDragStart: (e) => handleDragStart(e, index),
-            onDragOver: (e) => handleDragOver(e, index),
-            onDrop: (e) => handleDrop(e, index),
-            onDragEnd: handleDragEnd,
+            onDragStart: (e) => handleItemDragStart(e, index),
+            onDragOver: (e) => handleItemDragOver(e, index),
+            onDrop: (e) => handleItemDrop(e, index),
+            onDragEnd: handleItemDragEnd,
           }}
         />
       ))}
