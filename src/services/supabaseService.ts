@@ -65,8 +65,8 @@ export const fetchDataLengthByTwoId = async <T extends { length: number }>(
 export const createData = async <T>(
   endpoint: string,
   payload: T,
-): Promise<T> => {
-  const response = await supabaseRest.post<T>(endpoint, payload, {
+): Promise<T[]> => {
+  const response = await supabaseRest.post<T[]>(endpoint, payload, {
     headers: {
       Prefer: 'return=representation',
     },
