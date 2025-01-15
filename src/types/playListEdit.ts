@@ -19,7 +19,4 @@ export interface PlayListEditFormValues {
   title: string;
   description: string;
   category: CategoryType;
-  thumbnailUrl: string;
-  hashtags: string[];
-  playLists: Video[];
 }

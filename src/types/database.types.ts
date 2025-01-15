@@ -246,13 +246,19 @@ export type Database = {
           playlist_id: string;
           playlist_videos_id: string;
           video_id: string;
+          video_title: string;
+          video_thumbnail: string;
+          video_channel_title: string;
         };
         Insert: {
           created_at?: string;
           order?: number;
-          playlist_id: string;
+          playlist_id?: string;
           playlist_videos_id?: string;
           video_id: string;
+          video_title: string;
+          video_thumbnail: string;
+          video_channel_title: string;
         };
         Update: {
           created_at?: string;
@@ -260,6 +266,9 @@ export type Database = {
           playlist_id?: string;
           playlist_videos_id?: string;
           video_id?: string;
+          video_title: string;
+          video_thumbnail: string;
+          video_channel_title: string;
         };
         Relationships: [
           {
