@@ -66,7 +66,11 @@ export const createData = async <T>(
   endpoint: string,
   payload: T,
 ): Promise<T> => {
-  const response = await supabaseRest.post<T>(endpoint, payload);
+  const response = await supabaseRest.post<T>(endpoint, payload, {
+    headers: {
+      Prefer: 'return=representation',
+    },
+  });
 
   return response.data;
 };
