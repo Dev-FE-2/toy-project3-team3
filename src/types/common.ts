@@ -1,5 +1,5 @@
 import { ChangeEvent, ReactNode } from 'react';
-import { CATEGORIES } from '@/constants';
+import { CATEGORIES, CATEGORY_EDIT_OPTIONS } from '@/constants';
 
 // Icon
 export type IconType =
@@ -93,10 +93,16 @@ export interface StyledBtnProps {
 // Select
 export type CategoryType = (typeof CATEGORIES)[number];
 
+export type CategoryEditType = keyof typeof CATEGORY_EDIT_OPTIONS;
+
 export type SortCommentType = 'latest' | 'likes';
 export type SortEtcType = 'latest' | 'likes' | 'subscribers';
 
-export type SelectType = 'category' | 'sortComment' | 'sortEtc';
+export type SelectType =
+  | 'category'
+  | 'categoryEdit'
+  | 'sortComment'
+  | 'sortEtc';
 
 export interface SelectProps {
   ref?: React.Ref<HTMLSelectElement>;
