@@ -28,6 +28,7 @@ export const VideoItems = ({
       onClick={() => onVideoClick?.(video)}
       draggable={isPlayList}
       {...dragProps}
+      isPlayList={isPlayList}
     >
       {isPlayList && (
         <S.VideoDragWrapper>
@@ -39,10 +40,14 @@ export const VideoItems = ({
         <S.VideoTitle>{video.title}</S.VideoTitle>
         <S.VideoChannel>{video.channelTitle}</S.VideoChannel>
       </S.VideoInfoContainer>
-      {onRemove && (
-        <S.VideoDeleteWrapper onClick={(e) => onRemove(e, video.id)}>
+      {onRemove ? (
+        <S.VideoIconWrapper onClick={(e) => onRemove(e, video.id)}>
           <Icon type="cancel" />
-        </S.VideoDeleteWrapper>
+        </S.VideoIconWrapper>
+      ) : (
+        <S.VideoIconWrapper>
+          <Icon type="add" />
+        </S.VideoIconWrapper>
       )}
     </S.VideoContainer>
   );

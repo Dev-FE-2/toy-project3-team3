@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import * as S from './VideoSearchBar.styles';
 import { Button, Input } from '@/components/common';
+import { useAtom } from 'jotai';
+import { playlistErrorAtom } from '@/atoms';
 
 type SearchBarProps = {
   handleSearch: (q: string) => void;
@@ -16,6 +18,7 @@ const VideoSearchBar = ({
 }: SearchBarProps) => {
   const [currentQuery, setCurrentQuery] = useState('');
   const [error, setError] = useState('');
+  const [playlistError] = useAtom(playlistErrorAtom);
 
   const handleSearchQuery = () => {
     handleOpenBottomSheet(currentQuery, setError);
@@ -47,6 +50,7 @@ const VideoSearchBar = ({
           </Button>
         </S.ButtonContainer>
       </S.InputAndButtonWrapper>
+      <S.Error>{playlistError}</S.Error>
       <S.Error>{error}</S.Error>
     </>
   );

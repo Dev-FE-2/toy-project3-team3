@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
-export const VideoContainer = styled.div`
+export const VideoContainer = styled.div<{ isPlayList: boolean }>`
   width: 100%;
   display: flex;
   flex: 1;
   gap: ${({ theme }) => theme.space.sm};
   padding: ${({ theme }) => theme.space.xsm} 0;
+  cursor: ${(props) => (props.isPlayList ? 'default' : 'pointer')};
 
   &.dragging {
     opacity: 0.5;
@@ -66,7 +67,7 @@ export const VideoDragWrapper = styled.div`
   align-items: center;
 `;
 
-export const VideoDeleteWrapper = styled.div`
+export const VideoIconWrapper = styled.div`
   width: 20px;
   margin-left: -${({ theme }) => theme.space.sm};
 `;

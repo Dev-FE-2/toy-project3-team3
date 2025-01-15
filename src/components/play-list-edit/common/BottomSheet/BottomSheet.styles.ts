@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-interface BottomSheetProps {
+interface StyledBottomSheetProps {
   isOpen: boolean;
 }
 
-export const Overlay = styled.div<BottomSheetProps>`
+export const Overlay = styled.div<StyledBottomSheetProps>`
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +15,7 @@ export const Overlay = styled.div<BottomSheetProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
 `;
 
-export const BottomSheet = styled.div<BottomSheetProps>`
+export const BottomSheet = styled.div<StyledBottomSheetProps>`
   position: fixed;
   bottom: 0;
   left: 0;
@@ -46,9 +46,4 @@ export const BottomSheetContent = styled.div`
 
 export const BottomSheetIconContainer = styled.div`
   margin-right: ${({ theme }) => theme.space.lg};
-`;
-
-export const Error = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.xsm};
-  color: ${({ theme }) => theme.colors.error};
 `;

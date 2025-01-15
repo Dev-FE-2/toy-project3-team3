@@ -1,19 +1,13 @@
-import { useAtom, useSetAtom } from 'jotai';
-import { playListAtom, playlistErrorAtom } from '@/atoms';
+import { useAtom } from 'jotai';
+import { playListAtom } from '@/atoms';
 import { useCreatePlaylistVideo } from '@/hooks';
 import { formatPlaylistVideos } from '@/utils';
 
 export const useHandleCreatePlaylistVideo = () => {
   const [playlists] = useAtom(playListAtom);
-  const setPlaylistError = useSetAtom(playlistErrorAtom);
   const { mutate: createPlaylistVideo } = useCreatePlaylistVideo();
 
   const handleCreatePlaylistVideo = async (playlistId: string) => {
-    if (playlists.length === 0) {
-      setPlaylistError('영상을 추가해주세요.');
-      return;
-    }
-
     try {
       const formattedPlaylists = formatPlaylistVideos(playlistId, playlists);
       const createPlaylistVideoPromise = formattedPlaylists.map((playlist) =>

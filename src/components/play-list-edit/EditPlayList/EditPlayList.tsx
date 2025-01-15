@@ -1,38 +1,27 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useAtom } from 'jotai';
-import * as S from './EditPlayList.styles';
+import { useAtom, useSetAtom } from 'jotai';
 import VideoSearchBar from '@/components/play-list-edit/EditPlayList/VideoSearchBar/VideoSearchBar';
 import VideoItems from '@/components/play-list-edit/EditPlayList/VideoItems/VideoItems';
-import { Icon } from '@/components/common';
 import type { Video } from '@/types';
 import { youtubeService } from '@/services/youtube';
 import { QUERY_KEYS } from '@/constants';
-import { useDragAndDrop } from '@/hooks';
+import { useItemDragAndDrop } from '@/hooks';
 import { playListAtom, playlistErrorAtom } from '@/atoms';
+import BottomSheet from '@/components/play-list-edit/common/BottomSheet/BottomSheet';
 
 const EditPlayList = () => {
   const [searchedQuery, setSearchedQuery] = useState('');
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [playlists, setPlaylists] = useAtom(playListAtom);
-  const [playlistError, setPlaylistError] = useAtom(playlistErrorAtom);
-
+  const setPlaylistError = useSetAtom(playlistErrorAtom);
   const {
     itemRefs,
-    bottomSheetRef,
     handleItemDragStart,
     handleItemDragOver,
     handleItemDrop,
     handleItemDragEnd,
-    handleBottomSheetDragStart,
-    handleBottomSheetDragMove,
-    handleBottomSheetDragEnd,
-  } = useDragAndDrop(
-    playlists,
-    (newPlayList) => setPlaylists(newPlayList),
-    () => setIsBottomSheetOpen(false),
-  );
-
+  } = useItemDragAndDrop(playlists, (newPlayList) => setPlaylists(newPlayList));
   const {
     data: videoData,
     isLoading,
@@ -80,6 +69,10 @@ const EditPlayList = () => {
     }
   };
 
+  const handleCloseBottomSheet = () => {
+    setIsBottomSheetOpen(false);
+  };
+
   return (
     <div>
       {isLoading && <div>로딩</div>}
@@ -88,41 +81,19 @@ const EditPlayList = () => {
         handleSearch={handleSearch}
         handleOpenBottomSheet={handleOpenBottomSheet}
       />
-      <S.Overlay
+      <BottomSheet
+        title="검색 결과"
         isOpen={isBottomSheetOpen}
-        onClick={() => setIsBottomSheetOpen(false)}
-      />
-      <S.BottomSheet
-        isOpen={isBottomSheetOpen}
-        ref={bottomSheetRef}
-        onMouseDown={handleBottomSheetDragStart}
-        onMouseMove={handleBottomSheetDragMove}
-        onMouseUp={handleBottomSheetDragEnd}
-        onMouseLeave={handleBottomSheetDragEnd}
-        onTouchStart={handleBottomSheetDragStart}
-        onTouchMove={handleBottomSheetDragMove}
-        onTouchEnd={handleBottomSheetDragEnd}
+        handleBottomSheetClose={handleCloseBottomSheet}
       >
-        <S.BottomSheetHeader
-          onMouseDown={handleBottomSheetDragStart}
-          onTouchStart={handleBottomSheetDragStart}
-        >
-          <h2>검색 결과</h2>
-          <S.BottomSheetIconContainer>
-            <Icon type="bottomSheet" />
-          </S.BottomSheetIconContainer>
-          <Icon type="cancel" onClick={() => setIsBottomSheetOpen(false)} />
-        </S.BottomSheetHeader>
-        <S.BottomSheetContent>
-          {filteredData.map((video) => (
-            <VideoItems
-              key={video.id}
-              video={video}
-              onVideoClick={handleAddToPlayList}
-            />
-          ))}
-        </S.BottomSheetContent>
-      </S.BottomSheet>
+        {filteredData.map((video) => (
+          <VideoItems
+            key={video.id}
+            video={video}
+            onVideoClick={handleAddToPlayList}
+          />
+        ))}
+      </BottomSheet>
       {playlists.map((video, index) => (
         <VideoItems
           key={video.id}
@@ -138,7 +109,6 @@ const EditPlayList = () => {
           }}
         />
       ))}
-      <S.Error>{playlistError}</S.Error>
     </div>
   );
 };

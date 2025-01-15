@@ -1,9 +1,8 @@
 import { useState, useRef } from 'react';
 
-export const useDragAndDrop = <T extends { id: string }>(
+export const useItemDragAndDrop = <T extends { id: string }>(
   items: T[],
   setItems: (items: T[]) => void,
-  onCloseBottomSheet?: () => void,
 ) => {
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [dropTargetIndex, setDropTargetIndex] = useState<number | null>(null);
@@ -11,9 +10,6 @@ export const useDragAndDrop = <T extends { id: string }>(
     null,
   );
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const bottomSheetRef = useRef<HTMLDivElement>(null);
-  const startY = useRef(0);
-  const isDraggingBottomSheet = useRef(false);
 
   const handleItemDragStart = (e: React.DragEvent, index: number) => {
     setDraggingIndex(index);
@@ -78,44 +74,6 @@ export const useDragAndDrop = <T extends { id: string }>(
     resetDragState();
   };
 
-  const handleBottomSheetDragStart = (
-    e: React.MouseEvent | React.TouchEvent,
-  ) => {
-    isDraggingBottomSheet.current = true;
-    startY.current =
-      'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
-  };
-
-  const handleBottomSheetDragMove = (
-    e: React.MouseEvent | React.TouchEvent,
-  ) => {
-    if (!isDraggingBottomSheet.current || !bottomSheetRef.current) return;
-
-    const currentY =
-      'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
-    const deltaY = currentY - startY.current;
-
-    if (deltaY > 0) {
-      bottomSheetRef.current.style.transform = `translateY(${deltaY}px)`;
-    }
-  };
-  const handleBottomSheetDragEnd = () => {
-    if (!isDraggingBottomSheet.current || !bottomSheetRef.current) return;
-
-    const deltaY = parseFloat(
-      bottomSheetRef.current.style.transform
-        .replace('translateY(', '')
-        .replace('px)', ''),
-    );
-
-    if (deltaY > 100 && onCloseBottomSheet) {
-      onCloseBottomSheet();
-    }
-
-    bottomSheetRef.current.style.transform = 'translateY(0)';
-    isDraggingBottomSheet.current = false;
-  };
-
   const calculateNewIndex = (
     draggingIndex: number,
     targetIndex: number,
@@ -152,13 +110,9 @@ export const useDragAndDrop = <T extends { id: string }>(
 
   return {
     itemRefs,
-    bottomSheetRef,
     handleItemDragStart,
     handleItemDragOver,
     handleItemDrop,
     handleItemDragEnd,
-    handleBottomSheetDragStart,
-    handleBottomSheetDragMove,
-    handleBottomSheetDragEnd,
   };
 };
