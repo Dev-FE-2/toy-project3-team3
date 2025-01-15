@@ -239,6 +239,13 @@ export type Database = {
           },
         ];
       };
+      CATEGORY: {
+        Row: {
+          category_id: string;
+          category_name_en: string;
+          category_name_ko: string;
+        };
+      };
       PLAYLIST_VIDEOS: {
         Row: {
           created_at: string;
@@ -273,31 +280,28 @@ export type Database = {
       };
       PLAYLISTS: {
         Row: {
-          category: string | null;
+          category_id: string;
           created_at: string;
           playlist_id: string;
           short_intro: string | null;
-          thumbnail_image: string | null;
           title: string;
           updated_at: string;
           user_id: string;
         };
         Insert: {
-          category?: string | null;
+          category_id?: string;
           created_at?: string;
           playlist_id?: string;
           short_intro?: string | null;
-          thumbnail_image?: string | null;
           title: string;
           updated_at?: string;
           user_id: string;
         };
         Update: {
-          category?: string | null;
+          category_id?: string;
           created_at?: string;
           playlist_id?: string;
           short_intro?: string | null;
-          thumbnail_image?: string | null;
           title?: string;
           updated_at?: string;
           user_id?: string;
@@ -309,6 +313,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'USERS';
             referencedColumns: ['user_id'];
+          },
+          {
+            foreignKeyName: 'PLAYLIST_category_id_fkey';
+            columns: ['category_id'];
+            isOneToOne: false;
+            referencedRelation: 'CATEGORY';
+            referencedColumns: ['category_id'];
           },
         ];
       };
