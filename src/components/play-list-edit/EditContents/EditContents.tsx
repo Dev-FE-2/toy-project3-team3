@@ -2,13 +2,12 @@ import * as S from './EditContents.styles';
 import { Select } from '@/components/common';
 import { useFormContext } from 'react-hook-form';
 import ContentsHashtag from '@/components/play-list-edit/EditContents/ContentsHashtag/ContentsHashtag';
-import type { CategoryType, PlayListEditFormValues } from '@/types';
+import type { PlayListEditFormValues } from '@/types';
 
 const EditContents = () => {
   const {
     register,
     watch,
-    setValue,
     formState: { errors },
   } = useFormContext<PlayListEditFormValues>();
   const watchedTitle = watch('title');
@@ -39,10 +38,8 @@ const EditContents = () => {
       />
       <Select
         type="category"
-        value={watchedCategory}
-        onChange={(value: string) =>
-          setValue('category', value as CategoryType)
-        }
+        {...register('category')}
+        errorMessage={errors.category?.message}
       />
       <ContentsHashtag />
     </S.FormContainer>
