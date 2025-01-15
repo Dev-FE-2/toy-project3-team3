@@ -21,10 +21,6 @@ const useAuthStateChange = () => {
     }
 
     try {
-      await queryClient.invalidateQueries({
-        queryKey: ['userProfile', session.user.id],
-      });
-
       const userData = await queryClient.fetchQuery({
         queryKey: ['userProfile', session.user.id],
         queryFn: () => fetchUserProfile(session.user.id),
