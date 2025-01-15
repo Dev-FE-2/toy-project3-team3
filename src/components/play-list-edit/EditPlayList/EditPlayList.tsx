@@ -1,20 +1,20 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useAtom } from 'jotai';
 import * as S from './EditPlayList.styles';
 import VideoSearchBar from '@/components/play-list-edit/EditPlayList/VideoSearchBar/VideoSearchBar';
 import VideoItems from '@/components/play-list-edit/EditPlayList/VideoItems/VideoItems';
+import { Icon } from '@/components/common';
+import type { Video } from '@/types';
 import { youtubeService } from '@/services/youtube';
 import { QUERY_KEYS } from '@/constants';
 import { useDragAndDrop } from '@/hooks';
-import type { PlayListEditFormValues, Video } from '@/types';
-import { useFormContext } from 'react-hook-form';
-import { Icon } from '@/components/common';
+import { playListAtom } from '@/atoms';
 
 const EditPlayList = () => {
   const [searchedQuery, setSearchedQuery] = useState('');
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const { watch, setValue } = useFormContext<PlayListEditFormValues>();
-  const playLists = watch('playLists');
+  const [playlists, setPlaylists] = useAtom(playListAtom);
 
   const {
     itemRefs,
@@ -27,10 +27,8 @@ const EditPlayList = () => {
     handleBottomSheetDragMove,
     handleBottomSheetDragEnd,
   } = useDragAndDrop(
-    playLists,
-    (newPlayList) => {
-      setValue('playLists', newPlayList);
-    },
+    playlists,
+    (newPlayList) => setPlaylists(newPlayList),
     () => setIsBottomSheetOpen(false),
   );
 
@@ -51,22 +49,22 @@ const EditPlayList = () => {
   };
 
   const handleAddToPlayList = (video: Video) => {
-    const updatedPlayList = [...playLists, video];
-    setValue('playLists', updatedPlayList);
+    const updatedPlayList = [...playlists, video];
+    setPlaylists(updatedPlayList);
   };
 
   const handleRemoveFromPlayList = (e: React.MouseEvent, videoId: string) => {
     e.stopPropagation();
-    const updatedPlayList = playLists.filter((video) => video.id !== videoId);
-    setValue('playLists', updatedPlayList);
+    const updatedPlayList = playlists.filter((video) => video.id !== videoId);
+    setPlaylists(updatedPlayList);
   };
 
   const filteredData = useMemo(() => {
     return (
-      videoData?.filter((data) => !playLists.some((v) => v.id === data.id)) ||
+      videoData?.filter((data) => !playlists.some((v) => v.id === data.id)) ||
       []
     );
-  }, [videoData, playLists]);
+  }, [videoData, playlists]);
 
   const handleOpenBottomSheet = (
     query: string,
@@ -123,8 +121,7 @@ const EditPlayList = () => {
           ))}
         </S.BottomSheetContent>
       </S.BottomSheet>
-
-      {playLists.map((video, index) => (
+      {playlists.map((video, index) => (
         <VideoItems
           key={video.id}
           video={video}
