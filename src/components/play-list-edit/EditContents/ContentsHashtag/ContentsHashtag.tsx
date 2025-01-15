@@ -14,7 +14,6 @@ const ContentsHashtag = () => {
 
     if (trimmedInput && !hashtags.includes(trimmedInput)) {
       if (hashtags.length < 10) {
-        console.log('ghcnf');
         const updatedHashtags = [...hashtags, trimmedInput];
         setHashtags(updatedHashtags);
         setCurrentHashtag('');
@@ -33,10 +32,12 @@ const ContentsHashtag = () => {
   };
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleAddHashtag();
-    }
+    if (e.key !== 'Enter') return;
+    if (e.nativeEvent.isComposing) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    handleAddHashtag();
   };
 
   return (
