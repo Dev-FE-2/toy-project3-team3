@@ -4,15 +4,12 @@ import { useHandleCreatePlaylistVideo } from '@/hooks/play-list/useHandleCreateP
 import { PlayListEditFormValues } from '@/types';
 import { formatPlaylists } from '@/utils';
 
-export const useHandleCreatePlaylist = (
-  userId: string,
-  playlistData: PlayListEditFormValues,
-) => {
+export const useHandleCreatePlaylist = (userId: string) => {
   const { mutateAsync: createPlaylist } = useCreatePlaylist();
   const { handleCreateHashtag } = useHandleCreateHashtag();
   const { handleCreatePlaylistVideo } = useHandleCreatePlaylistVideo();
 
-  const handleCreatePlaylist = async () => {
+  const handleCreatePlaylist = async (playlistData: PlayListEditFormValues) => {
     try {
       const formattedPlaylist = formatPlaylists(userId, playlistData);
 
