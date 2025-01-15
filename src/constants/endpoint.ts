@@ -18,6 +18,13 @@ export const API_ENDPOINTS = {
     FOLLOWINGS_BY_USER_ID: (userId: string) =>
       `${API_ENDPOINTS.FOLLOWS.BASE}?follower_user_id=eq.${userId}`,
   },
+  CATEGORY: {
+    BASE: '/CATEGORY',
+    BY_ID: (categoryId: string) =>
+      `${API_ENDPOINTS.CATEGORY.BASE}?category_id=eq.${categoryId}`,
+    BY_CATEGORY_NAME_EN: (categoryNameEn: string) =>
+      `${API_ENDPOINTS.CATEGORY.BASE}?category_name_en=eq.${categoryNameEn}`,
+  },
   PLAYLISTS: {
     BASE: '/PLAYLISTS',
     BY_ID: (playlistId: string) =>

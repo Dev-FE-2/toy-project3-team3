@@ -20,4 +20,5 @@ export const QUERY_KEYS = {
   LIKE: 'like',
   LIKES: 'likes',
   YOUTUBE_SEARCH: 'youtubeSearch',
+  CATEGORIES: 'categories',
 };
