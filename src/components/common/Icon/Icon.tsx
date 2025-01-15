@@ -1,7 +1,11 @@
 import * as S from './Icon.styles';
 import { IconProps } from '@/types';
+import { Avatar } from '@/components';
+import { useAuth } from '@/hooks';
 
 const Icon = ({ type, isActive = false, onClick }: IconProps) => {
+  const { user } = useAuth();
+
   const getAriaLabel = () => {
     const labels = {
       like: `${isActive ? '좋아요 취소' : '좋아요'}`,
@@ -11,6 +15,13 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
       cancel: '취소',
       backward: '뒤로 가기',
       search: '검색',
+      home: '홈으로 이동',
+      searchNav: '검색으로 이동',
+      signUp: '회원가입으로 이동',
+      signIn: '로그인으로 이동',
+      following: '팔로잉으로 이동',
+      profile: '프로필로 이동',
+      menu: '프로필 메뉴 보기',
     };
     return labels[type];
   };
@@ -25,16 +36,90 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
     ) : (
       <S.SubscribeEmpty onClick={onClick} aria-label={getAriaLabel()} />
     ),
+    comment: <S.CommentIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    cancel: <S.CancleIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    backward: <S.BackwardIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    search: <S.SearchIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    // header
     alarm: (
       <S.AlarmIconWrapper>
         <S.AlarmIcon onClick={onClick} aria-label={getAriaLabel()} />
         {isActive && <S.AlarmDot aria-hidden="true" />}
       </S.AlarmIconWrapper>
     ),
-    comment: <S.CommentIcon onClick={onClick} aria-label={getAriaLabel()} />,
-    cancel: <S.CancleIcon onClick={onClick} aria-label={getAriaLabel()} />,
-    backward: <S.BackwardIcon onClick={onClick} aria-label={getAriaLabel()} />,
-    search: <S.SearchIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    menu: <S.MenuIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    // nav
+    home: (
+      <S.NavItem
+        onClick={onClick}
+        $isActive={isActive}
+        aria-label={getAriaLabel()}
+      >
+        <S.HomeIcon />
+        <S.NavText>홈</S.NavText>
+      </S.NavItem>
+    ),
+    searchNav: (
+      <S.NavItem
+        onClick={onClick}
+        $isActive={isActive}
+        aria-label={getAriaLabel()}
+      >
+        <S.SearchNavIcon />
+        <S.NavText>검색</S.NavText>
+      </S.NavItem>
+    ),
+    signUp: (
+      <S.NavItem
+        onClick={onClick}
+        $isActive={isActive}
+        aria-label={getAriaLabel()}
+      >
+        <S.SignUpIcon />
+        <S.NavText>회원가입</S.NavText>
+      </S.NavItem>
+    ),
+    signIn: (
+      <S.NavItem
+        onClick={onClick}
+        $isActive={isActive}
+        aria-label={getAriaLabel()}
+      >
+        <S.SignInIcon />
+        <S.NavText>로그인</S.NavText>
+      </S.NavItem>
+    ),
+    // 더미 아이콘
+    plusBtnPos: (
+      <S.NavItem $isActive={false} aria-hidden="true">
+        <S.EmptySpace />
+        <S.NavText>&nbsp;</S.NavText>
+      </S.NavItem>
+    ),
+    following: (
+      <S.NavItem
+        onClick={onClick}
+        $isActive={isActive}
+        aria-label={getAriaLabel()}
+      >
+        <S.FollowingIcon />
+        <S.NavText>팔로잉</S.NavText>
+      </S.NavItem>
+    ),
+    profile: (
+      <S.NavItem
+        onClick={onClick}
+        $isActive={isActive}
+        aria-label={getAriaLabel()}
+      >
+        <Avatar
+          size="xsmall"
+          imageUrl={user?.profileImage}
+          altText={`${user?.nickname} 프로필`}
+        />
+        <S.NavText>프로필</S.NavText>
+      </S.NavItem>
+    ),
   };
 
   return iconMap[type];
@@ -46,7 +131,7 @@ export default Icon;
  * 사용 예시
  * <Icon 
     type="alarm" 
-    // isActive={hasNewAlarm} (좋아요, 구독, 알람 아이콘에만 존재)
+    // isActive={hasNewAlarm} (좋아요, 구독, 알람 아이콘, nav에만 존재)
     // onClick={handleAlarmIconClick} 
   />
  */

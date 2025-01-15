@@ -3,6 +3,7 @@ import { FloatingLabelProps, StyledInputProps } from '@/types';
 
 export const InputWrapper = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 export const FloatingLabel = styled.span<FloatingLabelProps>`
@@ -27,6 +28,7 @@ export const FloatingLabel = styled.span<FloatingLabelProps>`
 `;
 
 export const StyledTextInput = styled.input<StyledInputProps>`
+  width: 100%;
   padding: ${({ theme }) => theme.space.sm};
   border: 1px solid
     ${({ $errorMessage, theme }) =>
@@ -43,6 +45,7 @@ export const StyledTextInput = styled.input<StyledInputProps>`
 `;
 
 export const StyledTextarea = styled.textarea<StyledInputProps>`
+  width: 100%;
   resize: none;
   border: 1px solid
     ${({ $errorMessage, theme }) =>

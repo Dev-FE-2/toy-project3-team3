@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
-import { supabase } from '../apis/supabase';
+import { supabase } from '@/apis';
 import { SupabaseContext } from '@/contexts/SupabaseContext';
 
 type SupabaseProviderProps = {

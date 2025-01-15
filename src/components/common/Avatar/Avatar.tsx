@@ -8,6 +8,7 @@ const Avatar = ({
   altText = 'User Profile',
   onClick,
 }: AvatarProps) => {
+  // console.log('avatar', imageUrl);
   return (
     <S.AvatarBtn
       size={size}

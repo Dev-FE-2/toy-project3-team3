@@ -1,26 +1,18 @@
-import Header from '@/components/layout/Header/Header';
-import Nav from '@/components/layout/Nav/Nav';
-import { Outlet } from 'react-router-dom';
 import * as S from './Layout.styles';
+import { Outlet } from 'react-router-dom';
+import Header from './Header/Header';
+import Nav from './Nav/Nav';
+import { useAuth } from '@/hooks';
 
 export const Layout = () => {
+  const { user } = useAuth();
   return (
-    <main>
-      <Header />
-      <S.OutletContainer>
+    <S.MainContainer>
+      {user ? <Header /> : null}
+      <S.OutletContainer $hasHeader={!!user}>
         <Outlet />
       </S.OutletContainer>
       <Nav />
-    </main>
-  );
-};
-
-export const AuthLayout = () => {
-  return (
-    <main>
-      <S.OutletContainer>
-        <Outlet />
-      </S.OutletContainer>
-    </main>
+    </S.MainContainer>
   );
 };

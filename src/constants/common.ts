@@ -1,7 +1,11 @@
 import defaultProfile from '@/assets/img/profile/default_profile.webp';
+import gramLogo from '@/assets/img/logo/gramLogo.webp';
 
 // Avatar 사진
 export const DEFAULT_PROFILE = defaultProfile;
+
+// logo
+export const GRAM_LOGO = gramLogo;
 
 // Category
 export const CATEGORY_OPTIONS = {
@@ -19,6 +23,8 @@ export const CATEGORY_OPTIONS = {
   indian: '인도',
 } as const;
 
+export const CATEGORIES = ['all', ...Object.keys(CATEGORY_OPTIONS)] as const;
+
 export const SORT_COMMENT_OPTIONS = {
   latest: '최신순',
   likes: '좋아요순',
@@ -28,4 +34,11 @@ export const SORT_ETC_OPTIONS = {
   latest: '최신순',
   likes: '좋아요순',
   subscribers: '구독순',
+} as const;
+
+export const SAFE_AREA = {
+  top: 'env(safe-area-inset-top)',
+  right: 'env(safe-area-inset-right)',
+  left: 'env(safe-area-inset-left)',
+  bottom: 'env(safe-area-inset-bottom)',
 } as const;

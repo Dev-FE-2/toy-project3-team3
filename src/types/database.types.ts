@@ -245,21 +245,21 @@ export type Database = {
           order: number;
           playlist_id: string;
           playlist_videos_id: string;
-          videos_url: string;
+          video_id: string;
         };
         Insert: {
           created_at?: string;
           order?: number;
           playlist_id: string;
           playlist_videos_id?: string;
-          videos_url: string;
+          video_id: string;
         };
         Update: {
           created_at?: string;
           order?: number;
           playlist_id?: string;
           playlist_videos_id?: string;
-          videos_url?: string;
+          video_id?: string;
         };
         Relationships: [
           {
@@ -305,6 +305,42 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: 'PLAYLIST_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'USERS';
+            referencedColumns: ['user_id'];
+          },
+        ];
+      };
+      SUBSCRIBES: {
+        Row: {
+          created_at: string;
+          playlist_id: string;
+          subscribe_id: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          playlist_id: string;
+          subscribe_id?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          playlist_id?: string;
+          subscribe_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'SUBSCRIBE_playlist_id_fkey';
+            columns: ['playlist_id'];
+            isOneToOne: false;
+            referencedRelation: 'PLAYLISTS';
+            referencedColumns: ['playlist_id'];
+          },
+          {
+            foreignKeyName: 'SUBSCRIBE_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'USERS';

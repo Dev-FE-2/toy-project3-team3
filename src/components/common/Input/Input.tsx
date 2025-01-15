@@ -1,7 +1,9 @@
 import * as S from './Input.styles';
+import { FocusEvent } from 'react';
 import {
   useState,
   forwardRef,
+  Ref,
   InputHTMLAttributes,
   TextareaHTMLAttributes,
 } from 'react';
@@ -14,7 +16,16 @@ export const Input = forwardRef<
   // TextInput일 때만 사용되는 상태
   const [isFocused, setIsFocused] = useState(false);
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
+  const handleBlur = (
+    e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setIsFocused(false);
+    if (e.target instanceof HTMLInputElement) {
+      props.onBlur?.(e as FocusEvent<HTMLInputElement>); // Input일 때
+    } else if (e.target instanceof HTMLTextAreaElement) {
+      props.onBlur?.(e as FocusEvent<HTMLTextAreaElement>); // TextArea일 때
+    }
+  };
 
   const { type } = props;
   // TextArea
@@ -34,7 +45,7 @@ export const Input = forwardRef<
     return (
       <S.InputWrapper>
         <S.StyledTextarea
-          ref={ref as React.Ref<HTMLTextAreaElement>}
+          ref={ref as Ref<HTMLTextAreaElement>}
           {...(textareaProps as TextareaHTMLAttributes<HTMLTextAreaElement>)}
         />
         <S.TextAreaErrorMessage
@@ -55,7 +66,8 @@ export const Input = forwardRef<
     label,
     placeholder,
     errorMessage,
-    watchedValue,
+    watchedValue, //react-hook-form 쓸때 값 감지
+    value, //onCange 쓸때 값 감지
     validatedMessage,
     ...rest
   } = props;
@@ -70,15 +82,16 @@ export const Input = forwardRef<
     ...rest,
   };
 
+  const isfilled = isFocused || !!watchedValue || !!value;
   return (
     <S.InputWrapper>
       <S.StyledTextInput
-        ref={ref as React.Ref<HTMLInputElement>}
+        ref={ref as Ref<HTMLInputElement>}
         {...(textInputProps as InputHTMLAttributes<HTMLInputElement>)}
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
-      {errorMessage ? (
+      {errorMessage && errorMessage !== '.' ? (
         <S.BaseMessage
           id={`${id}-error`}
           role="alert"
@@ -100,10 +113,10 @@ export const Input = forwardRef<
       ) : null}
       <S.FloatingLabel
         htmlFor={id}
-        $isActive={isFocused || !!watchedValue}
+        $isActive={isfilled}
         $errorMessage={!!errorMessage}
       >
-        {isFocused || !!watchedValue ? label : placeholder}
+        {isfilled ? label : placeholder}
       </S.FloatingLabel>
     </S.InputWrapper>
   );
@@ -122,6 +135,15 @@ export default Input;
     />
 
     <Input
+      type={'text'}
+      id={'hastag'}
+      label="해시태그"
+      value={hastag}
+      placeholder={'hastag'}
+      onChange={(e) => setHastag(e.target.value)}
+    />
+
+    <Input
       type="email"
       id="email"
       label="이메일"
@@ -130,7 +152,6 @@ export default Input;
       placeholder="이메일 (example@email.com)"
       errorMessage={
         (touchedFields.email &&
-          errors.email &&
           errors.email?.message) ||
         ''
       }

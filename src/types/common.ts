@@ -1,12 +1,22 @@
+import { ChangeEvent, ReactNode } from 'react';
+import { CATEGORIES } from '@/constants';
+
 // Icon
 export type IconType =
   | 'like'
-  | 'comment'
   | 'subscribe'
+  | 'menu'
+  | 'alarm'
+  | 'comment'
   | 'cancel'
   | 'backward'
-  | 'alarm'
-  | 'search';
+  | 'search'
+  | 'home'
+  | 'searchNav'
+  | 'signUp'
+  | 'signIn'
+  | 'following'
+  | 'profile';
 
 export interface IconProps {
   type: IconType;
@@ -14,8 +24,13 @@ export interface IconProps {
   onClick?: () => void;
 }
 
+// nav
+export interface StyledNavProps {
+  $isActive: boolean;
+}
+
 // Avatar
-export type AvatarSize = 'small' | 'medium';
+export type AvatarSize = 'xsmall' | 'small' | 'medium';
 
 export interface AvatarProps {
   size: AvatarSize;
@@ -73,28 +88,23 @@ export interface StyledBtnProps {
 }
 
 // Select
-export type CategoryType =
-  | 'all'
-  | 'korean'
-  | 'chinese'
-  | 'western'
-  | 'japanese'
-  | 'fusion'
-  | 'southeast'
-  | 'middleEast'
-  | 'southAmerica'
-  | 'northEurope'
-  | 'africa'
-  | 'indian';
+export type CategoryType = (typeof CATEGORIES)[number];
+
 export type SortCommentType = 'latest' | 'likes';
 export type SortEtcType = 'latest' | 'likes' | 'subscribers';
 
-type SelectType = 'category' | 'sortComment' | 'sortEtc';
+export type SelectType = 'category' | 'sortComment' | 'sortEtc';
 
 export interface SelectProps {
+  ref?: React.Ref<HTMLSelectElement>;
   type: SelectType;
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
+  errorMessage?: string;
+}
+
+export interface StyledSelectProps {
+  $errorMessage?: boolean;
 }
 
 // Search
@@ -152,10 +162,17 @@ interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
   errorMessage?: string;
   placeholder: string;
   id: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<T>) => void;
+  onBlur?: (
+    e:
+      | React.FocusEvent<HTMLInputElement>
+      | React.FocusEvent<HTMLTextAreaElement>,
+  ) => void;
 }
 interface TextInputProps extends BaseInputProps<HTMLInputElement> {
   type: 'text' | 'email' | 'password';
-  watchedValue: string;
+  watchedValue?: string;
   label: string; // 인풋 왼쪽 위 작은 placeholder
   validatedMessage?: string;
 }
@@ -175,4 +192,37 @@ export interface FloatingLabelProps {
   htmlFor: string;
   $errorMessage: boolean;
   $isActive: boolean;
+}
+
+// modal
+export interface ModalPortalProps {
+  children: ReactNode;
+  blockClick?: boolean;
+}
+export type AlertStatus = 'success' | 'error';
+export interface AlertProps {
+  status: AlertStatus;
+  text: string;
+}
+
+export interface AlertContextType {
+  addAlert: (text: string, status: 'success' | 'error') => void;
+  removeAlert: (id: string) => void;
+}
+
+export interface StyledAlertProps {
+  $status: AlertStatus;
+  $show: boolean;
+}
+
+export type ConfirmContent = {
+  text: string;
+  leftBtn: string;
+  rightBtn: string;
+};
+
+export interface ConfirmProps {
+  content: ConfirmContent;
+  onClickLeftBtn: () => void;
+  onClickRightBtn: () => void;
 }
