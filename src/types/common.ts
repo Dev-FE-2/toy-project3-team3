@@ -14,6 +14,7 @@ export type IconType =
   | 'search'
   | 'drag'
   | 'bottomSheet'
+  | 'add'
   | 'home'
   | 'searchNav'
   | 'signUp'

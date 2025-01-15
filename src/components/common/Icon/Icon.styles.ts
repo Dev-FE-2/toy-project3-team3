@@ -14,7 +14,7 @@ import { IoPersonOutline } from 'react-icons/io5';
 import { LuKey } from 'react-icons/lu';
 import { IoPeopleOutline } from 'react-icons/io5';
 import { IoMenu } from 'react-icons/io5';
-import { MdDragHandle, MdDragIndicator } from 'react-icons/md';
+import { MdDragHandle, MdDragIndicator, MdAdd } from 'react-icons/md';
 
 const IconButton = css`
   display: flex;
@@ -96,6 +96,10 @@ export const DragIcon = styled(MdDragIndicator)`
 `;
 
 export const BottomSheedIcon = styled(MdDragHandle)`
+  ${IconButton}
+`;
+
+export const Add = styled(MdAdd)`
   ${IconButton}
 `;
 
