@@ -47,3 +47,8 @@ export const BottomSheetContent = styled.div`
 export const BottomSheetIconContainer = styled.div`
   margin-right: ${({ theme }) => theme.space.lg};
 `;
+
+export const Error = styled.div`
+  font-size: ${({ theme }) => theme.fontSize.xsm};
+  color: ${({ theme }) => theme.colors.error};
+`;

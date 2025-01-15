@@ -9,12 +9,13 @@ import type { Video } from '@/types';
 import { youtubeService } from '@/services/youtube';
 import { QUERY_KEYS } from '@/constants';
 import { useDragAndDrop } from '@/hooks';
-import { playListAtom } from '@/atoms';
+import { playListAtom, playlistErrorAtom } from '@/atoms';
 
 const EditPlayList = () => {
   const [searchedQuery, setSearchedQuery] = useState('');
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [playlists, setPlaylists] = useAtom(playListAtom);
+  const [playlistError, setPlaylistError] = useAtom(playlistErrorAtom);
 
   const {
     itemRefs,
@@ -51,6 +52,7 @@ const EditPlayList = () => {
   const handleAddToPlayList = (video: Video) => {
     const updatedPlayList = [...playlists, video];
     setPlaylists(updatedPlayList);
+    setPlaylistError('');
   };
 
   const handleRemoveFromPlayList = (e: React.MouseEvent, videoId: string) => {
@@ -136,6 +138,7 @@ const EditPlayList = () => {
           }}
         />
       ))}
+      <S.Error>{playlistError}</S.Error>
     </div>
   );
 };
