@@ -37,7 +37,7 @@ const EditContents = () => {
         errorMessage={errors.description?.message}
       />
       <Select
-        type="category"
+        type="categoryEdit"
         {...register('category')}
         errorMessage={errors.category?.message}
       />

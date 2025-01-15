@@ -16,7 +16,7 @@ const PlayListEditPage = () => {
     defaultValues: {
       title: '',
       description: '',
-      category: 'all',
+      category: 'notSelected',
       thumbnailUrl: '',
       hashtags: [],
       playLists: [],
