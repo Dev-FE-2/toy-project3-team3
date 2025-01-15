@@ -37,4 +37,8 @@ export const Error = styled.div`
   color: ${({ theme }) => theme.colors.error};
 `;
 
+export const ButtonContainer = styled.div`
+  min-width: 41px;
+`;
+
 export const { FormField, FormInput } = FormStyle;

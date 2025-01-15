@@ -51,9 +51,11 @@ const ContentsHashtag = () => {
           placeholder="해시태그를 입력해주세요."
           onKeyDown={handleOnKeyDown}
         />
-        <Button type="button" onClick={handleAddHashtag}>
-          추가
-        </Button>
+        <S.ButtonContainer>
+          <Button type="button" onClick={handleAddHashtag}>
+            추가
+          </Button>
+        </S.ButtonContainer>
       </S.InputAndButtonContainer>
       <S.Error>{error}</S.Error>
       <S.HashtagAndIconContainer>

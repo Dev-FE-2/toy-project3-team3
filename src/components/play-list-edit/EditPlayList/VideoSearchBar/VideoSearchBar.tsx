@@ -31,9 +31,11 @@ const VideoSearchBar = ({ handleSearch }: SearchBarProps) => {
         onChange={(e) => setCurrentQuery(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-      <Button type="button" color="secondary" onClick={handleSearchQuery}>
-        검색
-      </Button>
+      <S.ButtonContainer>
+        <Button type="button" color="secondary" onClick={handleSearchQuery}>
+          검색
+        </Button>
+      </S.ButtonContainer>
     </S.InputAndButtonWrapper>
   );
 };
