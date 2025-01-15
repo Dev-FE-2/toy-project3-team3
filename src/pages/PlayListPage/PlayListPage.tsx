@@ -1,5 +1,5 @@
-const PlayListPage = () => {
-  return <div>PlayListPage</div>;
+const PlaylistPage = () => {
+  return <div>PlaylistPage</div>;
 };
 
-export default PlayListPage;
+export default PlaylistPage;

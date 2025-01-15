@@ -10,19 +10,6 @@ export const ContentsForm = styled.form`
 
 export const ContentsInput = styled(Input)`
   width: 100%;
-  /* border-color: ${({ theme }) => theme.colors.gray.medium};
-  &:focus {
-    border: none;
-  } */
 `;
 
-export const {
-  FormContainer,
-  FormTitle,
-  Form,
-  FormField,
-  FormInput,
-  FormInputw,
-  SubmitButton,
-  ToOtherPageText,
-} = FormStyle;
+export const { FormContainer, FormInput } = FormStyle;

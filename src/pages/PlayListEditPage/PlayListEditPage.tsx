@@ -1,25 +1,17 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as S from './PlayListEditPage.styles';
-import {
-  Backward,
-  EditContents,
-  EditPlayList,
-  EditThumbnail,
-} from '@/components';
+import * as S from './PlaylistEditPage.styles';
+import { Backward, EditContents, EditPlayList } from '@/components';
 import { playListEditSchema } from '@/schemas/play-list-edit/playListEditSchema';
-import type { CategoryType, PlayListEditFormValues, Video } from '@/types';
+import type { CategoryType, PlayListEditFormValues } from '@/types';
 
-const PlayListEditPage = () => {
+const PlaylistEditPage = () => {
   const methods = useForm<PlayListEditFormValues>({
     resolver: zodResolver(playListEditSchema),
     defaultValues: {
       title: '',
       description: '',
       category: 'notSelected',
-      thumbnailUrl: '',
-      hashtags: [],
-      playLists: [],
     },
   });
 
@@ -27,9 +19,6 @@ const PlayListEditPage = () => {
     title: string;
     description: string;
     category: CategoryType;
-    thumbnailUrl: string;
-    hashtags: string[];
-    playLists: Video[];
   }) => {
     console.log(data);
 
@@ -42,7 +31,6 @@ const PlayListEditPage = () => {
       <S.PlayListEditPageWrapper>
         <Backward />
         <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
-          <EditThumbnail />
           <EditContents />
           <EditPlayList />
           <S.SubmitButton type="submit">저장</S.SubmitButton>
@@ -52,4 +40,4 @@ const PlayListEditPage = () => {
   );
 };
 
-export default PlayListEditPage;
+export default PlaylistEditPage;
