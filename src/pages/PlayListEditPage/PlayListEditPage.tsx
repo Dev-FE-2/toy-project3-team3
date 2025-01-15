@@ -15,7 +15,6 @@ const PlaylistEditPage = () => {
   const [playlists] = useAtom(playListAtom);
   const setPlaylistError = useSetAtom(playlistErrorAtom);
   const { user } = useAuthStateChange();
-  console.log(user);
   const methods = useForm<PlayListEditFormValues>({
     resolver: zodResolver(playListEditSchema),
     defaultValues: {
@@ -30,7 +29,6 @@ const PlaylistEditPage = () => {
     useFetchCategoryByCategoryNameEn(watchedCategory);
 
   const handleOnSubmit = async (data: PlayListEditFormValues) => {
-    console.log('호출!');
     if (playlists.length === 0) {
       setPlaylistError('영상을 추가해주세요.');
       return;

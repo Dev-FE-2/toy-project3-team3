@@ -12,9 +12,6 @@ const EditContents = () => {
   } = useFormContext<PlayListEditFormValues>();
   const watchedTitle = watch('title');
   const watchedDescription = watch('description');
-  const watchedCategory = watch('category');
-
-  console.log(watchedCategory);
 
   return (
     <S.ContentsForm>
