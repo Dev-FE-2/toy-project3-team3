@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Button } from '@/components/common';
+import * as S from './VideoSearchBar.styles';
+import { Button, Input } from '@/components/common';
 
 type SearchBarProps = {
   handleSearch: (q: string) => void;
@@ -14,23 +15,26 @@ const VideoSearchBar = ({ handleSearch }: SearchBarProps) => {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
       handleSearchQuery();
     }
   };
 
   return (
-    <div>
-      <input
+    <S.InputAndButtonWrapper>
+      <Input
         type="text"
+        placeholder="검색어를 입력해주세요."
+        id="영상 검색어"
+        label="검색어"
         value={currentQuery}
         onChange={(e) => setCurrentQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="검색어를 입력해주세요."
       />
       <Button type="button" color="secondary" onClick={handleSearchQuery}>
         검색
       </Button>
-    </div>
+    </S.InputAndButtonWrapper>
   );
 };
 
