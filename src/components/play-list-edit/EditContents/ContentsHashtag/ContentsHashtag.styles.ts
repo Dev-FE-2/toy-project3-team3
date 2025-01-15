@@ -5,11 +5,6 @@ export const Wrapper = styled.div`
   width: 100%;
 `;
 
-export const TempInput = styled.input`
-  border: 1px solid black;
-  width: 100%;
-`;
-
 export const InputAndButtonContainer = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.space.md};
@@ -35,6 +30,11 @@ export const Hashtags = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+export const Error = styled.div`
+  font-size: ${({ theme }) => theme.fontSize.xsm};
+  color: ${({ theme }) => theme.colors.error};
 `;
 
 export const { FormField, FormInput } = FormStyle;
