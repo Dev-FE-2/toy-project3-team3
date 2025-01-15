@@ -13,8 +13,8 @@ const Auth = ({ children }: AuthProps) => {
   const isAuthPath = AUTH_PATHS.includes(pathname);
 
   console.log({
-    user,
-    pathname,
+    nickname: user?.nickname,
+    shortIntro: user?.shortIntro,
   });
 
   if (!user && !isPublicRoute) return <Navigate to={SIGN_IN} replace />;
