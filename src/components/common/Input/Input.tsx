@@ -69,6 +69,7 @@ export const Input = forwardRef<
     watchedValue, //react-hook-form 쓸때 값 감지
     value, //onCange 쓸때 값 감지
     validatedMessage,
+    onKeyDown,
     ...rest
   } = props;
   const textInputProps = {
@@ -88,8 +89,10 @@ export const Input = forwardRef<
       <S.StyledTextInput
         ref={ref as Ref<HTMLInputElement>}
         {...(textInputProps as InputHTMLAttributes<HTMLInputElement>)}
+        value={value}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={onKeyDown}
       />
       {errorMessage && errorMessage !== '.' ? (
         <S.BaseMessage

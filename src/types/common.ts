@@ -166,6 +166,7 @@ interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
   id: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<T>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<T>) => void;
   onBlur?: (
     e:
       | React.FocusEvent<HTMLInputElement>
