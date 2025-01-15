@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "__Host-GAPS",
+      "value": "1:WM1k81e_YM4UKHPxSQ6ushFeGFvxnw:4xQowU3NxdOyrBs_",
+      "domain": "accounts.google.com",
+      "path": "/",
+      "expires": 1771502242.888534,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OTZ",
+      "value": "7910637_20_20__20_",
+      "domain": "accounts.google.com",
+      "path": "/",
+      "expires": 1739534244,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "520=heVC74rvVGI_Ez2HAzLeHzP_QRUOR8oZ6su_HUR-Tz2HNy48igJlYA9kjonDqdHJ4-UYCzTU2a7s5xvMFFljsRpvg_3VbpoIc-DrSYh-omCrkBOA7UYy0Xor8tGZrk1r0vx8wCjBU7EpYP1HHiBBdHx85hZD0RDxrd-ReKNfIUxn4xuinN_jiyXa7j5M4SMP7CaE",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1752753446.451727,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}
