@@ -8,8 +8,8 @@ export const Layout = () => {
   const { user } = useAuth();
   return (
     <S.MainContainer>
-      {user ? <Header /> : null}
-      <S.OutletContainer $hasHeader={!!user}>
+      <Header />
+      <S.OutletContainer id="outlet" $hasHeader={!!user}>
         <Outlet />
       </S.OutletContainer>
       <Nav />
