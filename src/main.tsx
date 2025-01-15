@@ -9,7 +9,7 @@ import {
 import { queryClient } from './apis';
 import { ErrorBoundary } from 'react-error-boundary';
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
-import { SupabaseProvider } from './supabase/SupabaseContext.tsx';
+import { SupabaseProvider } from '@/contexts/SupabaseProvider';
 import { DeferredLoader, ErrorFallback } from './components';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@/styles/theme';

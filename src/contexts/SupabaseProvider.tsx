@@ -1,17 +1,11 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '../apis/supabase';
-import { Session, User } from '@supabase/supabase-js';
-
-type SupabaseContextType = {
-  session: Session | null;
-  user: User | null;
-};
+import { SupabaseContext } from '@/contexts/SupabaseContext';
 
 type SupabaseProviderProps = {
   children: ReactNode;
 };
-
-const SupabaseContext = createContext<SupabaseContextType | null>(null);
 
 export function SupabaseProvider({ children }: SupabaseProviderProps) {
   const [session, setSession] = useState<Session | null>(null);
@@ -43,13 +37,4 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
       {children}
     </SupabaseContext.Provider>
   );
-}
-
-export function useSupabase() {
-  const context = React.useContext(SupabaseContext);
-  if (!context) {
-    throw new Error(
-      '❌useSupabase를 사용하려면 SupabaseProvider의 내부에 작성해야 합니다.',
-    );
-  }
 }
