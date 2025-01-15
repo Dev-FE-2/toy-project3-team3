@@ -8,13 +8,13 @@ import { IoArrowBack } from 'react-icons/io5';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { GoBell } from 'react-icons/go';
 import { IoSearch } from 'react-icons/io5';
-import { RxDragHandleHorizontal } from 'react-icons/rx';
 import { IoCloseSharp } from 'react-icons/io5';
 import { HiOutlineHome } from 'react-icons/hi';
 import { IoPersonOutline } from 'react-icons/io5';
 import { LuKey } from 'react-icons/lu';
 import { IoPeopleOutline } from 'react-icons/io5';
 import { IoMenu } from 'react-icons/io5';
+import { MdDragHandle, MdDragIndicator } from 'react-icons/md';
 
 const IconButton = css`
   display: flex;
@@ -91,9 +91,14 @@ export const CancleIcon = styled(IoCloseSharp)`
   color: ${({ theme }) => theme.colors.gray.extraDark};
 `;
 
-export const DragIcon = styled(RxDragHandleHorizontal)`
+export const DragIcon = styled(MdDragIndicator)`
   ${IconButton}
 `;
+
+export const BottomSheedIcon = styled(MdDragHandle)`
+  ${IconButton}
+`;
+
 export const MenuIcon = styled(IoMenu)`
   ${IconButton};
   &:hover {

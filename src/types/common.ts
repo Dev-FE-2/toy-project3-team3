@@ -13,6 +13,7 @@ export type IconType =
   | 'alarm'
   | 'search'
   | 'drag'
+  | 'bottomSheet'
   | 'home'
   | 'searchNav'
   | 'signUp'
