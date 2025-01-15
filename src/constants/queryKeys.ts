@@ -19,4 +19,5 @@ export const QUERY_KEYS = {
   SUBSCRIBES: 'subscribes',
   LIKE: 'like',
   LIKES: 'likes',
+  YOUTUBE_SEARCH: 'youtubeSearch',
 };
