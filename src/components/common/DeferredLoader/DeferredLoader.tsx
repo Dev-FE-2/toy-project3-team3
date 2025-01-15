@@ -1,5 +1,5 @@
 import * as S from './DeferredLoader.styles';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const Loader = () => {
   return (
@@ -15,14 +15,14 @@ const Loader = () => {
 const DeferredLoader = () => {
   const [isDeferred, setIsDeferred] = useState(false);
 
-  useEffect(() => {
-    const id = setTimeout(() => {
+  const handleDeferred = () => {
+    setTimeout(() => {
       setIsDeferred(true);
     }, 200);
-    return () => clearTimeout(id);
-  }, []);
+  };
 
   if (!isDeferred) {
+    handleDeferred();
     return null;
   }
 

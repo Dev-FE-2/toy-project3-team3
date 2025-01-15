@@ -9,8 +9,9 @@ import {
 import { queryClient } from './apis';
 import { ErrorBoundary } from 'react-error-boundary';
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
-import { SupabaseProvider } from './supabase/SupabaseContext.tsx';
 import { DeferredLoader, ErrorFallback } from './components';
+import { AuthProvider } from './contexts/auth';
+import { AlertProvider } from '@/components';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@/styles/theme';
 import GlobalStyles from '@/styles/GlobalStyles';
@@ -20,21 +21,23 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <SupabaseProvider>
-        <QueryClientProvider client={queryClient}>
-          <QueryErrorResetBoundary>
-            {({ reset }) => (
-              <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
-                <NuqsAdapter>
-                  <Suspense fallback={<DeferredLoader />}>
-                    <RouterProvider router={router} />
-                  </Suspense>
-                </NuqsAdapter>
-              </ErrorBoundary>
-            )}
-          </QueryErrorResetBoundary>
-        </QueryClientProvider>
-      </SupabaseProvider>
+      <QueryClientProvider client={queryClient}>
+        <QueryErrorResetBoundary>
+          {({ reset }) => (
+            <ErrorBoundary onReset={reset} FallbackComponent={ErrorFallback}>
+              <NuqsAdapter>
+                <Suspense fallback={<DeferredLoader />}>
+                  <AuthProvider>
+                    <AlertProvider>
+                      <RouterProvider router={router} />
+                    </AlertProvider>
+                  </AuthProvider>
+                </Suspense>
+              </NuqsAdapter>
+            </ErrorBoundary>
+          )}
+        </QueryErrorResetBoundary>
+      </QueryClientProvider>
     </ThemeProvider>
   </StrictMode>,
 );

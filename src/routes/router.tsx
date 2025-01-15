@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Layout, AuthLayout } from '@/components';
+import { Layout } from '@/components';
 import {
   AlertPage,
   HomePage,
@@ -18,7 +18,7 @@ import {
   NotFoundPage,
 } from '@/pages';
 import { ROUTES } from '@/constants';
-import { ErrorFallback } from '@/components';
+import { ErrorFallback, Auth } from '@/components';
 
 const {
   HOME,
@@ -35,23 +35,24 @@ const {
   SIGN_UP,
   USER_FOLLOW,
   USER,
+  AUTH_CALLBACK,
   NOT_FOUND,
 } = ROUTES;
 
 const router = createBrowserRouter([
   {
-    element: <AuthLayout />,
+    element: (
+      <Auth>
+        <Layout />
+      </Auth>
+    ),
     errorElement: <ErrorFallback />,
     children: [
       { path: SIGN_IN, element: <SignInPage /> },
       { path: SIGN_UP, element: <SignUpPage /> },
-    ],
-  },
-  {
-    element: <Layout />,
-    errorElement: <ErrorFallback />,
-    children: [
+      { path: AUTH_CALLBACK, element: <HomePage /> }, // 구글 로그인 콜백
       { path: HOME, element: <HomePage /> },
+      { path: SEARCH, element: <SearchPage /> },
       { path: ALERT, element: <AlertPage /> },
       { path: MY_COMMENT, element: <MyCommentPage /> },
       { path: MY_FOLLOWING, element: <MyFollowingPage /> },
@@ -60,7 +61,6 @@ const router = createBrowserRouter([
       { path: MY_INFO_EDIT, element: <MyInfoEditPage /> },
       { path: PLAY_LIST_EDIT, element: <PlayListEditPage /> },
       { path: PLAY_LIST, element: <PlayListPage /> },
-      { path: SEARCH, element: <SearchPage /> },
       { path: USER_FOLLOW, element: <UserFollowPage /> },
       { path: USER, element: <UserPage /> },
     ],

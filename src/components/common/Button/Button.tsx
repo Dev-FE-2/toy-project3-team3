@@ -34,5 +34,5 @@ export default Button;
   </Button>
 
   // circle 버튼
-  <Button borderType="circle" disabled={false} />
+  <Button borderType="circle"/>
  */

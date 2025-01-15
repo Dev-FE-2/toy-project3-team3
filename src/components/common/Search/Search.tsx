@@ -1,5 +1,5 @@
 import * as S from './Search.styles';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useQueryState } from 'nuqs';
 import { Icon } from '@/components/common';
 import { SearchProps } from '@/types';
@@ -10,16 +10,7 @@ const Search = ({
 }: SearchProps) => {
   const [query, setQuery] = useQueryState(queryKey);
   const [inputValue, setInputValue] = useState(query ?? '');
-  const inputRef = useRef<HTMLInputElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -46,11 +37,11 @@ const Search = ({
       <S.SearchInput
         id="search-input"
         type="search"
-        ref={inputRef}
-        value={query ?? ''}
+        value={inputValue}
         onChange={handleChange}
         placeholder={placeholder}
         aria-label="검색어 입력"
+        autoComplete="off"
       />
       <Icon type="search" onClick={handleSearchIconClick} />
     </S.SearchContainer>

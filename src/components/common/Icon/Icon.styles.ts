@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { StyledNavProps } from '@/types';
 import { GoHeart } from 'react-icons/go';
 import { GoHeartFill } from 'react-icons/go';
 import { HiMiniBookmark } from 'react-icons/hi2';
@@ -9,6 +10,11 @@ import { GoBell } from 'react-icons/go';
 import { IoSearch } from 'react-icons/io5';
 import { RxDragHandleHorizontal } from 'react-icons/rx';
 import { IoCloseSharp } from 'react-icons/io5';
+import { HiOutlineHome } from 'react-icons/hi';
+import { IoPersonOutline } from 'react-icons/io5';
+import { LuKey } from 'react-icons/lu';
+import { IoPeopleOutline } from 'react-icons/io5';
+import { IoMenu } from 'react-icons/io5';
 
 const IconButton = css`
   display: flex;
@@ -77,7 +83,7 @@ export const SearchIcon = styled(IoSearch)`
 
 export const BackwardIcon = styled(IoArrowBack)`
   ${IconButton};
-  color: #000;
+  color: ${({ theme }) => theme.colors.gray.extraDark};
 `;
 
 export const CancleIcon = styled(IoCloseSharp)`
@@ -88,3 +94,45 @@ export const CancleIcon = styled(IoCloseSharp)`
 export const DragIcon = styled(RxDragHandleHorizontal)`
   ${IconButton}
 `;
+export const MenuIcon = styled(IoMenu)`
+  ${IconButton};
+  &:hover {
+    color: ${({ theme }) => theme.colors.gray.extraDark};
+  }
+`;
+
+// Nav
+export const NavItem = styled.div<StyledNavProps>`
+  width: ${({ theme }) => theme.fontSize.xxlg};
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: ${({ theme, $isActive }) =>
+    $isActive ? theme.fontWeight.bold : theme.fontWeight.regular};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.colors.accent : theme.colors.gray.medium};
+  transition: color 0.3s;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.accent};
+  }
+`;
+
+export const NavText = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.xsm};
+`;
+
+export const EmptySpace = styled.div`
+  width: ${({ theme }) => theme.fontSize.lg}; // 아이콘 크기랑 동일
+  height: ${({ theme }) => theme.fontSize.lg};
+  visibility: hidden;
+`;
+
+export const HomeIcon = styled(HiOutlineHome)``;
+export const SearchNavIcon = styled(IoSearch)``;
+export const SignUpIcon = styled(IoPersonOutline)``;
+export const SignInIcon = styled(LuKey)``;
+export const FollowingIcon = styled(IoPeopleOutline)``;

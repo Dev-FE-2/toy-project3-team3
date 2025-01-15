@@ -9,7 +9,28 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      ALERT: {
+      ALERT_TYPES: {
+        Row: {
+          alert_type: string;
+          alert_type_id: string;
+          created_at: string;
+          message: string;
+        };
+        Insert: {
+          alert_type: string;
+          alert_type_id?: string;
+          created_at?: string;
+          message: string;
+        };
+        Update: {
+          alert_type?: string;
+          alert_type_id?: string;
+          created_at?: string;
+          message?: string;
+        };
+        Relationships: [];
+      };
+      ALERTS: {
         Row: {
           alert_id: string;
           alert_type_id: string;
@@ -39,45 +60,24 @@ export type Database = {
             foreignKeyName: 'ALERT_alert_type_id_fkey';
             columns: ['alert_type_id'];
             isOneToOne: false;
-            referencedRelation: 'ALERT_TYPE';
+            referencedRelation: 'ALERT_TYPES';
             referencedColumns: ['alert_type_id'];
           },
           {
             foreignKeyName: 'ALERT_from_user_id_fkey';
             columns: ['from_user_id'];
             isOneToOne: false;
-            referencedRelation: 'USER';
+            referencedRelation: 'USERS';
             referencedColumns: ['user_id'];
           },
           {
             foreignKeyName: 'ALERT_to_user_id_fkey';
             columns: ['to_user_id'];
             isOneToOne: false;
-            referencedRelation: 'USER';
+            referencedRelation: 'USERS';
             referencedColumns: ['user_id'];
           },
         ];
-      };
-      ALERT_TYPE: {
-        Row: {
-          alert_type: string;
-          alert_type_id: string;
-          created_at: string;
-          message: string;
-        };
-        Insert: {
-          alert_type: string;
-          alert_type_id?: string;
-          created_at?: string;
-          message: string;
-        };
-        Update: {
-          alert_type?: string;
-          alert_type_id?: string;
-          created_at?: string;
-          message?: string;
-        };
-        Relationships: [];
       };
       COMMENTS: {
         Row: {
@@ -116,19 +116,19 @@ export type Database = {
             foreignKeyName: 'COMMENTS_target_playlist_id_fkey';
             columns: ['target_playlist_id'];
             isOneToOne: false;
-            referencedRelation: 'PLAYLIST';
+            referencedRelation: 'PLAYLISTS';
             referencedColumns: ['playlist_id'];
           },
           {
             foreignKeyName: 'COMMENTS_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
-            referencedRelation: 'USER';
+            referencedRelation: 'USERS';
             referencedColumns: ['user_id'];
           },
         ];
       };
-      FOLLOW: {
+      FOLLOWS: {
         Row: {
           created_at: string;
           follow_id: string;
@@ -152,19 +152,19 @@ export type Database = {
             foreignKeyName: 'FOLLOW_follower_user_id_fkey';
             columns: ['follower_user_id'];
             isOneToOne: false;
-            referencedRelation: 'USER';
+            referencedRelation: 'USERS';
             referencedColumns: ['user_id'];
           },
           {
             foreignKeyName: 'FOLLOW_following_user_id_fkey';
             columns: ['following_user_id'];
             isOneToOne: false;
-            referencedRelation: 'USER';
+            referencedRelation: 'USERS';
             referencedColumns: ['user_id'];
           },
         ];
       };
-      HASHTAG: {
+      HASHTAGS: {
         Row: {
           created_at: string;
           hashtag_id: string;
@@ -188,7 +188,7 @@ export type Database = {
             foreignKeyName: 'HASHTAG_playlist_id_fkey';
             columns: ['playlist_id'];
             isOneToOne: false;
-            referencedRelation: 'PLAYLIST';
+            referencedRelation: 'PLAYLISTS';
             referencedColumns: ['playlist_id'];
           },
         ];
@@ -227,19 +227,51 @@ export type Database = {
             foreignKeyName: 'LIKES_playlist_id_fkey';
             columns: ['playlist_id'];
             isOneToOne: false;
-            referencedRelation: 'PLAYLIST';
+            referencedRelation: 'PLAYLISTS';
             referencedColumns: ['playlist_id'];
           },
           {
             foreignKeyName: 'LIKES_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
-            referencedRelation: 'USER';
+            referencedRelation: 'USERS';
             referencedColumns: ['user_id'];
           },
         ];
       };
-      PLAYLIST: {
+      PLAYLIST_VIDEOS: {
+        Row: {
+          created_at: string;
+          order: number;
+          playlist_id: string;
+          playlist_videos_id: string;
+          video_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          order?: number;
+          playlist_id: string;
+          playlist_videos_id?: string;
+          video_id: string;
+        };
+        Update: {
+          created_at?: string;
+          order?: number;
+          playlist_id?: string;
+          playlist_videos_id?: string;
+          video_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'PLAYLIST_VIDEOS_playlist_id_fkey';
+            columns: ['playlist_id'];
+            isOneToOne: false;
+            referencedRelation: 'PLAYLISTS';
+            referencedColumns: ['playlist_id'];
+          },
+        ];
+      };
+      PLAYLISTS: {
         Row: {
           category: string | null;
           created_at: string;
@@ -275,44 +307,48 @@ export type Database = {
             foreignKeyName: 'PLAYLIST_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
-            referencedRelation: 'USER';
+            referencedRelation: 'USERS';
             referencedColumns: ['user_id'];
           },
         ];
       };
-      PLAYLIST_VIDEOS: {
+      SUBSCRIBES: {
         Row: {
           created_at: string;
-          order: number;
           playlist_id: string;
-          playlist_videos_id: string;
-          videos_url: string;
+          subscribe_id: string;
+          user_id: string;
         };
         Insert: {
           created_at?: string;
-          order?: number;
           playlist_id: string;
-          playlist_videos_id?: string;
-          videos_url: string;
+          subscribe_id?: string;
+          user_id: string;
         };
         Update: {
           created_at?: string;
-          order?: number;
           playlist_id?: string;
-          playlist_videos_id?: string;
-          videos_url?: string;
+          subscribe_id?: string;
+          user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'PLAYLIST_VIDEOS_playlist_id_fkey';
+            foreignKeyName: 'SUBSCRIBE_playlist_id_fkey';
             columns: ['playlist_id'];
             isOneToOne: false;
-            referencedRelation: 'PLAYLIST';
+            referencedRelation: 'PLAYLISTS';
             referencedColumns: ['playlist_id'];
+          },
+          {
+            foreignKeyName: 'SUBSCRIBE_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'USERS';
+            referencedColumns: ['user_id'];
           },
         ];
       };
-      USER: {
+      USERS: {
         Row: {
           created_at: string;
           email: string;
@@ -344,7 +380,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      delete_user: {
+        Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;

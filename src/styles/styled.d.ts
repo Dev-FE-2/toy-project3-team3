@@ -1,7 +1,8 @@
 import 'styled-components';
+import { Theme } from './theme';
 
 declare module 'styled-components' {
-  export interface DefaultTheme {
+  export interface DefaultTheme extends Theme {
     colors: {
       black: string;
       white: string;
@@ -57,6 +58,16 @@ declare module 'styled-components' {
       lg: string;
       xlg: string;
       xxlg: string;
+    };
+    layout: {
+      nav: {
+        baseHeight: string;
+        withSafeArea: string;
+      };
+      header: {
+        baseHeight: string;
+        withSafeArea: string;
+      };
     };
   }
 }
