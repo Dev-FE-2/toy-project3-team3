@@ -8,7 +8,7 @@ export const ROUTES = {
   MY_INFO_EDIT: '/edit',
   PLAY_LIST_EDIT: '/playlist/:playListId/edit',
   PLAY_LIST: '/playlist/:playListId',
-  PLAY_LIST_ADD: '/add',
+  PLAY_LIST_ADD: '/playlist/add',
   SEARCH: '/search',
   SIGN_IN: '/auth/sign-in',
   SIGN_UP: '/auth/sign-up',
