@@ -74,6 +74,7 @@ export const theme: DefaultTheme = {
       baseHeight: '40px',
       withSafeArea: `max(40px, calc(40px + ${SAFE_AREA.top}))`,
     },
+    width: '768px',
   },
   ...mediaQuery,
 } as const;
