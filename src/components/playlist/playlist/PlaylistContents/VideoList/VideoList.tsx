@@ -1,3 +1,4 @@
+import { VideoItems } from '@/components/playlist/common';
 import { useFetchPlaylistVideoByPlaylistId } from '@/hooks/usePlaylistVideo';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -19,17 +20,28 @@ const VideoList = () => {
     }
   };
 
+  const sortedPlaylistVideoData = playlistVideoData?.sort(
+    (a, b) => a.order - b.order,
+  );
+
   return (
     <>
-      {/* 📌 playlistVideo 테이블에 더 많은 데이터 필요 */}
-      {playlistVideoData?.map((data) => (
-        <div
-          onClick={() => handleOrderChange(data.order.toString())}
-          key={data.playlist_videos_id}
-        >
-          {data.video_id}
-        </div>
-      ))}
+      {sortedPlaylistVideoData?.map((data) => {
+        const formattedData = {
+          id: data.video_id,
+          title: data.video_title,
+          thumbnail: data.video_thumbnail,
+          channelTitle: data.video_channel_title,
+        };
+
+        return (
+          <VideoItems
+            key={data.playlist_videos_id}
+            video={formattedData}
+            onClick={() => handleOrderChange(data.order.toString())}
+          />
+        );
+      })}
     </>
   );
 };

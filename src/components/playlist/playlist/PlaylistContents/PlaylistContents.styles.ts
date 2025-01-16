@@ -9,4 +9,8 @@ export const PlaylistContentsWrapper = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 
-export const { TabsContainer, Btn, TabText, ListContainer } = TabsStyles;
+export const TabsContainer = styled(TabsStyles.TabsContainer)`
+  margin-bottom: ${({ theme }) => theme.space.sm};
+`;
+
+export const { Btn, TabText, ListContainer } = TabsStyles;

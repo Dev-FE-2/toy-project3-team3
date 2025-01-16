@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import * as S from './VideoPlayer.styles';
 import { useFetchPlaylistVideoByPlaylistId } from '@/hooks/usePlaylistVideo';
 
 const VideoPlayer = () => {
@@ -30,9 +31,9 @@ const VideoPlayer = () => {
       if (!playerRef.current || !playingVideo?.video_id) return;
 
       playerInstanceRef.current = new window.YT.Player('youtube-player', {
-        height: '180',
-        width: '320',
-        videoId: playingVideo.video_id,
+        height: '100%',
+        width: '100%',
+        videoId: playingVideo?.video_id,
         playerVars: {
           autoplay: 1,
           controls: 1,
@@ -52,7 +53,11 @@ const VideoPlayer = () => {
     }
   }, [playingVideo]);
 
-  return <div id="youtube-player" ref={playerRef} />;
+  return (
+    <S.PlayerWrapper>
+      <div id="youtube-player" ref={playerRef} />
+    </S.PlayerWrapper>
+  );
 };
 
 export default VideoPlayer;
