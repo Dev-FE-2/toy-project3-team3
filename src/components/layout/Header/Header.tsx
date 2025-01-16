@@ -8,7 +8,7 @@ import { useFetchNotCheckedAlerts } from '@/hooks/useAlerts';
 
 const Header = memo(() => {
   const { pathname } = useLocation();
-  const { USER, HOME } = ROUTES;
+  const { USER } = ROUTES;
   const navigate = useNavigate();
   const { ALERT } = ROUTES;
 
@@ -62,13 +62,13 @@ const Header = memo(() => {
     <S.HeaderContainer $isShow={isShow}>
       <S.Logo />
       <S.RightSection>
-        {currentUser && pathname === HOME ? (
+        {currentUser && (
           <Icon
             type="alarm"
             isActive={hasNewAlarm}
             onClick={handleAlarmClick}
           />
-        ) : null}
+        )}
         {pathname === USER ? (
           <Icon type="menu" onClick={handleMenuClick} />
         ) : null}
