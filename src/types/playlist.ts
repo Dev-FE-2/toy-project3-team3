@@ -18,3 +18,5 @@ declare global {
     onYouTubeIframeAPIReady: () => void;
   }
 }
+
+export type PlaylistOrComment = 'playlist' | 'comment';
