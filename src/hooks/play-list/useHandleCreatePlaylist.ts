@@ -6,10 +6,12 @@ import { PlayListEditFormValues } from '@/types';
 import { formatPlaylists } from '@/utils';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const useHandleCreatePlaylist = (userId: string) => {
   const [thumbnailUrl] = useAtom(thumbnailUrlAtom);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const nav = useNavigate();
   const { mutateAsync: createPlaylist } = useCreatePlaylist();
   const { handleCreateHashtag } = useHandleCreateHashtag();
   const { handleCreatePlaylistVideo } = useHandleCreatePlaylistVideo();
@@ -33,6 +35,8 @@ export const useHandleCreatePlaylist = (userId: string) => {
 
       await handleCreateHashtag(data[0].playlist_id);
       await handleCreatePlaylistVideo(data[0].playlist_id);
+
+      nav(`/playlist/${data[0].playlist_id}`);
 
       console.log('모두 저장 완료!');
     } catch (error) {

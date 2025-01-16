@@ -8,10 +8,11 @@ import { PlayListEditFormValues } from '@/types';
 import { formatPlaylists } from '@/utils';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const useHandleUpdatePlaylist = (userId: string) => {
   const { playListId } = useParams();
+  const nav = useNavigate();
   const [thumbnailUrl] = useAtom(thumbnailUrlAtom);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutateAsync: updatePlaylist } = useUpdatePlaylistByIdAndUserId();
@@ -40,6 +41,8 @@ export const useHandleUpdatePlaylist = (userId: string) => {
       });
       await handleUpdateHashtag();
       await handleUpdatePlaylistVideo();
+
+      nav(`/playlist/${playListId}`);
 
       console.log('모두 저장 완료!');
     } catch (error) {
