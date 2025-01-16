@@ -1,4 +1,4 @@
-import { hashtagAtom, playListAtom } from '@/atoms';
+import { hashtagAtom, playListAtom, thumbnailUrlAtom } from '@/atoms';
 import { useFetchCategoryById } from '@/hooks/useCategory';
 import { useFetchHashtagByPlaylistId } from '@/hooks/useHashtag';
 import { useFetchPlaylistById } from '@/hooks/usePlaylist';
@@ -17,6 +17,7 @@ export const useInitialPlaylistData = (
   const [isInitialized, setIsInitialized] = useState(false);
   const setPlaylists = useSetAtom(playListAtom);
   const setHashtags = useSetAtom(hashtagAtom);
+  const setThumbnailUrl = useSetAtom(thumbnailUrlAtom);
   const { data: playlistData } = useFetchPlaylistById(playListId || '');
   const { data: playlistVideoData } = useFetchPlaylistVideoByPlaylistId(
     playListId || '',
@@ -41,6 +42,7 @@ export const useInitialPlaylistData = (
     const formattedPlaylist = formatPlaylistsOrigin(playlistData);
     setValue('title', formattedPlaylist.title);
     setValue('description', formattedPlaylist.description || '');
+    setThumbnailUrl(formattedPlaylist.thumbnailUrl);
 
     setIsInitialized(true);
   }

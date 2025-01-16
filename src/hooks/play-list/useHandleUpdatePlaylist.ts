@@ -1,3 +1,4 @@
+import { thumbnailUrlAtom } from '@/atoms';
 import {
   useHandleUpdateHashtag,
   useHandleUpdatePlaylistVideo,
@@ -5,11 +6,13 @@ import {
 } from '@/hooks';
 import { PlayListEditFormValues } from '@/types';
 import { formatPlaylists } from '@/utils';
+import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 export const useHandleUpdatePlaylist = (userId: string) => {
   const { playListId } = useParams();
+  const [thumbnailUrl] = useAtom(thumbnailUrlAtom);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutateAsync: updatePlaylist } = useUpdatePlaylistByIdAndUserId();
   const { handleUpdateHashtag } = useHandleUpdateHashtag(playListId || '');
@@ -18,9 +21,17 @@ export const useHandleUpdatePlaylist = (userId: string) => {
   );
 
   const handleUpdatePlaylist = async (playlistData: PlayListEditFormValues) => {
+    const playlistDataWithThumbnailUrl = {
+      ...playlistData,
+      thumbnailUrl,
+    };
+
     try {
       setIsSubmitting(true);
-      const formattedPlaylist = formatPlaylists(userId, playlistData);
+      const formattedPlaylist = formatPlaylists(
+        userId,
+        playlistDataWithThumbnailUrl,
+      );
 
       await updatePlaylist({
         firstId: playListId || '',

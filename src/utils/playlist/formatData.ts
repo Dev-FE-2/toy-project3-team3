@@ -1,4 +1,4 @@
-import type { Database, PlayListEditFormValues, Video } from '@/types';
+import type { Database, PlaylistData, Video } from '@/types';
 
 export const formatPlaylistVideos = (
   playlist_id: string,
@@ -23,12 +23,13 @@ export const formatHashtags = (playlist_id: string, hashtags: string[]) => {
 
 export const formatPlaylists = (
   user_id: string,
-  playlistsData: PlayListEditFormValues,
+  playlistsData: PlaylistData,
 ) => {
   return {
     short_intro: playlistsData.description,
     title: playlistsData.title,
     category_id: playlistsData.category,
+    thumbnail_image: playlistsData.thumbnailUrl,
     user_id,
   };
 };
@@ -52,5 +53,6 @@ export const formatPlaylistsOrigin = (
   return {
     description: playlistsData[0].short_intro,
     title: playlistsData[0].title,
+    thumbnailUrl: playlistsData[0].thumbnail_image,
   };
 };

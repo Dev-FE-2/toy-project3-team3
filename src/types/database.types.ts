@@ -296,6 +296,7 @@ export type Database = {
           title: string;
           updated_at: string;
           user_id: string;
+          thumbnail_image: string | null;
         };
         Insert: {
           category_id?: string;
@@ -305,6 +306,7 @@ export type Database = {
           title: string;
           updated_at?: string;
           user_id: string;
+          thumbnail_image?: string | null;
         };
         Update: {
           category_id?: string;
@@ -314,6 +316,7 @@ export type Database = {
           title?: string;
           updated_at?: string;
           user_id?: string;
+          thumbnail_image?: string | null;
         };
         Relationships: [
           {

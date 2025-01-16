@@ -20,3 +20,7 @@ export interface PlayListEditFormValues {
   description: string;
   category: CategoryType;
 }
+
+export interface PlaylistData extends PlayListEditFormValues {
+  thumbnailUrl: string | null;
+}
