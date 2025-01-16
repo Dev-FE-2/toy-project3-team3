@@ -1,14 +1,23 @@
 import * as S from './Header.styles';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { memo, useEffect, useRef, useState } from 'react';
 import { Icon } from '@/components';
 import { ROUTES } from '@/constants';
+import { useAuth } from '@/hooks';
+import { useFetchNotCheckedAlerts } from '@/hooks/useAlerts';
 
 const Header = memo(() => {
   const { pathname } = useLocation();
-  const { USER } = ROUTES;
+  const { USER, HOME } = ROUTES;
+  const navigate = useNavigate();
+  const { ALERT } = ROUTES;
+
   const handleMenuClick = () => {
     console.log('Hamburger Menu Clicked');
+  };
+
+  const handleAlarmClick = () => {
+    navigate(ALERT);
   };
 
   const [isShow, setIsShow] = useState(true);
@@ -41,10 +50,25 @@ const Header = memo(() => {
     };
   }, []);
 
+  const { user: currentUser } = useAuth();
+  const [hasNewAlarm, setHasNewAlarm] = useState(false);
+  const { data } = useFetchNotCheckedAlerts(currentUser?.userId);
+
+  useEffect(() => {
+    setHasNewAlarm(data?.length === 0 ? false : true);
+  });
+
   return (
     <S.HeaderContainer $isShow={isShow}>
       <S.Logo />
       <S.RightSection>
+        {currentUser && pathname === HOME ? (
+          <Icon
+            type="alarm"
+            isActive={hasNewAlarm}
+            onClick={handleAlarmClick}
+          />
+        ) : null}
         {pathname === USER ? (
           <Icon type="menu" onClick={handleMenuClick} />
         ) : null}
