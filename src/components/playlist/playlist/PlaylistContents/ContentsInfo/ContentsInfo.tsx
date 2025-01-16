@@ -102,7 +102,10 @@ const ContentsInfo = () => {
       </S.FlexContainer>
       <S.HashtagWrapper>
         {hashtagData.map((data) => (
-          <HashTag content={data.hashtag_name} />
+          <HashTag
+            onClick={() => nav(`/search?q=${data.hashtag_name}`)}
+            content={data.hashtag_name}
+          />
         ))}
       </S.HashtagWrapper>
       <S.FlexContainer hasMargin>

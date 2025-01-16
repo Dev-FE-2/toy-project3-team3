@@ -10,4 +10,5 @@ export const UserWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   gap: ${({ theme }) => theme.space.sm};
+  cursor: pointer;
 `;
