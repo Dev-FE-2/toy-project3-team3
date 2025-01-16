@@ -2,27 +2,26 @@ import { Database } from '@/types';
 import * as S from './CommentItems.styles';
 import { Icon } from '@/components/common';
 import { useFetchLikeByCommentId } from '@/hooks/useLike';
-import { useFetchCommentByTargetCommentId } from '@/hooks/useComment';
 import { useNavigate } from 'react-router-dom';
 import { getRelativeTime } from '@/utils';
-import { useFetchUserById } from '@/hooks';
+import {
+  useFetchUserById,
+  useOptimisticLikeToComment,
+  useFetchCommentByTargetCommentId,
+} from '@/hooks';
 import UserProfile from '@/components/playlist/common/UserProfile/UserProfile';
 
 interface CommentItemsProps {
   comment: Database['public']['Tables']['COMMENTS']['Row'];
   hasReply?: boolean;
-  isLike: boolean;
   taggedUserNickname?: string;
-  handleLikeClick: () => void;
   handleCommentClick: (targetComment: string, hasReplies: boolean) => void;
 }
 
 const CommentItems = ({
   comment,
   hasReply,
-  isLike,
   taggedUserNickname,
-  handleLikeClick,
   handleCommentClick,
 }: CommentItemsProps) => {
   const nav = useNavigate();
@@ -31,6 +30,10 @@ const CommentItems = ({
     comment.comments_id,
   );
   const { data: userData } = useFetchUserById(comment.user_id);
+
+  const { handleClickLike, isUserLikeLocal } = useOptimisticLikeToComment(
+    comment.comments_id,
+  );
 
   const relativeTime = getRelativeTime(comment.created_at);
 
@@ -58,7 +61,11 @@ const CommentItems = ({
 
       <S.IconWrapper>
         <S.IconContainer>
-          <Icon type="like" isActive={isLike} onClick={handleLikeClick} />
+          <Icon
+            type="like"
+            isActive={isUserLikeLocal}
+            onClick={() => handleClickLike()}
+          />
           <div>{likeData?.length}</div>
         </S.IconContainer>
         <S.IconContainer>
