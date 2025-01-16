@@ -38,8 +38,6 @@ const PlaylistEditPage = () => {
   const { data: originCategoryData } =
     useFetchCategoryByCategoryNameEn(watchedCategory);
 
-  console.log(playlists);
-
   const handleOnSubmit = async (data: PlayListEditFormValues) => {
     if (playlists.length === 0) {
       setPlaylistError('영상을 추가해주세요.');

@@ -41,7 +41,6 @@ export const useInitialPlaylistData = (
     hashtagData &&
     categoryData
   ) {
-    console.log('호출됨!');
     setPlaylists(formatPlaylistVideosOrigin(playlistVideoData));
     setHashtags(hashtagData.map((data) => data.hashtag_name));
     setValue('category', categoryData[0].category_name_en);

@@ -11,18 +11,10 @@ export const useHandleCreatePlaylistVideo = () => {
     try {
       const formattedPlaylists = formatPlaylistVideos(playlistId, playlists);
       const createPlaylistVideoPromise = formattedPlaylists.map((playlist) =>
-        createPlaylistVideo(playlist, {
-          onSuccess: (data) => {
-            console.log(data);
-          },
-          onError: (data) => {
-            console.error(data);
-          },
-        }),
+        createPlaylistVideo(playlist),
       );
 
       await Promise.all(createPlaylistVideoPromise);
-      console.log('playlistvideo 성공!!!!!!!!!!!!');
     } catch (error) {
       console.error('PLAYLIST_VIDEO 저장 오류: ', error);
     }

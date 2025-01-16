@@ -11,18 +11,10 @@ export const useHandleCreateHashtag = () => {
     try {
       const formattedHashtags = formatHashtags(playlistId, hashtags);
       const createHashtagPromise = formattedHashtags.map((hashtag) =>
-        createHashtag(hashtag, {
-          onSuccess: (data) => {
-            console.log(data);
-          },
-          onError: (data) => {
-            console.error(data);
-          },
-        }),
+        createHashtag(hashtag),
       );
 
       await Promise.all(createHashtagPromise);
-      console.log('hashtag 성공!!!!!!!!!!!!');
     } catch (error) {
       console.error('HASHTAGS 저장 오류: ', error);
     }

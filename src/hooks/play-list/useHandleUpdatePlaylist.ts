@@ -43,8 +43,6 @@ export const useHandleUpdatePlaylist = (userId: string) => {
       await handleUpdatePlaylistVideo();
 
       nav(`/playlist/${playListId}`);
-
-      console.log('모두 저장 완료!');
     } catch (error) {
       console.error('PLAYLIST 저장 오류: ', error);
     } finally {
