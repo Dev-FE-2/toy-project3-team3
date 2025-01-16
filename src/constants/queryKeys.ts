@@ -5,6 +5,7 @@ export const QUERY_KEYS = {
   ALERT_TYPES: 'alertTypes',
   COMMENT: 'comment',
   COMMENTS: 'comments',
+  REPLIES: 'replies',
   HASHTAG: 'hashtag',
   HASHTAGS: 'hashtags',
   PLAYLIST_VIDEO: 'playlistVideo',

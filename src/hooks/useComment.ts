@@ -40,7 +40,7 @@ export const useFetchCommentByTargetPlaylistId = (targetPlaylistId: string) =>
 
 export const useFetchCommentByTargetCommentId = (targetCommentId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['COMMENTS']['Row']>(
-    [QUERY_KEYS.COMMENTS, targetCommentId],
+    [QUERY_KEYS.REPLIES, targetCommentId],
     COMMENTS.BY_TARGET_COMMENT_ID,
     targetCommentId,
   );
