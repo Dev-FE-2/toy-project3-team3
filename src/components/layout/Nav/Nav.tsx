@@ -11,7 +11,7 @@ const Nav = memo(() => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const { HOME, PLAY_LIST_EDIT, SEARCH, SIGN_IN, SIGN_UP, USER_FOLLOW, USER } =
+  const { HOME, PLAY_LIST_EDIT, SEARCH, SIGN_IN, SIGN_UP, MY_FOLLOWING, USER } =
     ROUTES;
 
   const navItems = useMemo(
@@ -44,8 +44,8 @@ const Nav = memo(() => {
       },
       {
         type: 'following',
-        path: USER_FOLLOW,
-        onClick: () => navigate(USER_FOLLOW),
+        path: MY_FOLLOWING,
+        onClick: () => navigate(MY_FOLLOWING),
         showIfUser: true,
       },
       {
@@ -55,7 +55,7 @@ const Nav = memo(() => {
         showIfUser: true,
       },
     ],
-    [navigate, HOME, SEARCH, SIGN_IN, SIGN_UP, USER_FOLLOW, USER],
+    [navigate, HOME, SEARCH, SIGN_IN, SIGN_UP, MY_FOLLOWING, USER],
   );
 
   return (

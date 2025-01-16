@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signInSchema, SignInFormValues } from '@/schemas/user/signInSchema';
 import { useSignIn, useGoogleSignIn } from '@/hooks';
+import { useEffect } from 'react';
 
 const SignInPage = () => {
   const {
@@ -10,6 +11,7 @@ const SignInPage = () => {
     handleSubmit,
     formState: { isSubmitting, errors, touchedFields },
     setError,
+    trigger,
     watch, // 디버깅용
   } = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -19,6 +21,11 @@ const SignInPage = () => {
       password: '',
     },
   });
+
+  // 초기 유효성 검사
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
 
   const watchedEmail = watch('email');
   const watchedPassword = watch('password');

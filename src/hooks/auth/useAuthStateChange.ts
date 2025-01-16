@@ -24,7 +24,9 @@ const useAuthStateChange = () => {
       const userData = await queryClient.fetchQuery({
         queryKey: ['userProfile', session.user.id],
         queryFn: () => fetchUserProfile(session.user.id),
+        staleTime: 0,
       });
+
       if ('error' in userData) throw userData.error;
       const userInfo = {
         userId: session.user.id,
@@ -37,7 +39,7 @@ const useAuthStateChange = () => {
       localStorage.setItem('user', JSON.stringify(userInfo));
       setUser(userInfo);
     } catch (error) {
-      console.error('Failed to update user:', error);
+      console.error('user 업데이트 에러:', error);
     }
   }, []);
 
