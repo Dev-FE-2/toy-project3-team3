@@ -9,6 +9,7 @@ import type { Database } from '@/types';
 
 const { FOLLOWS } = API_ENDPOINTS;
 const followsQueryKey = QUERY_KEYS.FOLLOWS;
+const followingsQueryKey = QUERY_KEYS.FOLLOWINGS;
 
 export const useFetchFollows = () =>
   useFetchDataAll<Database['public']['Tables']['FOLLOWS']['Row']>(
@@ -25,7 +26,7 @@ export const useFetchFollowersByUserId = (userId: string) =>
 
 export const useFetchFollowingsByUserId = (userId: string) =>
   useFetchDataByOneId<Database['public']['Tables']['FOLLOWS']['Row']>(
-    [followsQueryKey, userId],
+    [followingsQueryKey, userId],
     FOLLOWS.FOLLOWINGS_BY_USER_ID,
     userId,
   );
