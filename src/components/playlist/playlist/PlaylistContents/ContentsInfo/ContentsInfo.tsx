@@ -3,11 +3,13 @@ import UserProfile from '@/components/playlist/common/UserProfile/UserProfile';
 import {
   Button,
   Category,
+  Confirm,
   HashTag,
   LikeAndSubscribe,
 } from '@/components/common';
 import {
   useAuth,
+  useDeletePlaylistByIdAndUserId,
   useFetchCommentByTargetPlaylistId,
   useFetchHashtagByPlaylistId,
   useFetchLikeByPlaylistId,
@@ -20,10 +22,13 @@ import {
 } from '@/hooks';
 import { getRelativeTime } from '@/utils';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useOptimisticFollowHandling } from '@/hooks/play-list/useOptimisticFollowHandling';
+import { useState } from 'react';
 
 const ContentsInfo = () => {
   const { user } = useAuth();
   const { playlistId } = useParams();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const nav = useNavigate();
   const { data: playlistData } = useFetchPlaylistById(playlistId || '');
   const { data: commentData } = useFetchCommentByTargetPlaylistId(
@@ -41,6 +46,8 @@ const ContentsInfo = () => {
   const { handleClickLike, isUserLikeLocal, likeCntLocal } = useLikeHandling();
   const { handleClickSubscribe, isUserSubscribeLocal, subscribeCntLocal } =
     useSubscribeHandling();
+  const { handleClickFollow, isFollowLocal } = useOptimisticFollowHandling();
+  const { mutate: deletePlaylist } = useDeletePlaylistByIdAndUserId();
 
   if (
     !playlistId ||
@@ -53,19 +60,18 @@ const ContentsInfo = () => {
     !likeData ||
     !subscribeData
   )
-    return <div>에러</div>; // 📌 로딩 처리 필요~~
+    return <div>에러</div>;
 
   const isPlaylistCreator = playlistData[0].user_id === user.userId;
 
   const relativeTime = getRelativeTime(playlistData[0].created_at);
 
-  const handleDeletePlaylist = () => {};
-  const handleFollowPlaylistCreator = () => {};
+  const handleDeletePlaylist = () => {
+    if (playlistData[0].user_id !== user.userId) return;
 
-  console.log(likeCntLocal);
-  console.log(subscribeCntLocal);
-  console.log(isUserLikeLocal);
-  console.log(isUserSubscribeLocal);
+    deletePlaylist({ firstId: playlistId, secondId: user.userId });
+    nav('/');
+  };
 
   return (
     <>
@@ -109,7 +115,7 @@ const ContentsInfo = () => {
                 수정
               </Button>
               <Button
-                onClick={handleDeletePlaylist}
+                onClick={() => setIsConfirmOpen(true)}
                 color="gray"
                 borderType="round"
                 size="small"
@@ -120,14 +126,26 @@ const ContentsInfo = () => {
           )}
           {isPlaylistCreator || (
             <Button
-              onClick={handleFollowPlaylistCreator}
+              onClick={() => handleClickFollow(user.userId)}
               borderType="round"
               size="small"
+              color={isFollowLocal ? 'gray' : 'primary'}
             >
-              팔로잉
+              {isFollowLocal ? '언팔로잉' : '팔로잉'}
             </Button>
           )}
         </S.ButtonContainer>
+        {isConfirmOpen && (
+          <Confirm
+            content={{
+              text: '플레이리스트를 삭제하시겠습니까?',
+              leftBtn: '확인',
+              rightBtn: '취소',
+            }}
+            onClickLeftBtn={handleDeletePlaylist}
+            onClickRightBtn={() => setIsConfirmOpen(false)}
+          />
+        )}
       </S.FlexContainer>
     </>
   );
