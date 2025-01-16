@@ -11,8 +11,6 @@ const Nav = memo(() => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // 이 부분 수정했습니다
-  // USER_FOLLOW ->MY_FOLLOWING
   const { HOME, PLAY_LIST_EDIT, SEARCH, SIGN_IN, SIGN_UP, MY_FOLLOWING, USER } =
     ROUTES;
 
