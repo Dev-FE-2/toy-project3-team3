@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import { GRAM_LOGO } from '@/constants';
 
 export const HeaderContainer = styled.header.withConfig({
-  shouldForwardProp: (prop) => !['$isShow'].includes(prop),
-})<{ $isShow: boolean }>`
+  shouldForwardProp: (prop) => !['$show'].includes(prop),
+})<{ $show: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  top: ${({ $isShow }) => ($isShow ? '0' : 'calc(-1 * var(--header-height))')};
+  top: ${({ $show }) => ($show ? '0' : 'calc(-1 * var(--header-height))')};
   left: 0;
   right: 0;
   height: var(--header-height);
