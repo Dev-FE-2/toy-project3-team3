@@ -3,14 +3,17 @@ import { useHandleCreateHashtag } from '@/hooks/play-list/useHandleCreateHashtag
 import { useHandleCreatePlaylistVideo } from '@/hooks/play-list/useHandleCreatePlaylistVideo';
 import { PlayListEditFormValues } from '@/types';
 import { formatPlaylists } from '@/utils';
+import { useState } from 'react';
 
 export const useHandleCreatePlaylist = (userId: string) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutateAsync: createPlaylist } = useCreatePlaylist();
   const { handleCreateHashtag } = useHandleCreateHashtag();
   const { handleCreatePlaylistVideo } = useHandleCreatePlaylistVideo();
 
   const handleCreatePlaylist = async (playlistData: PlayListEditFormValues) => {
     try {
+      setIsSubmitting(true);
       const formattedPlaylist = formatPlaylists(userId, playlistData);
 
       const data = await createPlaylist(formattedPlaylist);
@@ -23,8 +26,10 @@ export const useHandleCreatePlaylist = (userId: string) => {
       console.log('모두 저장 완료!');
     } catch (error) {
       console.error('PLAYLIST 저장 오류: ', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  return { handleCreatePlaylist };
+  return { handleCreatePlaylist, isSubmitting };
 };

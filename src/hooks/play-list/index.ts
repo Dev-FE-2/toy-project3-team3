@@ -3,3 +3,7 @@ export * from './useHandleCreateHashtag';
 export * from './useHandleCreatePlaylist';
 export * from './useHandleCreatePlaylistVideo';
 export * from './useBottomSheetDragAndDrop';
+export * from './useHandleUpdateHashtag';
+export * from './useHandleUpdatePlaylist';
+export * from './useHandleUpdatePlaylistVideo';
+export * from './useInitialPlaylistData';

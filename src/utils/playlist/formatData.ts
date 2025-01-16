@@ -1,4 +1,4 @@
-import type { PlayListEditFormValues, Video } from '@/types';
+import type { Database, PlayListEditFormValues, Video } from '@/types';
 
 export const formatPlaylistVideos = (
   playlist_id: string,
@@ -30,5 +30,27 @@ export const formatPlaylists = (
     title: playlistsData.title,
     category_id: playlistsData.category,
     user_id,
+  };
+};
+
+export const formatPlaylistVideosOrigin = (
+  playlistVideoData: Database['public']['Tables']['PLAYLIST_VIDEOS']['Row'][],
+) => {
+  return playlistVideoData
+    .sort((a, b) => a.order - b.order)
+    .map((item) => ({
+      id: item.video_id,
+      title: item.video_title,
+      thumbnail: item.video_thumbnail,
+      channelTitle: item.video_channel_title,
+    }));
+};
+
+export const formatPlaylistsOrigin = (
+  playlistsData: Database['public']['Tables']['PLAYLISTS']['Row'][],
+) => {
+  return {
+    description: playlistsData[0].short_intro,
+    title: playlistsData[0].title,
   };
 };
