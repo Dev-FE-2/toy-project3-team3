@@ -10,12 +10,8 @@ import {
 import {
   useAuth,
   useDeletePlaylistByIdAndUserId,
-  useFetchCommentByTargetPlaylistId,
   useFetchHashtagByPlaylistId,
-  useFetchLikeByPlaylistId,
   useFetchPlaylistById,
-  useFetchPlaylistVideoByPlaylistId,
-  useFetchSubscribeByPlaylistId,
   useFetchUserById,
   useLikeHandling,
   useSubscribeHandling,
@@ -32,18 +28,8 @@ const ContentsInfo = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const nav = useNavigate();
   const { data: playlistData } = useFetchPlaylistById(playlistId || '');
-  const { data: commentData } = useFetchCommentByTargetPlaylistId(
-    playlistId || '',
-  );
-  const { data: playlistVideoData } = useFetchPlaylistVideoByPlaylistId(
-    playlistId || '',
-  );
   const { data: userData } = useFetchUserById(playlistData?.[0]?.user_id || '');
   const { data: hashtagData } = useFetchHashtagByPlaylistId(playlistId || '');
-  const { data: likeData } = useFetchLikeByPlaylistId(playlistId || '');
-  const { data: subscribeData } = useFetchSubscribeByPlaylistId(
-    playlistId || '',
-  );
   const { data: categoryData } = useFetchCategoryById(
     playlistData?.[0].category_id || '',
   );
@@ -57,12 +43,8 @@ const ContentsInfo = () => {
     !playlistId ||
     !user ||
     !playlistData ||
-    !commentData ||
-    !playlistVideoData ||
     !userData ||
     !hashtagData ||
-    !likeData ||
-    !subscribeData ||
     !categoryData
   )
     return <div>에러</div>;
