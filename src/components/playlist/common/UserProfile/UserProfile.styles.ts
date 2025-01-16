@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const UserNickname = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 

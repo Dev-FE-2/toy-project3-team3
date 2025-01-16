@@ -24,6 +24,7 @@ import { getRelativeTime } from '@/utils';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useOptimisticFollowHandling } from '@/hooks/play-list/useOptimisticFollowHandling';
 import { useState } from 'react';
+import { useFetchCategoryById } from '@/hooks/useCategory';
 
 const ContentsInfo = () => {
   const { user } = useAuth();
@@ -43,6 +44,9 @@ const ContentsInfo = () => {
   const { data: subscribeData } = useFetchSubscribeByPlaylistId(
     playlistId || '',
   );
+  const { data: categoryData } = useFetchCategoryById(
+    playlistData?.[0].category_id || '',
+  );
   const { handleClickLike, isUserLikeLocal, likeCntLocal } = useLikeHandling();
   const { handleClickSubscribe, isUserSubscribeLocal, subscribeCntLocal } =
     useSubscribeHandling();
@@ -58,7 +62,8 @@ const ContentsInfo = () => {
     !userData ||
     !hashtagData ||
     !likeData ||
-    !subscribeData
+    !subscribeData ||
+    !categoryData
   )
     return <div>에러</div>;
 
@@ -81,7 +86,9 @@ const ContentsInfo = () => {
       </S.FlexContainer>
       <S.ShortIntro>{playlistData[0].short_intro}</S.ShortIntro>
       <S.FlexContainer hasMargin>
-        <Category type="mark" content={playlistData[0].category_id || ''} />
+        <S.CategoryContainer>
+          <Category type="mark" content={categoryData[0].category_name_ko} />
+        </S.CategoryContainer>
         <LikeAndSubscribe
           likeCnt={likeCntLocal}
           subscribeCnt={subscribeCntLocal}

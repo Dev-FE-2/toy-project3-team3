@@ -28,6 +28,7 @@ export const HashtagWrapper = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.space.sm};
   margin-bottom: ${({ theme }) => theme.space.sm};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 export const FlexContainer = styled.div<{ hasMargin?: boolean }>`
@@ -41,4 +42,8 @@ export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: ${({ theme }) => theme.space.sm};
+`;
+
+export const CategoryContainer = styled.div`
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
