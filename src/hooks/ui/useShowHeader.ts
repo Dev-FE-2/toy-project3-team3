@@ -6,9 +6,11 @@ const useShowHeader = () => {
   const lastScrollY = useRef(0);
 
   const { user } = useAuth();
-  if (!user) setShowHeader(false);
 
   useEffect(() => {
+    if (!user && showHeader) setShowHeader(false);
+    if (!user) return;
+
     const scrollTarget = document.getElementById('outlet');
 
     const handleScroll = () => {
@@ -33,7 +35,7 @@ const useShowHeader = () => {
     return () => {
       scrollTarget?.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [user, showHeader]);
 
   return showHeader;
 };
