@@ -26,7 +26,9 @@ const PlaylistEditPage = () => {
       category: 'notSelected',
     },
   });
+
   const { isLoading } = useInitialPlaylistData(methods.setValue);
+
   const watchedCategory = methods.watch('category');
   const { handleCreatePlaylist, isSubmitting: isCreateSubmitting } =
     useHandleCreatePlaylist(user?.userId || '');

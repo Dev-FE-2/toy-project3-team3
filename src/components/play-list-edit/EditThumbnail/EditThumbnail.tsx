@@ -31,7 +31,7 @@ const EditThumbnail = () => {
 
   const thumbnailPreview =
     thumbnailUrl ||
-    playlists[0].thumbnail ||
+    playlists[0]?.thumbnail ||
     'https://sshfuyezplxjsinnfdzx.supabase.co/storage/v1/object/public/GRAM/PLAYLIST_THUMBNAIL_IMAGE/aa8c604d-93fb-4b18-8d93-69b2712b6af7.png';
 
   return (

@@ -1,11 +1,16 @@
-import { hashtagAtom, playListAtom, thumbnailUrlAtom } from '@/atoms';
+import {
+  editModeAtom,
+  hashtagAtom,
+  playListAtom,
+  thumbnailUrlAtom,
+} from '@/atoms';
 import { useFetchCategoryById } from '@/hooks/useCategory';
 import { useFetchHashtagByPlaylistId } from '@/hooks/useHashtag';
 import { useFetchPlaylistById } from '@/hooks/usePlaylist';
 import { useFetchPlaylistVideoByPlaylistId } from '@/hooks/usePlaylistVideo';
 import { PlayListEditFormValues } from '@/types';
 import { formatPlaylistsOrigin, formatPlaylistVideosOrigin } from '@/utils';
-import { useSetAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { useState } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -13,6 +18,7 @@ import { useParams } from 'react-router-dom';
 export const useInitialPlaylistData = (
   setValue: UseFormSetValue<PlayListEditFormValues>,
 ) => {
+  const [editMode] = useAtom(editModeAtom);
   const { playListId } = useParams();
   const [isInitialized, setIsInitialized] = useState(false);
   const setPlaylists = useSetAtom(playListAtom);
@@ -28,6 +34,7 @@ export const useInitialPlaylistData = (
   );
 
   if (
+    editMode === 'modify' &&
     !isInitialized &&
     playlistData &&
     playlistVideoData &&
@@ -49,7 +56,8 @@ export const useInitialPlaylistData = (
 
   return {
     isLoading:
-      !playlistData || !playlistVideoData || !hashtagData || !categoryData,
+      editMode === 'modify' &&
+      (!playlistData || !playlistVideoData || !hashtagData || !categoryData),
     isInitialized,
   };
 };
