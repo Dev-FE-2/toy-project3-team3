@@ -7,6 +7,7 @@ import {
   LikeAndSubscribe,
 } from '@/components/common';
 import {
+  useAuth,
   useFetchCommentByTargetPlaylistId,
   useFetchHashtagByPlaylistId,
   useFetchLikeByPlaylistId,
@@ -14,14 +15,16 @@ import {
   useFetchPlaylistVideoByPlaylistId,
   useFetchSubscribeByPlaylistId,
   useFetchUserById,
+  useLikeHandling,
+  useSubscribeHandling,
 } from '@/hooks';
 import { getRelativeTime } from '@/utils';
+import { useNavigate, useParams } from 'react-router-dom';
 
-interface ContentsInfoProps {
-  playlistId: string;
-}
-
-const ContentsInfo = ({ playlistId }: ContentsInfoProps) => {
+const ContentsInfo = () => {
+  const { user } = useAuth();
+  const { playlistId } = useParams();
+  const nav = useNavigate();
   const { data: playlistData } = useFetchPlaylistById(playlistId || '');
   const { data: commentData } = useFetchCommentByTargetPlaylistId(
     playlistId || '',
@@ -35,8 +38,13 @@ const ContentsInfo = ({ playlistId }: ContentsInfoProps) => {
   const { data: subscribeData } = useFetchSubscribeByPlaylistId(
     playlistId || '',
   );
+  const { handleClickLike, isUserLikeLocal, likeCntLocal } = useLikeHandling();
+  const { handleClickSubscribe, isUserSubscribeLocal, subscribeCntLocal } =
+    useSubscribeHandling();
 
   if (
+    !playlistId ||
+    !user ||
     !playlistData ||
     !commentData ||
     !playlistVideoData ||
@@ -47,10 +55,17 @@ const ContentsInfo = ({ playlistId }: ContentsInfoProps) => {
   )
     return <div>에러</div>; // 📌 로딩 처리 필요~~
 
+  const isPlaylistCreator = playlistData[0].user_id === user.userId;
+
   const relativeTime = getRelativeTime(playlistData[0].created_at);
 
-  const handleClickLike = () => {};
-  const handleClickSubscribe = () => {};
+  const handleDeletePlaylist = () => {};
+  const handleFollowPlaylistCreator = () => {};
+
+  console.log(likeCntLocal);
+  console.log(subscribeCntLocal);
+  console.log(isUserLikeLocal);
+  console.log(isUserSubscribeLocal);
 
   return (
     <>
@@ -62,12 +77,14 @@ const ContentsInfo = ({ playlistId }: ContentsInfoProps) => {
       <S.FlexContainer hasMargin>
         <Category type="mark" content={playlistData[0].category_id || ''} />
         <LikeAndSubscribe
-          likeCnt={likeData.length}
-          subscribeCnt={subscribeData.length}
-          isLiked={false}
-          isSubscribed={false}
-          onLikeClick={handleClickLike}
-          onSubscribeClick={handleClickSubscribe}
+          likeCnt={likeCntLocal}
+          subscribeCnt={subscribeCntLocal}
+          isLiked={isUserLikeLocal}
+          isSubscribed={isUserSubscribeLocal}
+          onLikeClick={() =>
+            handleClickLike(playlistId, user.userId, 'playlist')
+          }
+          onSubscribeClick={() => handleClickSubscribe(playlistId, user.userId)}
         />
       </S.FlexContainer>
       <S.HashtagWrapper>
@@ -81,16 +98,35 @@ const ContentsInfo = ({ playlistId }: ContentsInfoProps) => {
           nickname={userData[0].nickname}
         />
         <S.ButtonContainer>
-          {/* 📌 현재 로그인한 userId로 검증하여 버튼 렌더링 분기처리 필요 */}
-          <Button borderType="round" size="small">
-            팔로잉
-          </Button>
-          <Button color="gray" borderType="round" size="small">
-            수정
-          </Button>
-          <Button color="gray" borderType="round" size="small">
-            삭제
-          </Button>
+          {isPlaylistCreator && (
+            <>
+              <Button
+                onClick={() => nav(`/playlist/${playlistId}/edit`)}
+                color="gray"
+                borderType="round"
+                size="small"
+              >
+                수정
+              </Button>
+              <Button
+                onClick={handleDeletePlaylist}
+                color="gray"
+                borderType="round"
+                size="small"
+              >
+                삭제
+              </Button>
+            </>
+          )}
+          {isPlaylistCreator || (
+            <Button
+              onClick={handleFollowPlaylistCreator}
+              borderType="round"
+              size="small"
+            >
+              팔로잉
+            </Button>
+          )}
         </S.ButtonContainer>
       </S.FlexContainer>
     </>

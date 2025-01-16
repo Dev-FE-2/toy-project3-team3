@@ -40,7 +40,7 @@ const PlaylistContents = () => {
 
   return (
     <S.PlaylistContentsWrapper>
-      <ContentsInfo playlistId={playlistId!} />
+      <ContentsInfo />
       <S.TabsContainer>
         <S.ListContainer>
           <S.Btn onClick={() => handleTabChange('playlists')}>
