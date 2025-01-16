@@ -8,3 +8,5 @@ export const playListAtom = atom<Video[]>([]);
 export const playlistErrorAtom = atom<string>('');
 
 export const hashtagAtom = atom<string[]>([]);
+
+export const thumbnailUrlAtom = atom<string | null>(null);

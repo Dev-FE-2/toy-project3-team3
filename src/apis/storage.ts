@@ -1,32 +1,6 @@
 import { supabase } from '@/apis/supabase';
-import imageCompression from 'browser-image-compression';
-import { v4 as uuid } from 'uuid';
 import type { FilePath } from '@/types';
-
-const isImageFile = (file: File): boolean => {
-  return file.type.startsWith('image/');
-};
-
-const generateFileName = (file: File): string => {
-  const fileExtension = file.name.slice(
-    ((file.name.lastIndexOf('.') - 1) >>> 0) + 2,
-  );
-  const fileName = uuid();
-
-  const newFileName = `${fileName}.${fileExtension}`;
-
-  return newFileName;
-};
-
-const compressImage = async (file: File): Promise<File> => {
-  const options = {
-    maxSizeMB: 1,
-    maxWidthOrHeight: 1024,
-    useWebWorker: true,
-  };
-
-  return await imageCompression(file, options);
-};
+import { compressImage, generateFileName, isImageFile } from '@/utils';
 
 export const uploadImage = async (
   file: File,
@@ -51,4 +25,15 @@ export const uploadImage = async (
   if (!url.publicUrl) throw new Error('이미지 URL 생성에 실패했습니다.');
 
   return url.publicUrl;
+};
+
+export const deleteImage = async (imageUrl: string | null): Promise<void> => {
+  if (!imageUrl) throw new Error('삭제할 이미지 Url이 유효하지 않습니다');
+
+  const filePath = imageUrl?.split('/').slice(-2).join('/');
+  const { error } = await supabase.storage.from('GRAM').remove([filePath]);
+
+  if (error) {
+    throw error;
+  }
 };

@@ -7,3 +7,4 @@ export * from './useHandleUpdateHashtag';
 export * from './useHandleUpdatePlaylist';
 export * from './useHandleUpdatePlaylistVideo';
 export * from './useInitialPlaylistData';
+export * from './useThumbnail';

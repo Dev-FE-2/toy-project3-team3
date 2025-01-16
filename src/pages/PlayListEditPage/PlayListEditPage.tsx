@@ -11,6 +11,7 @@ import { useFetchCategoryByCategoryNameEn } from '@/hooks/useCategory';
 import { editModeAtom, playListAtom, playlistErrorAtom } from '@/atoms';
 import { useAtom, useSetAtom } from 'jotai';
 import { useInitialPlaylistData } from '@/hooks/play-list/useInitialPlaylistData';
+import EditThumbnail from '@/components/play-list-edit/EditThumbnail/EditThumbnail';
 
 const PlaylistEditPage = () => {
   const [playlists] = useAtom(playListAtom);
@@ -67,6 +68,7 @@ const PlaylistEditPage = () => {
       <S.PlayListEditPageWrapper>
         <Backward />
         <S.Form onSubmit={methods.handleSubmit(handleOnSubmit)}>
+          <EditThumbnail />
           <EditContents />
           <EditPlayList />
           <S.SubmitButton disabled={isSubmitting} type="submit">
