@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 
+export const Wrapper = styled.div`
+  margin: ${({ theme }) => theme.space.xsm} 0;
+  padding: ${({ theme }) => theme.space.sm} 0;
+  border-bottom: 1px dashed ${({ theme }) => theme.colors.gray.extraLight};
+`;
+
 export const CommentWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: ${({ theme }) => theme.space.xsm} 0;
-  padding: ${({ theme }) => theme.space.sm} 0;
-  border-bottom: 1px dashed ${({ theme }) => theme.colors.gray.extraLight};
 `;
 
 export const IconWrapper = styled.div`
@@ -24,7 +27,8 @@ export const IconContainer = styled.div`
 `;
 
 export const CommentContainer = styled.div`
-  padding-left: ${({ theme }) => theme.space.sm};
+  margin-top: ${({ theme }) => theme.space.sm};
+  padding-left: ${({ theme }) => theme.space.xsm};
 `;
 
 export const Comment = styled.div`
@@ -42,8 +46,30 @@ export const TaggedUserNickname = styled.div`
   cursor: pointer;
 `;
 
+export const TimeAndEditContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-left: ${({ theme }) => theme.space.xsm};
+  margin-top: ${({ theme }) => theme.space.sm};
+`;
+
 export const RelativeTime = styled.div`
   padding-top: ${({ theme }) => theme.space.xsm};
   font-size: ${({ theme }) => theme.fontSize.xsm};
   color: ${({ theme }) => theme.colors.gray.medium};
+`;
+
+export const EditContainer = styled.div`
+  min-width: 80px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: ${({ theme }) => theme.space.md};
+  padding-right: ${({ theme }) => theme.space.sm};
+`;
+
+export const Edit = styled.div`
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme }) => theme.colors.primary};
+  cursor: pointer;
 `;

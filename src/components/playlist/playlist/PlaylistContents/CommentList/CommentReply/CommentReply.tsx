@@ -23,7 +23,7 @@ const CommentReply = ({ target, comments }: CommentReplyProps) => {
   if (!replyData) return;
   if (!currentCommentData) return;
 
-  const handleLikeClick = () => {};
+  // const handleLikeClick = () => {};
 
   const handleCommentClick = () => {};
 
@@ -48,8 +48,8 @@ const CommentReply = ({ target, comments }: CommentReplyProps) => {
         key={`reply-target-${currentCommentData[0].comments_id}`}
         comment={currentCommentData[0]}
         hasReply={replyData?.length > 0}
-        isLike={false}
-        handleLikeClick={handleLikeClick}
+        // isLike={false}
+        // handleLikeClick={handleLikeClick}
         handleCommentClick={handleCommentClick}
       />
       {replyData.map((data) => {
@@ -61,9 +61,9 @@ const CommentReply = ({ target, comments }: CommentReplyProps) => {
           <S.ReplyWrapper key={data.comments_id}>
             <CommentItems
               comment={data}
-              isLike={false}
+              // isLike={false}
               taggedUserNickname={taggedUserNickname}
-              handleLikeClick={handleLikeClick}
+              // handleLikeClick={handleLikeClick}
               handleCommentClick={handleCommentClick}
             />
           </S.ReplyWrapper>
