@@ -1,7 +1,12 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as S from './PlaylistEditPage.styles';
-import { Backward, EditContents, EditPlayList } from '@/components';
+import * as S from './PlayListEditPage.styles';
+import {
+  Backward,
+  EditContents,
+  EditPlayList,
+  EditThumbnail,
+} from '@/components';
 import { playListEditSchema } from '@/schemas/play-list-edit/playListEditSchema';
 import type { PlayListEditFormValues } from '@/types';
 
@@ -11,7 +16,6 @@ import { useFetchCategoryByCategoryNameEn } from '@/hooks/useCategory';
 import { editModeAtom, playListAtom, playlistErrorAtom } from '@/atoms';
 import { useAtom, useSetAtom } from 'jotai';
 import { useInitialPlaylistData } from '@/hooks/play-list/useInitialPlaylistData';
-import EditThumbnail from '@/components/play-list-edit/EditThumbnail/EditThumbnail';
 
 const PlaylistEditPage = () => {
   const [playlists] = useAtom(playListAtom);

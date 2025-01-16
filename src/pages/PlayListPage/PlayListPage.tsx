@@ -1,4 +1,4 @@
-import { PlaylistContents, VideoPlayer } from '@/components/playlist';
+import { PlaylistContents, VideoPlayer } from '@/components';
 
 const PlaylistPage = () => {
   return (

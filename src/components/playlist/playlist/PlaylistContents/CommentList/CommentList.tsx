@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CommentItems from '@/components/playlist/common/CommentItems/CommentItems';
-import CommentReply from '@/components/playlist/PlaylistContents/CommentList/CommentReply/CommentReply';
+import CommentReply from '@/components/playlist/playlist/PlaylistContents/CommentList/CommentReply/CommentReply';
 import { useFetchCommentByTargetPlaylistId } from '@/hooks';
 
 const CommentList = () => {

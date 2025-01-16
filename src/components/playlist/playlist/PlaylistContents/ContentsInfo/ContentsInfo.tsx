@@ -60,7 +60,7 @@ const ContentsInfo = ({ playlistId }: ContentsInfoProps) => {
       </S.FlexContainer>
       <S.ShortIntro>{playlistData[0].short_intro}</S.ShortIntro>
       <S.FlexContainer hasMargin>
-        <Category type="mark" content={playlistData?.[0]?.category || ''} />
+        <Category type="mark" content={playlistData[0].category_id || ''} />
         <LikeAndSubscribe
           likeCnt={likeData.length}
           subscribeCnt={subscribeData.length}

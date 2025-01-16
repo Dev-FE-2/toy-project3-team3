@@ -1,13 +1,14 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as S from './PlaylistContents.styles';
-import CommentList from '@/components/playlist/PlaylistContents/CommentList/CommentList';
-import VideoList from '@/components/playlist/PlaylistContents/VideoList/VideoList';
-import ContentsInfo from '@/components/playlist/PlaylistContents/ContentsInfo/ContentsInfo';
+
 import {
   useFetchCommentByTargetPlaylistId,
   useFetchPlaylistById,
   useFetchPlaylistVideoByPlaylistId,
 } from '@/hooks';
+import ContentsInfo from '@/components/playlist/playlist/PlaylistContents/ContentsInfo/ContentsInfo';
+import VideoList from '@/components/playlist/playlist/PlaylistContents/VideoList/VideoList';
+import CommentList from '@/components/playlist/playlist/PlaylistContents/CommentList/CommentList';
 
 const PlaylistContents = () => {
   const { playlistId } = useParams();
@@ -26,7 +27,7 @@ const PlaylistContents = () => {
     return <div>에러</div>; // 📌 로딩 처리 필요~~
 
   const searchParams = new URLSearchParams(loc.search);
-  const tab = searchParams.get('tab');
+  const tab = searchParams.get('tab') || 'playlists';
   const target = searchParams.get('target');
 
   const handleTabChange = (newTab: string) => {
