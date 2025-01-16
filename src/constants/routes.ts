@@ -9,9 +9,18 @@ export const ROUTES = {
   PLAY_LIST_EDIT: '/playlist/:playlistId/edit',
   PLAY_LIST: '/playlist/:playlistId',
   SEARCH: '/search',
-  SIGN_IN: '/sign-in',
-  SIGN_UP: '/sign-up',
-  USER: '/:userId',
-  USER_FOLLOW: '/:userId/follow',
+  SIGN_IN: '/auth/sign-in',
+  SIGN_UP: '/auth/sign-up',
+  AUTH_CALLBACK: '/auth/callback',
+  USER: '/:nickname',
+  USER_FOLLOW: '/:nickname/follow',
   NOT_FOUND: '*',
 };
+
+export const PUBLIC_PATHS = [
+  ROUTES.AUTH_CALLBACK,
+  ROUTES.SIGN_IN,
+  ROUTES.SIGN_UP,
+  ROUTES.SEARCH,
+  ROUTES.HOME,
+] as const;

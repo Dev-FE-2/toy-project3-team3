@@ -1,23 +1,23 @@
 import * as S from './SignUpPage.styles';
-import { useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signUpSchema, SignUpFormValues } from '@/schemas/user/signUpSchema';
-// import { useCheckDuplicate } from '@/hooks/useCheckDuplicate';
-// import { useSignUp } from '@/hooks/mutations/useSignUp';
+import { useCheckDuplicate, useSignUp } from '@/hooks';
 
 const SignUpPage = () => {
   // 중복 확인 해야하는 필드 valid 여부
-  // const [validFields, setValidFields] = useState<{
-  //   nickname?: boolean;
-  //   email?: boolean;
-  // }>({});
+  const [validFields, setValidFields] = useState<{
+    nickname?: boolean;
+    email?: boolean;
+  }>({});
+
   const {
     register,
     handleSubmit,
-    trigger,
     formState: { isSubmitting, errors, touchedFields },
-    // setError,
+    setError,
+    trigger,
     getValues,
     watch, // 디버깅용
   } = useForm<SignUpFormValues>({
@@ -31,53 +31,69 @@ const SignUpPage = () => {
     },
   });
 
+  // 초기 유효성 검사
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
+
+  // input 컴포넌트에서 입력 잇는지 검사 용도
   const watchedNickname = watch('nickname');
   const watchedEmail = watch('email');
   const watchedPassword = watch('password');
   const watchedConfirmPassword = watch('confirmPassword');
 
-  // const { signUp, isPending } = useSignUp(
-  //   (field: keyof SignUpFormValues, message: string) => {
-  //     setError(field, { message })
-  //     setValidFields(prev => ({ ...prev, [field]: false }))
-  //   },
-  // );
-
-  // 초기 유효성 검사
-  useEffect(() => {
-    trigger(['nickname', 'email', 'password', 'confirmPassword']);
-  }, [trigger]);
+  const { signUp, isPending } = useSignUp(
+    (field: keyof SignUpFormValues, message: string) => {
+      setError(field, { message });
+      setValidFields((prev) => ({ ...prev, [field]: false }));
+    },
+  );
 
   // 닉네임, 이메일 중복 체크
-  // const { checkDuplicate } = useCheckDuplicate()
+  const { checkDuplicate: checkNickname, isPending: isCheckNicknamePending } =
+    useCheckDuplicate();
+  const { checkDuplicate: checkEmail, isPending: isCheckEmailPending } =
+    useCheckDuplicate();
 
-  // const checkDuplicateNicknameOrEmail = useCallback(
-  //   async (field: 'nickname' | 'email') => {
-  //     const currNickname = getValues('nickname')
-  //     const currEmail = getValues('email')
+  // 닉네임 중복 체크
+  const checkDuplicateNickname = useCallback(async () => {
+    const currNickname = getValues('nickname');
+    const isDuplicate = await checkNickname({
+      field: 'nickname',
+      value: currNickname,
+    });
 
-  //     const result = await (field === 'nickname'
-  //       ? checkDuplicate('nickname', currNickname)
-  //       : checkDuplicate('email', currEmail))
-  //     if (result.data) {
-  //       setError(field, {
-  //         message:
-  //           field === 'nickname'
-  //             ? '이미 사용 중인 닉네임입니다'
-  //             : '이미 가입된 이메일입니다'
-  //       })
-  //       setValidFields(prev => ({ ...prev, [field]: false }))
-  //     } else {
-  //       setValidFields(prev => ({ ...prev, [field]: true }))
-  //     }
-  //   },
-  //   [setError]
-  // )
+    if (isDuplicate) {
+      setError('nickname', {
+        message: '이미 사용 중인 닉네임입니다',
+      });
+      setValidFields((prev) => ({ ...prev, nickname: false }));
+    } else {
+      setValidFields((prev) => ({ ...prev, nickname: true }));
+    }
+  }, [setError, checkNickname, getValues]);
+
+  // 이메일 중복 체크
+  const checkDuplicateEmail = useCallback(async () => {
+    const currEmail = getValues('email');
+    const isDuplicate = await checkEmail({
+      field: 'email',
+      value: currEmail,
+    });
+
+    if (isDuplicate) {
+      setError('email', {
+        message: '이미 가입된 이메일입니다',
+      });
+      setValidFields((prev) => ({ ...prev, email: false }));
+    } else {
+      setValidFields((prev) => ({ ...prev, email: true }));
+    }
+  }, [setError, checkEmail, getValues]);
 
   // 폼 제출 핸들러
   const onSubmit: SubmitHandler<SignUpFormValues> = async (formData) => {
-    // await signUp(formData)
-    console.log(formData);
+    await signUp(formData);
   };
 
   // 디버깅용
@@ -87,8 +103,8 @@ const SignUpPage = () => {
   });
 
   return (
-    <S.SignUpFormContainer>
-      <S.SignUpFormTitle>회원가입</S.SignUpFormTitle>
+    <S.SignUpPageContainer>
+      <S.Logo />
       <S.SignUpForm onSubmit={handleSubmit(onSubmit)}>
         <S.FormField>
           <S.InputwithDuplicateBtn>
@@ -97,29 +113,28 @@ const SignUpPage = () => {
               id="nickname"
               label="닉네임"
               {...register('nickname', {
-                // onChange: () =>
-                //   setValidFields(prev => ({ ...prev, nickname: false }))
+                onChange: () =>
+                  setValidFields((prev) => ({ ...prev, nickname: false })),
               })}
               watchedValue={watchedNickname}
               placeholder="닉네임을 입력해주세요"
               errorMessage={
-                (touchedFields.nickname &&
-                  errors.nickname &&
-                  errors.nickname?.message) ||
-                ''
+                (touchedFields.nickname && errors.nickname?.message) || ''
               }
-              // validatedMessage={
-              // validFields.nickname ? '사용 가능한 닉네임입니다' : undefined
-              // }
+              validatedMessage={
+                !errors.nickname && validFields.nickname
+                  ? '사용 가능한 닉네임입니다'
+                  : undefined
+              }
             />
             <S.DuplicateCheckBtn
               type="button"
               color="primary"
               size="small"
               disabled={!getValues('nickname')}
-              // onClick={() => checkDuplicateNicknameOrEmail('nickname')}>
+              onClick={checkDuplicateNickname}
             >
-              중복 확인
+              {isCheckNicknamePending ? '확인 중... ' : '중복 확인'}
             </S.DuplicateCheckBtn>
           </S.InputwithDuplicateBtn>
         </S.FormField>
@@ -130,19 +145,18 @@ const SignUpPage = () => {
               id="email"
               label="이메일"
               {...register('email', {
-                // onChange: () =>
-                //   setValidFields(prev => ({ ...prev, email: false }))
+                onChange: () =>
+                  setValidFields((prev) => ({ ...prev, email: false })),
               })}
               watchedValue={watchedEmail}
               placeholder="이메일 (example@email.com)"
               errorMessage={
-                (touchedFields.email &&
-                  errors.email &&
-                  errors.email?.message) ||
-                ''
+                (touchedFields.email && errors.email?.message) || ''
               }
               validatedMessage={
-                watchedEmail && !errors.email ? '사용 가능한 이메일입니다.' : ''
+                !errors.email && validFields.email
+                  ? '사용 가능한 이메일입니다.'
+                  : ''
               }
             />
             <S.DuplicateCheckBtn
@@ -150,9 +164,9 @@ const SignUpPage = () => {
               color="primary"
               size="small"
               disabled={!getValues('email')}
-              // onClick={() => checkDuplicateNicknameOrEmail('email')}>
+              onClick={checkDuplicateEmail}
             >
-              중복 확인
+              {isCheckEmailPending ? '확인 중... ' : '중복 확인'}
             </S.DuplicateCheckBtn>
           </S.InputwithDuplicateBtn>
         </S.FormField>
@@ -192,20 +206,21 @@ const SignUpPage = () => {
         <S.SubmitButton
           color="primary"
           disabled={
-            isSubmitting || Object.keys(errors).length > 0
-            // isPending ||
-            // !validFields.nickname ||
-            // !validFields.email
+            isSubmitting ||
+            Object.keys(errors).length > 0 ||
+            isPending ||
+            !validFields.nickname ||
+            !validFields.email
           }
         >
-          {/* {isPending ? '가입 중...' : '가입하기'} */}
-          가입하기
+          {isPending ? '가입 중...' : '가입하기'}
         </S.SubmitButton>
-        <S.ToOtherPageText href="/signin">
+        <S.ToOtherPageText href="/sign-in">
           회원가입이 되어 있으신가요?
         </S.ToOtherPageText>
       </S.SignUpForm>
-    </S.SignUpFormContainer>
+      <></>
+    </S.SignUpPageContainer>
   );
 };
 

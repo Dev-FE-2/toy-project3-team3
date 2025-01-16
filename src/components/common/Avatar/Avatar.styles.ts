@@ -5,8 +5,10 @@ export const AvatarBtn = styled.button<{ size: AvatarSize }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${({ size }) => (size === 'small' ? '30px' : '50px')};
-  height: ${({ size }) => (size === 'small' ? '30px' : '50px')};
+  width: ${({ size }) =>
+    size === 'xsmall' ? '20px' : size === 'small' ? '30px' : '50px'};
+  height: ${({ size }) =>
+    size === 'xsmall' ? '20px' : size === 'small' ? '30px' : '50px'};
   border-radius: ${({ theme }) => theme.borderRadius.xlg};
   overflow: hidden;
   &:hover img {
