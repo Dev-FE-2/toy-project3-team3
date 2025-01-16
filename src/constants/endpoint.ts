@@ -35,6 +35,12 @@ export const API_ENDPOINTS = {
       `${API_ENDPOINTS.PLAYLISTS.BASE}?user_id=eq.${userId}`,
     BY_ID_AND_USER_ID: (playlistId: string, userId: string) =>
       `${API_ENDPOINTS.PLAYLISTS.BASE}?and=(playlist_id.eq.${playlistId},user_id.eq.${userId})`,
+    BY_CATEGORY_ID: (categoryId: string) =>
+      `${API_ENDPOINTS.PLAYLISTS.BASE}?category_id=eq.${categoryId}`,
+    BY_CATEGORY_ID_LATEST_ORDER: (categoryId?: string) =>
+      categoryId
+        ? `${API_ENDPOINTS.PLAYLISTS.BASE}?category_id=eq.${categoryId}&order=created_at.desc`
+        : `${API_ENDPOINTS.PLAYLISTS.BASE}?order=created_at.desc`,
   },
   PLAYLIST_VIDEOS: {
     BASE: 'PLAYLIST_VIDEOS',

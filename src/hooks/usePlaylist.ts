@@ -40,6 +40,13 @@ export const useFetchPlaylistByUserId = (userId: string) =>
     userId,
   );
 
+export const useFetchPlaylistByCategoryId = (categoryId: string | null) =>
+  useFetchDataByOneId<Database['public']['Tables']['PLAYLISTS']['Row']>(
+    [playlistsQueryKey, categoryId || ''],
+    PLAYLISTS.BY_CATEGORY_ID_LATEST_ORDER,
+    categoryId || '',
+  );
+
 export const useCreatePlaylist = () =>
   useCreateData<'PLAYLISTS'>([playlistsQueryKey], PLAYLISTS.BASE);
 

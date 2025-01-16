@@ -8,14 +8,14 @@ export const HeaderContainer = styled.header.withConfig({
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  top: ${({ $isShow }) => ($isShow ? '0' : 'calc(-1 * var(--header-height))')};
+  top: ${({ $isShow }) => ($isShow ? '0' : 'calc(-2 * var(--header-height))')};
   left: 0;
   right: 0;
-  height: var(--header-height);
   padding: 0 ${({ theme }) => theme.space.md};
   background: ${({ theme }) => theme.colors.background};
   z-index: 2;
   transition: 0.5s;
+  flex-direction: column;
 `;
 
 export const RightSection = styled.section`
@@ -31,4 +31,20 @@ export const Logo = styled.img.attrs({
 })`
   height: var(--header-height);
   width: auto;
+`;
+
+export const Row = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
+export const CategoryList = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.space.md};
+  overflow: auto;
+  white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;

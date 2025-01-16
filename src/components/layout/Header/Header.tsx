@@ -1,12 +1,13 @@
 import * as S from './Header.styles';
 import { useLocation } from 'react-router-dom';
 import { memo, useEffect, useRef, useState } from 'react';
-import { Icon } from '@/components';
-import { ROUTES } from '@/constants';
+import { Category, Icon } from '@/components';
+import { CATEGORY_OPTIONS, ROUTES } from '@/constants';
+import { useCategoryContext } from '@/components/common/Category/CategoryContext';
 
 const Header = memo(() => {
   const { pathname } = useLocation();
-  const { USER } = ROUTES;
+  const { USER, HOME } = ROUTES;
   const handleMenuClick = () => {
     console.log('Hamburger Menu Clicked');
   };
@@ -41,14 +42,35 @@ const Header = memo(() => {
     };
   }, []);
 
+  const { currCategory, setCurrCategory } = useCategoryContext();
+
   return (
     <S.HeaderContainer $isShow={isShow}>
-      <S.Logo />
-      <S.RightSection>
-        {pathname === USER ? (
-          <Icon type="menu" onClick={handleMenuClick} />
-        ) : null}
-      </S.RightSection>
+      <S.Row>
+        <S.Logo />
+        <S.RightSection>
+          {pathname === USER ? (
+            <Icon type="menu" onClick={handleMenuClick} />
+          ) : null}
+        </S.RightSection>
+      </S.Row>
+      {pathname === HOME ? (
+        <S.Row>
+          <S.CategoryList>
+            {Object.entries(CATEGORY_OPTIONS).map(([key, value]) => (
+              <Category
+                key={key}
+                type="tab"
+                content={value}
+                isActive={key === currCategory}
+                onClick={() => setCurrCategory(key)}
+              />
+            ))}
+          </S.CategoryList>
+        </S.Row>
+      ) : (
+        <></>
+      )}
     </S.HeaderContainer>
   );
 });

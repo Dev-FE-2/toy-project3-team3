@@ -34,7 +34,7 @@ export type AvatarSize = 'xsmall' | 'small' | 'medium';
 
 export interface AvatarProps {
   size: AvatarSize;
-  imageUrl?: string;
+  imageUrl?: string | null;
   altText?: string;
   onClick?: () => void;
 }
@@ -51,6 +51,11 @@ export interface CategoryProps {
   content: string;
   isActive?: boolean;
   onClick?: () => void;
+}
+
+export interface CategoryContextType {
+  currCategory: string;
+  setCurrCategory: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // LikeAndSubscribe
@@ -144,7 +149,7 @@ export interface TabListProps {
 export interface EachPlaylistProps {
   thumbnailUrl: string;
   videoCnt: number;
-  avatarUrl: string;
+  avatarUrl: string | null;
   userName: string;
   updateDate: string;
   likeCnt: number;

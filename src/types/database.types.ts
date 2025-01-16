@@ -287,6 +287,7 @@ export type Database = {
           title: string;
           updated_at: string;
           user_id: string;
+          thumbnail_img: string;
         };
         Insert: {
           category_id?: string;
