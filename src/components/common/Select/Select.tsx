@@ -2,6 +2,7 @@ import * as S from './Select.styles';
 import { forwardRef, SelectHTMLAttributes } from 'react';
 import { SelectProps } from '@/types';
 import {
+  CATEGORY_EDIT_OPTIONS,
   CATEGORY_OPTIONS,
   SORT_COMMENT_OPTIONS,
   SORT_ETC_OPTIONS,
@@ -14,11 +15,13 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
     const options = {
       category: createOptions(CATEGORY_OPTIONS),
+      categoryEdit: createOptions(CATEGORY_EDIT_OPTIONS),
       sortComment: createOptions(SORT_COMMENT_OPTIONS),
       sortEtc: createOptions(SORT_ETC_OPTIONS),
     }[type];
     const labelText = {
       category: '카테고리 선택',
+      categoryEdit: '카테고리 수정',
       sortComment: '댓글 정렬 방식 선택',
       sortEtc: '정렬 방식 선택',
     }[type];
@@ -44,6 +47,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
               value={value}
               id={`${type}-option-${value}`}
               role="option"
+              disabled={value === 'notSelected'}
             >
               {label}
             </option>
