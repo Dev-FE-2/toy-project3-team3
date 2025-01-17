@@ -7,7 +7,7 @@ const VideoPlayer = () => {
   const { playlistId } = useParams<string>();
   const loc = useLocation();
   const searchParams = new URLSearchParams(loc.search);
-  const order = searchParams.get('order');
+  const order = searchParams.get('order') || '0';
   const playerRef = useRef<HTMLDivElement>(null);
   const playerInstanceRef = useRef<YT.Player | null>(null);
 
