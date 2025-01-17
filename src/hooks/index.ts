@@ -18,6 +18,6 @@ export * from './usePlaylistVideo';
 export * from './useSubscribe';
 export * from './useUser';
 export * from './play-list';
+export * from './ui';
 
 export { default as useErrorHandler } from './useErrorHandler';
-export { default as useAlert } from './useAlert';

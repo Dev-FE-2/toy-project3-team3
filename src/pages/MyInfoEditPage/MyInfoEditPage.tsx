@@ -1,7 +1,7 @@
 import * as S from './MyInfoEditPage.styles';
 import { useRef, useState, useCallback, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import {
   editProfileSchema,
   EditProfileFormValues,
@@ -111,10 +111,6 @@ const MyInfoEditPage = () => {
     await editProfile(formData);
   };
 
-  const onError: SubmitErrorHandler<EditProfileFormValues> = (errors) => {
-    console.log('Form Errors:', errors);
-  };
-
   // 변경 사항 유무 추적
   const formData = watch();
   const isFormChanged = useMemo(() => {
@@ -155,7 +151,7 @@ const MyInfoEditPage = () => {
   return (
     <S.EditProfileFormContainer>
       <Backward />
-      <S.EditProfileForm onSubmit={handleSubmit(onSubmit, onError)}>
+      <S.EditProfileForm onSubmit={handleSubmit(onSubmit)}>
         <S.ProfileImg
           src={imgPreview ?? user?.profileImage}
           alt="profileImg"

@@ -1,11 +1,5 @@
 echo "🔍 push 전에 테스트와 빌드를 실행합니다..."
 
-# 테스트 실행
-# if ! npm test; then
-#   echo "❌ 테스트 실패"
-#   exit 1
-# fi
-
 # 빌드 실행
 if ! npm run build; then
   echo "❌ 빌드 실패"

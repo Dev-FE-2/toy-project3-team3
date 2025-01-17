@@ -7,6 +7,7 @@ export const PlayListEditPageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   flex: 1;
+  margin-top: ${({ theme }) => theme.space.sm};
 `;
 
 export const Form = styled.form`

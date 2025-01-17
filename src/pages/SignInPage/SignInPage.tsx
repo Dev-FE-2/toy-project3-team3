@@ -44,10 +44,10 @@ const SignInPage = () => {
   };
 
   // 디버깅용
-  console.log('current sign in form', {
-    errors,
-    data: watch(),
-  });
+  // console.log('current sign in form', {
+  //   errors,
+  //   data: watch(),
+  // });
 
   return (
     <S.SignpInageContainer>

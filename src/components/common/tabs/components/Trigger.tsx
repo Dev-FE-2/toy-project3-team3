@@ -2,12 +2,13 @@ import { Btn, TabText } from '../Tabs.styles';
 import { TabTriggerProps } from '@/types';
 import { useTabsContext } from '../context/TabsContext';
 
-const Trigger = ({ value, text }: TabTriggerProps) => {
+const Trigger = ({ value, text, onClick }: TabTriggerProps) => {
   const { selectedIndex, setSelectedIndex, label } = useTabsContext();
   const isActive = selectedIndex === value;
 
   const onSelect = () => {
     setSelectedIndex(value);
+    if (onClick) onClick();
   };
 
   return (

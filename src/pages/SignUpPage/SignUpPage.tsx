@@ -97,10 +97,10 @@ const SignUpPage = () => {
   };
 
   // 디버깅용
-  console.log('current sign up form', {
-    errors: errors,
-    data: watch(),
-  });
+  // console.log('current sign up form', {
+  //   errors: errors,
+  //   data: watch(),
+  // });
 
   return (
     <S.SignUpPageContainer>
