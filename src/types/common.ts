@@ -15,6 +15,7 @@ export type IconType =
   | 'drag'
   | 'bottomSheet'
   | 'add'
+  | 'send'
   | 'home'
   | 'searchNav'
   | 'signUp'
@@ -38,7 +39,7 @@ export type AvatarSize = 'xsmall' | 'small' | 'medium';
 
 export interface AvatarProps {
   size: AvatarSize;
-  imageUrl?: string;
+  imageUrl?: string | null;
   altText?: string;
   onClick?: () => void;
 }
@@ -121,6 +122,33 @@ export interface StyledSelectProps {
 export interface SearchProps {
   queryKey: string;
   placeholder?: string;
+  onQueryChange?: (query: string, tab: string) => void;
+}
+
+export interface FromHashtagData {
+  hashtag_id: string;
+  hashtag_name: string;
+  playlist_id: {
+    playlist_id: string;
+    created_at: string;
+    updated_at: string;
+    short_intro: string | null;
+    title: string;
+    user_id: string;
+    thumbnail_image?: string;
+    category_id: string | null;
+  }[];
+}
+
+export interface FromPlayListData {
+  playlist_id: string;
+  created_at: string;
+  updated_at: string;
+  short_intro: string | null;
+  title: string;
+  user_id: string;
+  thumbnail_image?: string;
+  category_id: string | null;
 }
 
 // Tabs
@@ -139,6 +167,7 @@ export interface TabsProps {
 export interface TabTriggerProps {
   value: number;
   text: string;
+  onClick: () => void;
 }
 
 export interface TabPanelProps {
@@ -152,9 +181,9 @@ export interface TabListProps {
 
 // Each Playlist
 export interface EachPlaylistProps {
-  thumbnailUrl: string;
+  thumbnailUrl?: string;
   videoCnt: number;
-  avatarUrl: string;
+  avatarUrl?: string;
   userName: string;
   updateDate: string;
   likeCnt: number;

@@ -1,8 +1,9 @@
 import * as S from './EditContents.styles';
 import { Select } from '@/components/common';
 import { useFormContext } from 'react-hook-form';
-import ContentsHashtag from '@/components/play-list-edit/EditContents/ContentsHashtag/ContentsHashtag';
+
 import type { PlayListEditFormValues } from '@/types';
+import ContentsHashtag from '@/components/playlist/play-list-edit/EditContents/ContentsHashtag/ContentsHashtag';
 
 const EditContents = () => {
   const {

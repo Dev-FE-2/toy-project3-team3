@@ -1,14 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom, useSetAtom } from 'jotai';
-import VideoSearchBar from '@/components/play-list-edit/EditPlayList/VideoSearchBar/VideoSearchBar';
-import VideoItems from '@/components/play-list-edit/EditPlayList/VideoItems/VideoItems';
 import type { Video } from '@/types';
 import { youtubeService } from '@/services/youtube';
 import { QUERY_KEYS } from '@/constants';
 import { useItemDragAndDrop } from '@/hooks';
 import { playListAtom, playlistErrorAtom } from '@/atoms';
-import BottomSheet from '@/components/play-list-edit/common/BottomSheet/BottomSheet';
+import { VideoItems, BottomSheet } from '@/components/playlist/common';
+import VideoSearchBar from '@/components/playlist/play-list-edit/EditPlayList/VideoSearchBar/VideoSearchBar';
 
 const EditPlayList = () => {
   const [searchedQuery, setSearchedQuery] = useState('');
