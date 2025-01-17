@@ -17,7 +17,7 @@ export { default as Search } from './Search/Search';
 
 export { default as Tabs } from './tabs/Tabs';
 
-export { AlertContext, AlertProvider } from './modal/Alert';
+export { AlertContext, AlertProvider } from './modal/alert';
 export { default as Confirm } from './modal/Confirm/Confirm';
 
 export { default as EachPlaylist } from './EachPlaylist/EachPlaylist';
