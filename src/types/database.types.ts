@@ -296,7 +296,11 @@ export type Database = {
           title: string;
           updated_at: string;
           user_id: string;
+<<<<<<< Updated upstream
           thumbnail_image: string | null;
+=======
+          thumbnail_image: string;
+>>>>>>> Stashed changes
         };
         Insert: {
           category_id?: string;
