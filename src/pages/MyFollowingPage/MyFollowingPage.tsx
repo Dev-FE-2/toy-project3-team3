@@ -1,51 +1,11 @@
 import { Backward, EachPlaylist } from '@/components';
-import styled from 'styled-components';
 import profilePic from '@/assets/img/profile/default_profile.webp';
 import { useAuth } from '@/hooks';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/apis';
-import { Link } from 'react-router-dom';
 import { ROUTES } from '@/constants';
 import { SupabaseUserData } from '@/types';
-
-const EachPlaylistWrapper = styled.div`
-  margin-top: ${({ theme }) => theme.space.lg};
-`;
-
-const MyFollowingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-const MyFollowingHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const MyFollowingHeaderName = styled.h2`
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-`;
-const MyFollowingViewAll = styled(Link)`
-  color: ${({ theme }) => theme.colors.gray.dark};
-  text-decoration: none;
-`;
-
-const MyFollowingHeaderFollows = styled.ul`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const MyFollowingHeaderFollowsImgWrap = styled.li`
-  overflow: hidden;
-  border-radius: ${({ theme }) => theme.borderRadius.xlg};
-`;
-
-const MyFollowingHeaderFollowsImg = styled.img`
-  width: 50px;
-`;
-
-const MyFollowingContents = styled.ul``;
+import * as S from './MyFollowingPage.styles';
 
 type Playlist = {
   playlist_id: string; // 플레이리스트 ID
@@ -233,14 +193,16 @@ const MyFollowingPage = () => {
   return (
     <>
       <Backward />
-      <MyFollowingContainer>
-        <MyFollowingHeader>
-          <MyFollowingHeaderName>팔로잉</MyFollowingHeaderName>
-          <MyFollowingViewAll to={`${`${ROUTES.USER_FOLLOW}?tab=followings`}`}>
+      <S.MyFollowingContainer>
+        <S.MyFollowingHeader>
+          <S.MyFollowingHeaderName>팔로잉</S.MyFollowingHeaderName>
+          <S.MyFollowingViewAll
+            to={`${`${ROUTES.USER_FOLLOW}?tab=followings`}`}
+          >
             전체 보기
-          </MyFollowingViewAll>
-        </MyFollowingHeader>
-        <MyFollowingHeaderFollows>
+          </S.MyFollowingViewAll>
+        </S.MyFollowingHeader>
+        <S.MyFollowingHeaderFollows>
           {isLoading ? (
             <p>로딩 중...</p>
           ) : error ? (
@@ -249,16 +211,16 @@ const MyFollowingPage = () => {
             <p>팔로잉 중인 사용자가 없습니다.</p>
           ) : (
             followingUsers.map((follow) => (
-              <MyFollowingHeaderFollowsImgWrap key={follow.user_id}>
-                <MyFollowingHeaderFollowsImg
+              <S.MyFollowingHeaderFollowsImgWrap key={follow.user_id}>
+                <S.MyFollowingHeaderFollowsImg
                   src={follow?.profile_image || profilePic} // 프로필 이미지 가져오기
                   alt={follow?.nickname || '익명 사용자'}
                 />
-              </MyFollowingHeaderFollowsImgWrap>
+              </S.MyFollowingHeaderFollowsImgWrap>
             ))
           )}
-        </MyFollowingHeaderFollows>
-        <MyFollowingContents>
+        </S.MyFollowingHeaderFollows>
+        <S.MyFollowingContents>
           {isLoading ? (
             <p>로딩 중...</p>
           ) : error ? (
@@ -267,7 +229,7 @@ const MyFollowingPage = () => {
             <p>팔로우 중인 유저의 플레이리스트가 없습니다.</p>
           ) : (
             followingPlaylists.map((playlist) => (
-              <EachPlaylistWrapper key={playlist.playlist_id}>
+              <S.EachPlaylistWrapper key={playlist.playlist_id}>
                 <EachPlaylist
                   thumbnailUrl={playlist.thumbnail_image}
                   videoCnt={playlist.video_count || 0}
@@ -284,11 +246,11 @@ const MyFollowingPage = () => {
                   onLikeClick={() => console.log('좋아요 클릭')}
                   onSubscribeClick={() => console.log('구독 클릭')}
                 />
-              </EachPlaylistWrapper>
+              </S.EachPlaylistWrapper>
             ))
           )}
-        </MyFollowingContents>
-      </MyFollowingContainer>
+        </S.MyFollowingContents>
+      </S.MyFollowingContainer>
     </>
   );
 };
