@@ -296,7 +296,7 @@ export type Database = {
           title: string;
           updated_at: string;
           user_id: string;
-          thumbnail_image: string | null;
+          thumbnail_image?: string;
         };
         Insert: {
           category_id?: string;

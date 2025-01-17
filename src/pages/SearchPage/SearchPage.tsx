@@ -14,8 +14,10 @@ import {
   getUserInfo,
   getVideoCnt,
 } from '@/services/getEachPlayListInfo';
+import { useAuth } from '@/hooks';
 
 const SearchPage = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { PLAY_LIST } = ROUTES;
   const { search } = useLocation(); // URL의 쿼리 파라미터 가져오기
@@ -189,10 +191,10 @@ const SearchPage = () => {
           const likeCnt = await getLikeCnt(data.playlist_id);
           const subscribeCnt = await getSubscribeCnt(data.playlist_id);
           const userInfo = await getUserInfo(data.user_id);
-          const isLiked = await getIsLiked(data.playlist_id, data.user_id);
+          const isLiked = await getIsLiked(data.playlist_id, user?.userId);
           const isSubscribed = await getIsSubscribed(
             data.playlist_id,
-            data.user_id,
+            user?.userId,
           );
 
           infos[data.playlist_id] = {
