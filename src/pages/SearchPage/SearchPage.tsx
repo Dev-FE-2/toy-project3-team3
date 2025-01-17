@@ -17,7 +17,7 @@ import { FromHashtagData, FromPlayListData } from '@/types/common';
 
 const SearchPage = () => {
   const navigate = useNavigate();
-  const { USER, PLAY_LIST } = ROUTES;
+  const { PLAY_LIST } = ROUTES;
   const { search } = useLocation(); // URL의 쿼리 파라미터 가져오기
   const params = new URLSearchParams(search); // 쿼리 파라미터를 다루기 위한 객체 생성
   const tabFromUrl = params.get('tab') || 'user';
@@ -147,7 +147,7 @@ const SearchPage = () => {
   }, [isTabChanged]);
 
   const handleAvatarClick = (nickname: string) => {
-    navigate(USER.replace(':userId', nickname));
+    navigate(`/${nickname}`);
   };
 
   const handleQueryChange = (query: string, tab: string) => {
