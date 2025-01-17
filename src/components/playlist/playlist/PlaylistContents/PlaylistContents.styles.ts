@@ -13,4 +13,8 @@ export const TabsContainer = styled(TabsStyles.TabsContainer)`
   margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
+export const VideoAndCommentContainer = styled.div`
+  background-color: black;
+`;
+
 export const { Btn, TabText, ListContainer } = TabsStyles;

@@ -2,9 +2,11 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CommentItems from '@/components/playlist/common/CommentItems/CommentItems';
 import CommentReply from '@/components/playlist/playlist/PlaylistContents/CommentList/CommentReply/CommentReply';
 import { useFetchCommentByTargetPlaylistId } from '@/hooks';
+import { useState } from 'react';
 
 const CommentList = () => {
   const { playlistId } = useParams();
+  const [openInputId, setOpenInputId] = useState<string | null>(null);
   const loc = useLocation();
   const nav = useNavigate();
   const searchParams = new URLSearchParams(loc.search);
@@ -20,15 +22,12 @@ const CommentList = () => {
     if (hasReplies) {
       searchParams.set('target', targetComment);
       nav(`${loc.pathname}?${searchParams.toString()}`);
+    } else {
+      setOpenInputId((prev) => (prev === targetComment ? null : targetComment));
     }
   };
 
   const comments = commentData.filter((comment) => !comment.target_comments_id);
-  const replies = commentData.filter((reply) => reply.target_comments_id);
-
-  const getReplies = (commentId: string) => {
-    return replies.filter((reply) => reply.target_comments_id === commentId);
-  };
 
   return (
     <>
@@ -36,14 +35,13 @@ const CommentList = () => {
         <CommentReply target={target} comments={comments} />
       ) : (
         comments.map((comment) => {
-          const replyLength = getReplies(comment.comments_id).length;
-
           return (
             <CommentItems
               key={comment.comments_id}
               comment={comment}
-              hasReply={replyLength > 0}
               handleCommentClick={handleCommentClick}
+              openInputId={openInputId}
+              setOpenInputId={setOpenInputId}
             />
           );
         })

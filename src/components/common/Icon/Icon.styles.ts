@@ -15,6 +15,7 @@ import { LuKey } from 'react-icons/lu';
 import { IoPeopleOutline } from 'react-icons/io5';
 import { IoMenu } from 'react-icons/io5';
 import { MdDragHandle, MdDragIndicator, MdAdd } from 'react-icons/md';
+import { TbSend2 } from 'react-icons/tb';
 
 const IconButton = css`
   display: flex;
@@ -105,6 +106,10 @@ export const BottomSheedIcon = styled(MdDragHandle)`
 `;
 
 export const Add = styled(MdAdd)`
+  ${IconButton}
+`;
+
+export const Send = styled(TbSend2)`
   ${IconButton}
 `;
 

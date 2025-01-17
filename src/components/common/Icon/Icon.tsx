@@ -18,6 +18,7 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
       drag: '드래그',
       bottomSheet: '바텀시트 드래그',
       add: '추가',
+      send: '메시지 발송',
       home: '홈으로 이동',
       searchNav: '검색으로 이동',
       signUp: '회원가입으로 이동',
@@ -50,6 +51,7 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
     drag: <S.DragIcon aria-label={getAriaLabel()} />,
     bottomSheet: <S.BottomSheedIcon aria-label={getAriaLabel()} />,
     add: <S.Add onClick={onClick} aria-label={getAriaLabel()} />,
+    send: <S.Send onClick={onClick} aria-label={getAriaLabel()} />,
     // header
     alarm: (
       <S.AlarmIconWrapper>

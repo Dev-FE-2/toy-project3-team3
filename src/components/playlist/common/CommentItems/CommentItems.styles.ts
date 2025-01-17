@@ -73,3 +73,14 @@ export const Edit = styled.div`
   color: ${({ theme }) => theme.colors.primary};
   cursor: pointer;
 `;
+
+export const InputAndIconContainer = styled.div`
+  width: 100%;
+  margin-top: ${({ theme }) => theme.space.sm};
+  display: flex;
+  align-items: center;
+`;
+
+export const Input = styled.input`
+  width: 100%;
+`;

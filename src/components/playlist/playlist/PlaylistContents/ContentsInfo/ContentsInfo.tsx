@@ -85,6 +85,7 @@ const ContentsInfo = () => {
       <S.HashtagWrapper>
         {hashtagData.map((data) => (
           <HashTag
+            key={data.hashtag_id}
             onClick={() => nav(`/search?q=${data.hashtag_name}`)}
             content={data.hashtag_name}
           />

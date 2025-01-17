@@ -7,6 +7,7 @@ import {
 } from '@/hooks/useComment';
 import { useFetchUsers } from '@/hooks/useUser';
 import { Database } from '@/types';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface CommentReplyProps {
@@ -15,6 +16,7 @@ interface CommentReplyProps {
 }
 
 const CommentReply = ({ target, comments }: CommentReplyProps) => {
+  const [openInputId, setOpenInputId] = useState<string | null>(null);
   const nav = useNavigate();
   const { data: replyData } = useFetchCommentByTargetCommentId(target);
   const { data: currentCommentData } = useFetchCommentById(target);
@@ -23,9 +25,9 @@ const CommentReply = ({ target, comments }: CommentReplyProps) => {
   if (!replyData) return;
   if (!currentCommentData) return;
 
-  // const handleLikeClick = () => {};
-
-  const handleCommentClick = () => {};
+  const handleCommentClick = (targetComment: string) => {
+    setOpenInputId((prev) => (prev === targetComment ? null : targetComment));
+  };
 
   const getTaggedUserNickname = (targetCommentId: string | null) => {
     const targetComment = comments.find(
@@ -47,10 +49,10 @@ const CommentReply = ({ target, comments }: CommentReplyProps) => {
       <CommentItems
         key={`reply-target-${currentCommentData[0].comments_id}`}
         comment={currentCommentData[0]}
-        hasReply={replyData?.length > 0}
-        // isLike={false}
-        // handleLikeClick={handleLikeClick}
+        // hasReply={replyData?.length > 0}
         handleCommentClick={handleCommentClick}
+        openInputId={openInputId}
+        setOpenInputId={setOpenInputId}
       />
       {replyData.map((data) => {
         const taggedUserNickname = getTaggedUserNickname(
@@ -61,10 +63,11 @@ const CommentReply = ({ target, comments }: CommentReplyProps) => {
           <S.ReplyWrapper key={data.comments_id}>
             <CommentItems
               comment={data}
-              // isLike={false}
               taggedUserNickname={taggedUserNickname}
-              // handleLikeClick={handleLikeClick}
               handleCommentClick={handleCommentClick}
+              openInputId={openInputId}
+              setOpenInputId={setOpenInputId}
+              showCommentIcon={false}
             />
           </S.ReplyWrapper>
         );
