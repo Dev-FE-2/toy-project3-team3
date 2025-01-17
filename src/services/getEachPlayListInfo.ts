@@ -58,7 +58,9 @@ export const getUserInfo = async (userId: string) => {
   }
 };
 
-export const getIsLiked = async (playlistId: string, userId: string) => {
+export const getIsLiked = async (playlistId: string, userId?: string) => {
+  if (!userId) return false;
+
   const { count, error } = await supabase
     .from('LIKES')
     .select('*', { count: 'exact' })
@@ -73,7 +75,9 @@ export const getIsLiked = async (playlistId: string, userId: string) => {
   }
 };
 
-export const getIsSubscribed = async (playlistId: string, userId: string) => {
+export const getIsSubscribed = async (playlistId: string, userId?: string) => {
+  if (!userId) return false;
+
   const { count, error } = await supabase
     .from('SUBSCRIBES')
     .select('*', { count: 'exact' })

@@ -11,12 +11,14 @@ import {
   getUserInfo,
   getVideoCnt,
   getIsSubscribed,
-} from './getEachPlayListInfo';
+} from '@/services/getEachPlayListInfo';
 import { EachPlaylist } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants';
+import { useAuth } from '@/hooks';
 
 const HomePage = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { PLAY_LIST } = ROUTES;
   const { currCategory } = useCategoryContext();
@@ -81,10 +83,10 @@ const HomePage = () => {
           const likeCnt = await getLikeCnt(data.playlist_id);
           const subscribeCnt = await getSubscribeCnt(data.playlist_id);
           const userInfo = await getUserInfo(data.user_id);
-          const isLiked = await getIsLiked(data.playlist_id, data.user_id);
+          const isLiked = await getIsLiked(data.playlist_id, user?.userId);
           const isSubscribed = await getIsSubscribed(
             data.playlist_id,
-            data.user_id,
+            user?.userId,
           );
 
           infos[data.playlist_id] = {
