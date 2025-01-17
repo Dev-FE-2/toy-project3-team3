@@ -139,6 +139,7 @@ export interface TabsProps {
 export interface TabTriggerProps {
   value: number;
   text: string;
+  onClick: () => void;
 }
 
 export interface TabPanelProps {
