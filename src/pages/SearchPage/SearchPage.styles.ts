@@ -21,6 +21,7 @@ export const UserInfo = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.space.md};
+  flex-grow: 1;
 `;
 
 export const PlayList = styled.div`

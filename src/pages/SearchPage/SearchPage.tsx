@@ -100,7 +100,6 @@ const SearchPage = () => {
           const playlist = Array.isArray(hashtag.playlist_id)
             ? hashtag.playlist_id[0]
             : hashtag.playlist_id;
-          console.log(playlist);
 
           return {
             playlist_id: playlist?.playlist_id,
@@ -237,7 +236,7 @@ const SearchPage = () => {
           <S.UserList>
             {searchedUserList?.map((user) => (
               <S.User key={user.user_id}>
-                <S.UserInfo>
+                <S.UserInfo onClick={() => handleAvatarClick(user.nickname)}>
                   <Avatar
                     size="small"
                     imageUrl={
@@ -246,7 +245,7 @@ const SearchPage = () => {
                         : undefined
                     }
                     altText="User Profile"
-                    onClick={() => handleAvatarClick(user.nickname)}
+                    onClick={() => {}}
                   />
                   {user.nickname}
                 </S.UserInfo>
