@@ -9,12 +9,10 @@ import { useEffect, useState } from 'react';
 import { Database } from '@/types';
 import { useFetchAlertTypes } from '@/hooks/useAlertType';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/constants';
 
 const AlertPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { USER } = ROUTES;
   const [alertList, setAlertList] = useState<
     Database['public']['Tables']['ALERTS']['Row'][] | null
   >(null);
@@ -64,7 +62,7 @@ const AlertPage = () => {
   }, [alertTypeDataIsLoading, alertTypeData]);
 
   const handleAvatarClick = (nickname: string) => {
-    navigate(USER.replace(':userId', nickname));
+    navigate(`/${nickname}`);
   };
 
   return (
