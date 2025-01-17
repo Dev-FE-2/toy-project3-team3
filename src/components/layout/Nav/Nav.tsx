@@ -14,7 +14,7 @@ const Nav = memo(() => {
   const navigate = useNavigate();
   const [, setShowMenuBar] = useAtom(showMenuBarAtom);
 
-  const { HOME, PLAY_LIST_EDIT, SEARCH, SIGN_IN, SIGN_UP, MY_FOLLOWING } =
+  const { HOME, PLAY_LIST_ADD, SEARCH, SIGN_IN, SIGN_UP, MY_FOLLOWING } =
     ROUTES;
 
   const navItems = useMemo(
@@ -72,7 +72,7 @@ const Nav = memo(() => {
                 <S.StyledPlusBtn
                   key={item.type}
                   borderType="circle"
-                  onClick={() => navigate(PLAY_LIST_EDIT)}
+                  onClick={() => navigate(PLAY_LIST_ADD)}
                 />
               );
             }
