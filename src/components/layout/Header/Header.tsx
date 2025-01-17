@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { Icon } from '@/components';
 import { ROUTES } from '@/constants';
 
-const Header = memo(() => {
+const Header = memo(({ showHeader }: { showHeader: boolean }) => {
   const { pathname } = useLocation();
   const { USER } = ROUTES;
   const handleMenuClick = () => {
@@ -12,7 +12,7 @@ const Header = memo(() => {
   };
 
   return (
-    <S.HeaderContainer>
+    <S.HeaderContainer $show={showHeader}>
       <S.Logo />
       <S.RightSection>
         {pathname === USER ? (

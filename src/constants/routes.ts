@@ -13,8 +13,8 @@ export const ROUTES = {
   SIGN_IN: '/auth/sign-in',
   SIGN_UP: '/auth/sign-up',
   AUTH_CALLBACK: '/auth/callback',
-  USER: '/users/:userId', // 사용자 닉네임과 충돌 방지하기 위해 users 추가
-  USER_FOLLOW: '/users/:userId/follow',
+  USER: '/:nickname',
+  USER_FOLLOW: '/:nickname/follow',
   NOT_FOUND: '*',
 };
 

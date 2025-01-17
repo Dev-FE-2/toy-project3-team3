@@ -12,10 +12,11 @@ const Auth = ({ children }: AuthProps) => {
   const AUTH_PATHS = [SIGN_IN, SIGN_UP];
   const isAuthPath = AUTH_PATHS.includes(pathname);
 
-  console.log({
-    user,
-    pathname,
-  });
+  // // 디버깅용
+  // console.log({
+  //   nickname: user?.nickname,
+  //   shortIntro: user?.shortIntro,
+  // });
 
   if (!user && !isPublicRoute) return <Navigate to={SIGN_IN} replace />;
   if (user && isAuthPath) {

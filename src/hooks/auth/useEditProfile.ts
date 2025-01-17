@@ -5,9 +5,8 @@ import { ROUTES } from '@/constants';
 import { supabase } from '@/apis';
 import { EditProfileFormValues } from '@/schemas/user/editProfileSchema';
 import { EditProfileRequestValues } from '@/types';
-import { useErrorHandler } from '@/hooks';
+import { useErrorHandler, useAlert } from '@/hooks';
 import { isApiError } from '@/utils/isApiError';
-import { useAlert } from '@/hooks';
 
 const useEditProfile = (setError: UseFormSetError<EditProfileFormValues>) => {
   const handleError = useErrorHandler();

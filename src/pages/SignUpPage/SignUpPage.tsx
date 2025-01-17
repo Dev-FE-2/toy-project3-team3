@@ -1,5 +1,5 @@
 import * as S from './SignUpPage.styles';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signUpSchema, SignUpFormValues } from '@/schemas/user/signUpSchema';
@@ -17,6 +17,7 @@ const SignUpPage = () => {
     handleSubmit,
     formState: { isSubmitting, errors, touchedFields },
     setError,
+    trigger,
     getValues,
     watch, // 디버깅용
   } = useForm<SignUpFormValues>({
@@ -29,6 +30,11 @@ const SignUpPage = () => {
       confirmPassword: '',
     },
   });
+
+  // 초기 유효성 검사
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
 
   // input 컴포넌트에서 입력 잇는지 검사 용도
   const watchedNickname = watch('nickname');
@@ -91,10 +97,10 @@ const SignUpPage = () => {
   };
 
   // 디버깅용
-  console.log('current sign up form', {
-    errors: errors,
-    data: watch(),
-  });
+  // console.log('current sign up form', {
+  //   errors: errors,
+  //   data: watch(),
+  // });
 
   return (
     <S.SignUpPageContainer>
@@ -213,6 +219,7 @@ const SignUpPage = () => {
           회원가입이 되어 있으신가요?
         </S.ToOtherPageText>
       </S.SignUpForm>
+      <></>
     </S.SignUpPageContainer>
   );
 };

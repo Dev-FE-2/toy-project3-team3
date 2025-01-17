@@ -13,6 +13,7 @@ export const QUERY_KEYS = {
   USERS: 'users',
   FOLLOW: 'follow',
   FOLLOWS: 'follows',
+  FOLLOWINGS: 'followings',
   PLAYLIST: 'playlist',
   PLAYLISTS: 'playlists',
   SUBSCRIBE: 'subscribe',

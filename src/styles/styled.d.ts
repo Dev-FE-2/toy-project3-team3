@@ -68,6 +68,7 @@ declare module 'styled-components' {
         baseHeight: string;
         withSafeArea: string;
       };
+      width: string;
     };
   }
 }
