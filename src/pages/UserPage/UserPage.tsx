@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import { PostTab } from './PostTab';
 import { SubscribeTab } from './SubscripbeTab';
@@ -10,95 +9,8 @@ import {
   useFetchFollowingsByUserId,
 } from '@/hooks/useFollow';
 import { ROUTES } from '@/constants';
-import { Link } from 'react-router-dom';
 import { User } from '@/types';
-
-const MyPageContainer = styled.div`
-  width: 100%;
-  /* max-width: 360px; */
-  margin: 0 auto;
-`;
-
-const MyPageProfile = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-  border-bottom: 1px solid #555;
-
-  padding-left: ${({ theme }) => theme.space.sm};
-  padding-right: ${({ theme }) => theme.space.sm};
-  padding-bottom: ${({ theme }) => theme.space.sm};
-  margin-bottom: ${({ theme }) => theme.space.sm};
-`;
-
-const MyPageProfileUpper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: ${({ theme }) => theme.space.sm};
-`;
-
-const MyPageProfileLower = styled.div``;
-const MyPageProfileImgDiv = styled.div`
-  overflow: hidden;
-  border-radius: ${({ theme }) => theme.borderRadius.xlg};
-`;
-const MyPageProfileImg = styled.img`
-  width: 48px;
-  height: 48px;
-`;
-const MyPageProfilePosts = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  & > span:first-child {
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
-  }
-
-  & > span:last-child {
-    font-size: ${({ theme }) => theme.fontSize.xsm};
-  }
-`;
-const MyPageProfileFollower = styled(Link)`
-  color: inherit;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  & > span:first-child {
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
-  }
-
-  & > span:last-child {
-    font-size: ${({ theme }) => theme.fontSize.xsm};
-  }
-`;
-const MyPageProfileFollowing = styled(Link)`
-  color: inherit;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  & > span:first-child {
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
-  }
-
-  & > span:last-child {
-    font-size: ${({ theme }) => theme.fontSize.xsm};
-  }
-`;
-const MyPageUserName = styled.h3`
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-`;
-const MyPageUserDesc = styled.span`
-  font-size: ${({ theme }) => theme.fontSize.xsm};
-`;
-
-const MyPageContents = styled.div``;
+import * as S from './UserPage.styles';
 
 const UserPage = () => {
   const [, setSearchParams] = useSearchParams();
@@ -114,33 +26,35 @@ const UserPage = () => {
 
   return (
     <>
-      <MyPageContainer>
-        <MyPageProfile>
-          <MyPageProfileUpper>
-            <MyPageProfileImgDiv>
-              <MyPageProfileImg src={user?.profileImage} alt="profile" />
-            </MyPageProfileImgDiv>
-            <MyPageProfilePosts>
+      <S.MyPageContainer>
+        <S.MyPageProfile>
+          <S.MyPageProfileUpper>
+            <S.MyPageProfileImgDiv>
+              <S.MyPageProfileImg src={user?.profileImage} alt="profile" />
+            </S.MyPageProfileImgDiv>
+            <S.MyPageProfilePosts>
               <span>{playlists.length}</span>
               <span>포스트</span>
-            </MyPageProfilePosts>
-            <MyPageProfileFollower to={`${ROUTES.USER_FOLLOW}?tab=followers`}>
+            </S.MyPageProfilePosts>
+            <S.MyPageProfileFollower to={`${ROUTES.USER_FOLLOW}?tab=followers`}>
               <span>{followers?.length}</span>
               <span>팔로워</span>
-            </MyPageProfileFollower>
-            <MyPageProfileFollowing to={`${ROUTES.USER_FOLLOW}?tab=followings`}>
+            </S.MyPageProfileFollower>
+            <S.MyPageProfileFollowing
+              to={`${ROUTES.USER_FOLLOW}?tab=followings`}
+            >
               <span>{followings?.length}</span>
               <span>팔로잉</span>
-            </MyPageProfileFollowing>
-          </MyPageProfileUpper>
-          <MyPageProfileLower>
-            <MyPageUserName>{user?.nickname}</MyPageUserName>
-            <MyPageUserDesc>
+            </S.MyPageProfileFollowing>
+          </S.MyPageProfileUpper>
+          <S.MyPageProfileLower>
+            <S.MyPageUserName>{user?.nickname}</S.MyPageUserName>
+            <S.MyPageUserDesc>
               {user?.shortIntro || '설명이 없습니다.'}
-            </MyPageUserDesc>
-          </MyPageProfileLower>
-        </MyPageProfile>
-        <MyPageContents>
+            </S.MyPageUserDesc>
+          </S.MyPageProfileLower>
+        </S.MyPageProfile>
+        <S.MyPageContents>
           <nav>
             <Tabs label="유저" defaultValue={1}>
               <Tabs.List>
@@ -163,8 +77,8 @@ const UserPage = () => {
               </Tabs.Panel>
             </Tabs>
           </nav>
-        </MyPageContents>
-      </MyPageContainer>
+        </S.MyPageContents>
+      </S.MyPageContainer>
     </>
   );
 };

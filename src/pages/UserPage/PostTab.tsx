@@ -95,6 +95,8 @@ export const PostTab = ({ user }: { user: User }) => {
     fetchCounts();
   }, [playlists]);
 
+  console.log(playlists);
+
   return (
     <>
       {isLoading ? (
