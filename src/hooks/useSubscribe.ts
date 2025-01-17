@@ -42,3 +42,9 @@ export const useUpdateSubscribeByIdAndUserId = () =>
 
 export const useDeleteSubscribeByIdAndUserId = () =>
   useDeleteDataByTwoId([subscribesQueryKey], SUBSCRIBES.BY_ID_AND_USER_ID);
+
+export const useDeleteSubscribeByPlaylistIdAndUserId = () =>
+  useDeleteDataByTwoId(
+    [subscribesQueryKey],
+    SUBSCRIBES.BY_PLAYLIST_ID_AND_USER_ID,
+  );

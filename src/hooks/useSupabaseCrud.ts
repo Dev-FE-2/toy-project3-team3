@@ -93,13 +93,13 @@ export const useCreateData = <
   endpoint: string,
   options?: {
     onSuccess?: (
-      data: TablesInsert<TableName>,
+      data: TablesInsert<TableName>[],
       variables?: TablesInsert<TableName>,
     ) => void;
     onError?: (error: Error, variables?: TablesInsert<TableName>) => void;
     onMutate?: (variables: TablesInsert<TableName>) => void;
     onSettled?: (
-      data: TablesInsert<TableName> | undefined,
+      data: TablesInsert<TableName>[] | undefined,
       error: Error | null,
       variables: TablesInsert<TableName>,
     ) => void;

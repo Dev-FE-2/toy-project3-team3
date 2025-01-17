@@ -6,7 +6,7 @@ test.describe('프로필 수정 페이지', () => {
     await page.goto('/auth/sign-in');
 
     await page.fill('input[id="email"]', 'test2@email.com');
-    await page.fill('input[id="password"]', '123456');
+    await page.fill('input[id="password"]', '12345678');
 
     await page.locator('button:nth-of-type(1)').click();
 
@@ -30,6 +30,16 @@ test.describe('프로필 수정 페이지', () => {
     // 저장 버튼 클릭
     await expect(page.getByRole('button', { name: '변경 저장' })).toBeEnabled();
     await page.getByRole('button', { name: '변경 저장' }).click();
+
+    await expect(page).toHaveURL('/');
+    await page.goto('/edit');
+
+    await expect(page.locator('input[id="nickname"]')).toHaveValue(
+      '새로운닉네임',
+    );
+    await expect(page.locator('input[id="shortIntro"]')).toHaveValue(
+      '새로운 한줄 소개입니다.',
+    );
   });
 
   test('변경 되돌리기', async ({ page }) => {
