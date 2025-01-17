@@ -8,8 +8,10 @@ const useShowHeader = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (!user && showHeader) setShowHeader(false);
-    if (!user) return;
+    if (!user) {
+      setShowHeader(false);
+      return;
+    }
 
     const scrollTarget = document.getElementById('outlet');
 
