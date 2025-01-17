@@ -5,6 +5,7 @@ import { supabase } from '@/apis';
 import { Database } from '@/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants';
+import { FromHashtagData, FromPlayListData } from '@/types/common';
 import {
   getIsLiked,
   getIsSubscribed,
@@ -12,8 +13,7 @@ import {
   getSubscribeCnt,
   getUserInfo,
   getVideoCnt,
-} from '../HomePage/getEachPlayListInfo';
-import { FromHashtagData, FromPlayListData } from '@/types/common';
+} from '@/services/getEachPlayListInfo';
 
 const SearchPage = () => {
   const navigate = useNavigate();
