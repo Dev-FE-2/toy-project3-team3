@@ -9,6 +9,17 @@ const EachSubscriptionWrapper = styled.div`
   margin-top: ${({ theme }) => theme.space.lg};
 `;
 
+type IPlaylist = {
+  category_id: string;
+  created_at: string;
+  playlist_id: string;
+  short_intro: string;
+  thumbnail_image: string | null;
+  title: string;
+  updated_at: string;
+  user_id: string;
+};
+
 export const SubscribeTab = ({ user }: { user: User }) => {
   const {
     data: subscriptions = [],
@@ -16,7 +27,7 @@ export const SubscribeTab = ({ user }: { user: User }) => {
     error,
   } = useFetchSubscribeByUserId(user.userId);
 
-  const [playlists, setPlaylists] = useState<any[]>([]);
+  const [playlists, setPlaylists] = useState<IPlaylist[]>([]);
   const [counts, setCounts] = useState<{
     videoCounts: { [key: string]: number };
     likeCounts: { [key: string]: number };
@@ -143,7 +154,7 @@ export const SubscribeTab = ({ user }: { user: User }) => {
       {playlists.map((playlist) => (
         <EachSubscriptionWrapper key={playlist.playlist_id}>
           <EachPlaylist
-            thumbnailUrl={playlist.thumbnail_image}
+            thumbnailUrl={playlist.thumbnail_image ?? ''}
             avatarUrl={playlistOwners[playlist.playlist_id]?.avatarUrl || ''}
             userName={playlistOwners[playlist.playlist_id]?.userName || ''}
             updateDate={new Date(playlist.updated_at).toLocaleDateString()}

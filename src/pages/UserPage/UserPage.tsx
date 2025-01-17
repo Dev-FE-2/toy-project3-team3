@@ -11,6 +11,7 @@ import {
 } from '@/hooks/useFollow';
 import { ROUTES } from '@/constants';
 import { Link } from 'react-router-dom';
+import { User } from '@/types';
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -103,9 +104,9 @@ const UserPage = () => {
   const [, setSearchParams] = useSearchParams();
   const { user } = useAuth();
 
-  const { data: playlists = [] } = useFetchPlaylistByUserId(user.userId);
-  const { data: followers } = useFetchFollowersByUserId(user.userId);
-  const { data: followings } = useFetchFollowingsByUserId(user.userId);
+  const { data: playlists = [] } = useFetchPlaylistByUserId(user?.userId ?? '');
+  const { data: followers } = useFetchFollowersByUserId(user?.userId ?? '');
+  const { data: followings } = useFetchFollowingsByUserId(user?.userId ?? '');
 
   const handleChangeTab = (tab: string) => {
     setSearchParams({ tab });
@@ -155,10 +156,10 @@ const UserPage = () => {
                 />
               </Tabs.List>
               <Tabs.Panel value={1}>
-                <PostTab user={user} />
+                <PostTab user={user as User} />
               </Tabs.Panel>
               <Tabs.Panel value={2}>
-                <SubscribeTab user={user} />
+                <SubscribeTab user={user as User} />
               </Tabs.Panel>
             </Tabs>
           </nav>

@@ -9,7 +9,6 @@ import {
   useCreateFollow,
   useDeleteFollowByFollowerUserIdAndFollowingUserId,
 } from '@/hooks/useFollow';
-import Alert from '@/components/common/modal/alert/Alert';
 
 const FollowLists = styled.ul``;
 const FollowItem = styled.li`
@@ -47,10 +46,6 @@ const UserFollowPage = () => {
   const [followings, setFollowings] = useState<FollowDetail[]>([]);
   const [loadingFollowers, setLoadingFollowers] = useState(true);
   const [loadingFollowings, setLoadingFollowings] = useState(true);
-  const [alertText, setAlertText] = useState<string | null>(null);
-  const [alertStatus, setAlertStatus] = useState<'success' | 'error' | null>(
-    null,
-  );
 
   const createFollow = useCreateFollow();
   const deleteFollow = useDeleteFollowByFollowerUserIdAndFollowingUserId();
@@ -130,8 +125,6 @@ const UserFollowPage = () => {
         follower_user_id: user?.userId || '', // 현재 사용자 ID
         following_user_id: followingUserId, // 팔로우할 사용자 ID
       });
-      setAlertText('팔로우 완료!');
-      setAlertStatus('success');
 
       // 버튼 사라지게 하기 위해 상태 업데이트
       setFollowers((prevFollowers) =>
@@ -145,8 +138,6 @@ const UserFollowPage = () => {
       await fetchFollowings(); // 팔로잉 목록 새로고침
     } catch (error) {
       console.error('팔로우 실패:', error);
-      setAlertText('팔로우에 실패했습니다.');
-      setAlertStatus('error');
     }
   };
 
@@ -157,16 +148,12 @@ const UserFollowPage = () => {
         firstId: user?.userId || '',
         secondId: followingUserId,
       });
-      setAlertText('언팔로우 완료!');
-      setAlertStatus('success');
 
       // 새로고침
       fetchFollowers();
       fetchFollowings();
     } catch (error) {
       console.error('언팔로우 실패:', error);
-      setAlertText('언팔로우에 실패했습니다.');
-      setAlertStatus('error');
     }
   };
 
@@ -190,9 +177,6 @@ const UserFollowPage = () => {
 
   return (
     <>
-      {alertText && alertStatus && (
-        <Alert text={alertText} status={alertStatus} />
-      )}
       <Backward />
       <Tabs defaultValue={currentTab === 'followers' ? 1 : 2} label="팔로우">
         <Tabs.List>

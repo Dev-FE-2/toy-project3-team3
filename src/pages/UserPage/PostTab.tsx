@@ -107,7 +107,7 @@ export const PostTab = ({ user }: { user: User }) => {
         playlists.map((playlist) => (
           <EachPlaylistWrapper key={playlist.playlist_id}>
             <EachPlaylist
-              thumbnailUrl={playlist.thumbnail_image}
+              thumbnailUrl={playlist.thumbnail_image ?? ''}
               videoCnt={counts.videoCounts[playlist.playlist_id] || 0}
               avatarUrl={user.profileImage}
               userName={user.nickname}

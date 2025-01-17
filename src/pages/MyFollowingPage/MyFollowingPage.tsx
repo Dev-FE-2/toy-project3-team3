@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/apis';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/constants';
+import { SupabaseUserData } from '@/types';
 
 const EachPlaylistWrapper = styled.div`
   margin-top: ${({ theme }) => theme.space.lg};
@@ -46,18 +47,6 @@ const MyFollowingHeaderFollowsImg = styled.img`
 
 const MyFollowingContents = styled.ul``;
 
-type FollowWithUser = {
-  following_user_id: string;
-  follower_user_id: string;
-  created_at: string;
-  follow_id: string;
-  user: {
-    nickname: string;
-    profile_image: string | null;
-    user_id: string;
-  };
-};
-
 type Playlist = {
   playlist_id: string; // 플레이리스트 ID
   thumbnail_image: string; // 썸네일 이미지
@@ -73,7 +62,7 @@ type Playlist = {
 const MyFollowingPage = () => {
   const { user } = useAuth();
 
-  const [followingUsers, setFollowingUsers] = useState<FollowWithUser[]>([]);
+  const [followingUsers, setFollowingUsers] = useState<SupabaseUserData[]>([]);
   const [likeCounts, setLikeCounts] = useState<{ [key: string]: number }>({});
   const [subscribeCounts, setSubscribeCounts] = useState<{
     [key: string]: number;
@@ -176,8 +165,12 @@ const MyFollowingPage = () => {
         if (playlistsError) throw playlistsError;
 
         setFollowingPlaylists(playlistsData);
-      } catch (err: any) {
-        setError(err.message || '데이터를 가져오는 중 에러가 발생했습니다.');
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message || '데이터를 가져오는 중 에러가 발생했습니다.');
+        } else {
+          setError('알 수 없는 에러가 발생했습니다.');
+        }
       } finally {
         setIsLoading(false);
       }
@@ -185,6 +178,7 @@ const MyFollowingPage = () => {
 
     fetchFollowingPlaylists();
   }, [user]);
+
   useEffect(() => {
     const fetchFollowingUsers = async () => {
       if (!user) return; // 사용자 정보가 없으면 실행하지 않음
@@ -218,7 +212,7 @@ const MyFollowingPage = () => {
 
         if (usersError) throw usersError;
 
-        setFollowingUsers(usersData || []);
+        setFollowingUsers(usersData as SupabaseUserData[]);
       } catch (err) {
         if (err instanceof Error) {
           console.error('Supabase Error:', err);
@@ -233,6 +227,7 @@ const MyFollowingPage = () => {
     };
 
     fetchFollowingUsers();
+    console.log(followingUsers);
   }, [user]);
 
   return (
@@ -254,10 +249,10 @@ const MyFollowingPage = () => {
             <p>팔로잉 중인 사용자가 없습니다.</p>
           ) : (
             followingUsers.map((follow) => (
-              <MyFollowingHeaderFollowsImgWrap key={follow.following_user_id}>
+              <MyFollowingHeaderFollowsImgWrap key={follow.user_id}>
                 <MyFollowingHeaderFollowsImg
-                  src={follow.user?.profile_image || profilePic} // 프로필 이미지 가져오기
-                  alt={follow.user?.nickname || '익명 사용자'}
+                  src={follow?.profile_image || profilePic} // 프로필 이미지 가져오기
+                  alt={follow?.nickname || '익명 사용자'}
                 />
               </MyFollowingHeaderFollowsImgWrap>
             ))

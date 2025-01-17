@@ -12,10 +12,7 @@ const Auth = ({ children }: AuthProps) => {
   const AUTH_PATHS = [SIGN_IN, SIGN_UP];
   const isAuthPath = AUTH_PATHS.includes(pathname);
 
-<<<<<<< Updated upstream
   // // 디버깅용
-=======
->>>>>>> Stashed changes
   // console.log({
   //   nickname: user?.nickname,
   //   shortIntro: user?.shortIntro,
