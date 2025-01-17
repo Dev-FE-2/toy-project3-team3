@@ -18,9 +18,13 @@ export const useFetchCategoryById = (categoryId: string) =>
     categoryId,
   );
 
-export const useFetchCategoryByCategoryNameEn = (categoryNameEn: string) =>
+export const useFetchCategoryByCategoryNameEn = (
+  categoryNameEn: string | null,
+) =>
   useFetchDataByOneId<Database['public']['Tables']['CATEGORY']['Row']>(
-    [categoryQueryKey, categoryNameEn],
+    categoryNameEn
+      ? [categoryQueryKey, categoryNameEn]
+      : [categoryQueryKey, 'all'],
     CATEGORY.BY_CATEGORY_NAME_EN,
-    categoryNameEn,
+    categoryNameEn || '',
   );

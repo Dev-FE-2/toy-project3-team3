@@ -58,6 +58,11 @@ export interface CategoryProps {
   onClick?: () => void;
 }
 
+export interface CategoryContextType {
+  currCategory: string;
+  setCurrCategory: React.Dispatch<React.SetStateAction<string>>;
+}
+
 // LikeAndSubscribe
 export interface LikeAndSubscribeProps {
   likeCnt: number;
@@ -183,7 +188,7 @@ export interface TabListProps {
 export interface EachPlaylistProps {
   thumbnailUrl?: string;
   videoCnt: number;
-  avatarUrl?: string;
+  avatarUrl?: string | null;
   userName: string;
   updateDate: string;
   likeCnt: number;
