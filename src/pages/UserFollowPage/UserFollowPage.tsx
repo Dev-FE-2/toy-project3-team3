@@ -2,32 +2,13 @@ import { Backward, Tabs } from '@/components';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import profileImage from '@/assets/img/profile/default_profile.webp';
-import styled from 'styled-components';
 import { useAuth } from '@/hooks';
 import { supabase } from '@/apis';
 import {
   useCreateFollow,
   useDeleteFollowByFollowerUserIdAndFollowingUserId,
 } from '@/hooks/useFollow';
-
-const FollowLists = styled.ul``;
-const FollowItem = styled.li`
-  display: flex;
-  align-items: center;
-`;
-const FollowUserProfile = styled.div`
-  overflow: hidden;
-  margin-right: ${({ theme }) => theme.space.sm};
-  border-radius: ${({ theme }) => theme.borderRadius.xlg};
-`;
-const FollowUserProfileImg = styled.img`
-  width: 50px;
-`;
-const FollowUserNameDiv = styled.div`
-  flex-grow: 1;
-`;
-const FollowUserName = styled.h3``;
-const FollowUserBtn = styled.button``;
+import * as S from './UserFollowPage.styles';
 
 type FollowDetail = {
   follow_id: string;
@@ -192,60 +173,60 @@ const UserFollowPage = () => {
           />
         </Tabs.List>
         <Tabs.Panel value={1}>
-          <FollowLists>
+          <S.FollowLists>
             {loadingFollowers ? (
               <p>로딩 중...</p>
             ) : (
               followers.map((follower) => (
-                <FollowItem key={follower.follow_id}>
-                  <FollowUserProfile>
-                    <FollowUserProfileImg
+                <S.FollowItem key={follower.follow_id}>
+                  <S.FollowUserProfile>
+                    <S.FollowUserProfileImg
                       src={follower.profile_image || profileImage}
                       alt="profile"
                     />
-                  </FollowUserProfile>
-                  <FollowUserNameDiv>
-                    <FollowUserName>{follower.nickname}</FollowUserName>
-                  </FollowUserNameDiv>
+                  </S.FollowUserProfile>
+                  <S.FollowUserNameDiv>
+                    <S.FollowUserName>{follower.nickname}</S.FollowUserName>
+                  </S.FollowUserNameDiv>
                   {!followings.some(
                     (following) => following.user_id === follower.user_id,
                   ) && (
-                    <FollowUserBtn
+                    <S.FollowUserBtn
                       onClick={() => handleFollow(follower.user_id)}
                     >
                       팔로우
-                    </FollowUserBtn>
+                    </S.FollowUserBtn>
                   )}
-                </FollowItem>
+                </S.FollowItem>
               ))
             )}
-          </FollowLists>
+          </S.FollowLists>
         </Tabs.Panel>
         <Tabs.Panel value={2}>
-          <FollowLists>
+          <S.FollowLists>
             {loadingFollowings ? (
               <p>로딩 중...</p>
             ) : (
               followings.map((following) => (
-                <FollowItem key={following.follow_id}>
-                  <FollowUserProfile>
-                    <FollowUserProfileImg
+                <S.FollowItem key={following.follow_id}>
+                  <S.FollowUserProfile>
+                    <S.FollowUserProfileImg
                       src={following.profile_image || profileImage}
                       alt="profile"
                     />
-                  </FollowUserProfile>
-                  <FollowUserNameDiv>
-                    <FollowUserName>{following.nickname}</FollowUserName>
-                  </FollowUserNameDiv>
-                  <FollowUserBtn
+                  </S.FollowUserProfile>
+                  <S.FollowUserNameDiv>
+                    <S.FollowUserName>{following.nickname}</S.FollowUserName>
+                  </S.FollowUserNameDiv>
+                  <S.FollowUserBtn
                     onClick={() => handleUnfollow(following.user_id)}
                   >
                     언팔로우
-                  </FollowUserBtn>
-                </FollowItem>
+                  </S.FollowUserBtn>
+                </S.FollowItem>
               ))
             )}
-          </FollowLists>
+          </S.FollowLists>
         </Tabs.Panel>
       </Tabs>
     </>
