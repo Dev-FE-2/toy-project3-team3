@@ -8,3 +8,6 @@ export * from './useHandleUpdatePlaylist';
 export * from './useHandleUpdatePlaylistVideo';
 export * from './useInitialPlaylistData';
 export * from './useThumbnail';
+export * from './useLikeHandling';
+export * from './useSubscribeHandling';
+export * from './useOptimisticLikeToComment';

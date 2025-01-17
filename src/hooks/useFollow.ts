@@ -10,7 +10,6 @@ import type { Database } from '@/types';
 const { FOLLOWS } = API_ENDPOINTS;
 const followsQueryKey = QUERY_KEYS.FOLLOWS;
 const followingsQueryKey = QUERY_KEYS.FOLLOWINGS;
-export const test = 1;
 
 export const useFetchFollows = () =>
   useFetchDataAll<Database['public']['Tables']['FOLLOWS']['Row']>(

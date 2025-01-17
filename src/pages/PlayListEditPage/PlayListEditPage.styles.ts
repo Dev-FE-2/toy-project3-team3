@@ -12,6 +12,11 @@ export const PlayListEditPageWrapper = styled.div`
 
 export const Form = styled.form`
   width: 85%;
+  margin-top: ${({ theme }) => theme.space.sm};
+  background-color: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.space.md};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 
 export const { SubmitButton } = FormStyle;

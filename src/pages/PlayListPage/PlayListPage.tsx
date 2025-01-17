@@ -1,5 +1,12 @@
+import { PlaylistContents, VideoPlayer } from '@/components';
+
 const PlaylistPage = () => {
-  return <div>PlaylistPage</div>;
+  return (
+    <>
+      <VideoPlayer />
+      <PlaylistContents />
+    </>
+  );
 };
 
 export default PlaylistPage;
