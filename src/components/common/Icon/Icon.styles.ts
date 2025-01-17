@@ -8,11 +8,13 @@ import { IoArrowBack } from 'react-icons/io5';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { GoBell } from 'react-icons/go';
 import { IoSearch } from 'react-icons/io5';
+import { IoCloseSharp } from 'react-icons/io5';
 import { HiOutlineHome } from 'react-icons/hi';
 import { IoPersonOutline } from 'react-icons/io5';
 import { LuKey } from 'react-icons/lu';
 import { IoPeopleOutline } from 'react-icons/io5';
 import { IoMenu } from 'react-icons/io5';
+import { MdDragHandle, MdDragIndicator, MdAdd } from 'react-icons/md';
 
 const IconButton = css`
   display: flex;
@@ -65,7 +67,7 @@ export const AlarmDot = styled.div`
   pointer-events: none;
 `;
 
-export const CommentIcon = styled(IoArrowBack)`
+export const CommentIcon = styled(FaRegCommentDots)`
   ${IconButton};
   &:hover {
     color: ${({ theme }) => theme.colors.gray.extraDark};
@@ -84,9 +86,21 @@ export const BackwardIcon = styled(IoArrowBack)`
   color: ${({ theme }) => theme.colors.gray.extraDark};
 `;
 
-export const CancleIcon = styled(FaRegCommentDots)`
+export const CancleIcon = styled(IoCloseSharp)`
   ${IconButton};
   color: ${({ theme }) => theme.colors.gray.extraDark};
+`;
+
+export const DragIcon = styled(MdDragIndicator)`
+  ${IconButton}
+`;
+
+export const BottomSheedIcon = styled(MdDragHandle)`
+  ${IconButton}
+`;
+
+export const Add = styled(MdAdd)`
+  ${IconButton}
 `;
 
 export const MenuIcon = styled(IoMenu)`

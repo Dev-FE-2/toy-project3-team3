@@ -1,5 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Layout } from '@/components';
+import {
+  Layout,
+  ErrorFallback,
+  Auth,
+  PlaylistProtectedRoute,
+} from '@/components';
 import {
   AlertPage,
   HomePage,
@@ -7,8 +12,8 @@ import {
   MyFollowingPage,
   MyLikePage,
   MySubscribePage,
-  PlayListEditPage,
-  PlayListPage,
+  PlaylistEditPage,
+  PlaylistPage,
   SearchPage,
   SignInPage,
   SignUpPage,
@@ -18,7 +23,6 @@ import {
   NotFoundPage,
 } from '@/pages';
 import { ROUTES } from '@/constants';
-import { ErrorFallback, Auth } from '@/components';
 
 const {
   HOME,
@@ -30,6 +34,7 @@ const {
   MY_INFO_EDIT,
   PLAY_LIST_EDIT,
   PLAY_LIST,
+  PLAY_LIST_ADD,
   SEARCH,
   SIGN_IN,
   SIGN_UP,
@@ -59,8 +64,14 @@ const router = createBrowserRouter([
       { path: MY_LIKE, element: <MyLikePage /> },
       { path: MY_SUBSCRIBE, element: <MySubscribePage /> },
       { path: MY_INFO_EDIT, element: <MyInfoEditPage /> },
-      { path: PLAY_LIST_EDIT, element: <PlayListEditPage /> },
-      { path: PLAY_LIST, element: <PlayListPage /> },
+      {
+        element: <PlaylistProtectedRoute />,
+        children: [
+          { path: PLAY_LIST_EDIT, element: <PlaylistEditPage /> },
+          { path: PLAY_LIST_ADD, element: <PlaylistEditPage /> },
+        ],
+      },
+      { path: PLAY_LIST, element: <PlaylistPage /> },
       { path: USER_FOLLOW, element: <UserFollowPage /> },
       { path: USER, element: <UserPage /> },
     ],
