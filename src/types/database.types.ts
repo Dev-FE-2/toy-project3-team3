@@ -289,14 +289,14 @@ export type Database = {
       };
       PLAYLISTS: {
         Row: {
-          category_id: string;
+          category_id: string | null;
           created_at: string;
           playlist_id: string;
           short_intro: string | null;
           title: string;
           updated_at: string;
           user_id: string;
-          thumbnail_image: string;
+          thumbnail_image?: string;
         };
         Insert: {
           category_id?: string;
@@ -376,7 +376,7 @@ export type Database = {
           created_at: string;
           email: string;
           nickname: string;
-          profile_image: string | null;
+          profile_image?: string;
           short_intro: string | null;
           user_id: string;
         };
