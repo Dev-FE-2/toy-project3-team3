@@ -64,7 +64,23 @@ npm run dev
 
 ## 🔧 기술 스택
 
+### 프론트엔드
+<img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)"/> <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
 
+### 상태관리
+<img src="https://img.shields.io/badge/👻%20zotai-gray?style=for-the-badge"/> <img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white"/>
+
+### 백엔드 및 데이터베이스
+<img src="https://img.shields.io/badge/Supabase-black?style=for-the-badge&logo=supabase"/>
+
+### 테스트
+<img src="https://img.shields.io/badge/Playwright-45BA4B?style=for-the-badge"/>
+
+### 개발 도구
+
+<img src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint"/> <img src="https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier"/> <img src="https://img.shields.io/badge/🐶%20Husky-blue?style=for-the-badge"/>
+
+&nbsp;
 
 ## 📂 폴더 구조
 
@@ -125,7 +141,7 @@ npm run dev
 
 
 ## Figma
-- [Figma](https://www.figma.com/design/gYoLFdjCIp6xXyVedaVAtz/%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?node-id=0-1&p=f&t=6JBaLs85QCbo8OoB-0)
+- [Gram Figma](https://www.figma.com/design/gYoLFdjCIp6xXyVedaVAtz/%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?node-id=0-1&p=f&t=6JBaLs85QCbo8OoB-0)
 
 ## ERD
 <img width="1632" alt="image" src="https://github.com/user-attachments/assets/b8c89b3d-3cb0-41bd-9270-49439e9579bb" />
