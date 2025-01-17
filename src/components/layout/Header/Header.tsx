@@ -1,23 +1,26 @@
 import * as S from './Header.styles';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { memo } from 'react';
+import { useAtom } from 'jotai';
+import { showMenuBarAtom } from '@/atoms';
 import { Icon } from '@/components';
-import { ROUTES } from '@/constants';
-
+import { useAuth } from '@/hooks';
 const Header = memo(({ showHeader }: { showHeader: boolean }) => {
-  const { pathname } = useLocation();
-  const { USER } = ROUTES;
+  const { user } = useAuth();
+  const params = useParams();
+  const isUserPage = params.nickname && user?.nickname === params.nickname;
+
+  const [showMenuBar, setShowMenuBar] = useAtom(showMenuBarAtom);
+
   const handleMenuClick = () => {
-    console.log('Hamburger Menu Clicked');
+    setShowMenuBar(!showMenuBar);
   };
 
   return (
     <S.HeaderContainer $show={showHeader}>
       <S.Logo />
       <S.RightSection>
-        {pathname === USER ? (
-          <Icon type="menu" onClick={handleMenuClick} />
-        ) : null}
+        {isUserPage ? <Icon type="menu" onClick={handleMenuClick} /> : null}
       </S.RightSection>
     </S.HeaderContainer>
   );

@@ -6,6 +6,7 @@ interface VideoItemsProps {
   video: Video;
   isPlayList?: boolean;
   onVideoClick?: (video: Video) => void;
+  onClick?: () => void;
   onRemove?: (e: React.MouseEvent, videoId: string) => void;
   dragProps?: {
     ref: (el: HTMLDivElement | null) => void;
@@ -20,12 +21,22 @@ export const VideoItems = ({
   video,
   isPlayList = false,
   onVideoClick,
+  onClick,
   onRemove,
   dragProps,
 }: VideoItemsProps) => {
+  const handleOnClick = () => {
+    if (onVideoClick) {
+      onVideoClick(video);
+    }
+
+    if (onClick) {
+      onClick();
+    }
+  };
   return (
     <S.VideoContainer
-      onClick={() => onVideoClick?.(video)}
+      onClick={handleOnClick}
       draggable={isPlayList}
       {...dragProps}
       isPlayList={isPlayList}
@@ -40,11 +51,12 @@ export const VideoItems = ({
         <S.VideoTitle>{video.title}</S.VideoTitle>
         <S.VideoChannel>{video.channelTitle}</S.VideoChannel>
       </S.VideoInfoContainer>
-      {onRemove ? (
+      {onRemove && (
         <S.VideoIconWrapper onClick={(e) => onRemove(e, video.id)}>
           <Icon type="cancel" />
         </S.VideoIconWrapper>
-      ) : (
+      )}
+      {onVideoClick && (
         <S.VideoIconWrapper>
           <Icon type="add" />
         </S.VideoIconWrapper>
