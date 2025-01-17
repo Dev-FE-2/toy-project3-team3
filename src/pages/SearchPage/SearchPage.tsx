@@ -13,6 +13,7 @@ import {
   getUserInfo,
   getVideoCnt,
 } from '../HomePage/getEachPlayListInfo';
+import { FromHashtagData, FromPlayListData } from '@/types/common';
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -45,16 +46,84 @@ const SearchPage = () => {
   };
 
   const getsearchedPlayListsList = async () => {
-    const { data, error } = await supabase
+    const resultData: Database['public']['Tables']['PLAYLISTS']['Row'][] = [];
+
+    const { data: playlistData, error: playlistError } = await supabase
       .from('PLAYLISTS')
       .select('*')
       .or(`title.ilike.%${q}%,short_intro.ilike.%${q}%`);
 
-    if (error) {
-      console.error(`Failed to fetch PlayList for ${q}`, error);
+    if (playlistError) {
+      console.error(`Failed to fetch PlayList for ${q}`, playlistError);
     } else {
-      setsearchedPlayListsList(data);
+      const fromPlaylistData: Database['public']['Tables']['PLAYLISTS']['Row'][] =
+        playlistData.map((playlist: FromPlayListData) => {
+          return {
+            playlist_id: playlist.playlist_id,
+            created_at: playlist.created_at,
+            updated_at: playlist.updated_at,
+            short_intro: playlist.short_intro,
+            title: playlist.title,
+            user_id: playlist.user_id,
+            thumbnail_image: playlist.thumbnail_image,
+            category_id: playlist.category_id,
+          };
+        });
+      resultData.push(...fromPlaylistData);
     }
+
+    const { data: hashtagData, error: hashtagError } = await supabase
+      .from('HASHTAGS')
+      .select(
+        `
+          hashtag_id,
+          hashtag_name,
+          playlist_id!inner (
+            playlist_id,
+            created_at,
+            updated_at,
+            short_intro,
+            title,
+            user_id,
+            thumbnail_image,
+            category_id
+          )
+        `,
+      )
+      .like(`hashtag_name`, `%${q}%`);
+
+    if (hashtagError) {
+      console.error(`Failed to fetch hashtag for ${q}`, hashtagError);
+    } else {
+      const fromHashtagData: Database['public']['Tables']['PLAYLISTS']['Row'][] =
+        hashtagData.map((hashtag: FromHashtagData) => {
+          const playlist = Array.isArray(hashtag.playlist_id)
+            ? hashtag.playlist_id[0]
+            : hashtag.playlist_id;
+          console.log(playlist);
+
+          return {
+            playlist_id: playlist?.playlist_id,
+            created_at: playlist?.created_at,
+            updated_at: playlist?.updated_at,
+            short_intro: playlist?.short_intro,
+            title: playlist?.title,
+            user_id: playlist?.user_id,
+            thumbnail_image: playlist?.thumbnail_image,
+            category_id: playlist?.category_id,
+          };
+        });
+
+      const uniquePlaylistData = fromHashtagData.filter((playlist) => {
+        return !resultData.some(
+          (existingPlaylist) =>
+            existingPlaylist.playlist_id === playlist.playlist_id,
+        );
+      });
+      resultData.push(...uniquePlaylistData);
+    }
+
+    setsearchedPlayListsList(resultData);
   };
 
   useEffect(() => {
@@ -167,7 +236,7 @@ const SearchPage = () => {
         {selectedTab === 'user' && (
           <S.UserList>
             {searchedUserList?.map((user) => (
-              <S.User key={user.nickname}>
+              <S.User key={user.user_id}>
                 <S.UserInfo>
                   <Avatar
                     size="small"
@@ -226,7 +295,7 @@ const SearchPage = () => {
                   }
                 >
                   <EachPlaylist
-                    thumbnailUrl={playList.thumbnail_img}
+                    thumbnailUrl={playList.thumbnail_image}
                     videoCnt={videoCnt}
                     avatarUrl={userInfo.profile_image}
                     userName={userInfo.nickname}
