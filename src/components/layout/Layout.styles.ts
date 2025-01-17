@@ -7,13 +7,14 @@ export const MainContainer = styled.main`
   margin: 0 auto;
 `;
 
-export const OutletContainer = styled.section<{ $hasHeader: boolean }>`
+export const OutletContainer = styled.section<{ $showHeader: boolean }>`
   position: relative;
   padding: ${({ theme }) => theme.space.lg};
-  margin-top: var(--header-height);
+  margin-top: ${({ $showHeader }) =>
+    $showHeader ? 'var(--header-height)' : '0'};
   margin-bottom: var(--nav-height);
-  height: ${({ $hasHeader }) =>
-    $hasHeader
+  height: ${({ $showHeader }) =>
+    $showHeader
       ? 'calc(100vh - var(--header-height) - var(--nav-height))'
       : 'calc(100vh - var(--nav-height))'};
   overflow-y: auto;

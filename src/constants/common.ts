@@ -25,6 +25,13 @@ export const CATEGORY_OPTIONS = {
 
 export const CATEGORIES = ['all', ...Object.keys(CATEGORY_OPTIONS)] as const;
 
+export const CATEGORY_EDIT_OPTIONS = {
+  notSelected: '카테고리 선택',
+  ...Object.fromEntries(
+    Object.entries(CATEGORY_OPTIONS).filter(([key]) => key !== 'all'),
+  ),
+} as const;
+
 export const SORT_COMMENT_OPTIONS = {
   latest: '최신순',
   likes: '좋아요순',
