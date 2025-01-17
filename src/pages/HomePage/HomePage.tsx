@@ -156,7 +156,7 @@ const HomePage = () => {
             }
           >
             <EachPlaylist
-              thumbnailUrl={data.thumbnail_img}
+              thumbnailUrl={data.thumbnail_image}
               videoCnt={videoCnt}
               avatarUrl={userInfo.profile_image}
               userName={userInfo.nickname}

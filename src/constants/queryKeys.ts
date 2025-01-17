@@ -5,6 +5,7 @@ export const QUERY_KEYS = {
   ALERT_TYPES: 'alertTypes',
   COMMENT: 'comment',
   COMMENTS: 'comments',
+  REPLIES: 'replies',
   HASHTAG: 'hashtag',
   HASHTAGS: 'hashtags',
   PLAYLIST_VIDEO: 'playlistVideo',
@@ -20,5 +21,6 @@ export const QUERY_KEYS = {
   SUBSCRIBES: 'subscribes',
   LIKE: 'like',
   LIKES: 'likes',
+  YOUTUBE_SEARCH: 'youtubeSearch',
   CATEGORIES: 'categories',
 };

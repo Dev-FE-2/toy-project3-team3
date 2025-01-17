@@ -1,5 +1,5 @@
 import { ChangeEvent, ReactNode } from 'react';
-import { CATEGORIES } from '@/constants';
+import { CATEGORIES, CATEGORY_EDIT_OPTIONS } from '@/constants';
 
 // Icon
 export type IconType =
@@ -10,7 +10,12 @@ export type IconType =
   | 'comment'
   | 'cancel'
   | 'backward'
+  | 'alarm'
   | 'search'
+  | 'drag'
+  | 'bottomSheet'
+  | 'add'
+  | 'send'
   | 'home'
   | 'searchNav'
   | 'signUp'
@@ -95,10 +100,16 @@ export interface StyledBtnProps {
 // Select
 export type CategoryType = (typeof CATEGORIES)[number];
 
+export type CategoryEditType = keyof typeof CATEGORY_EDIT_OPTIONS;
+
 export type SortCommentType = 'latest' | 'likes';
 export type SortEtcType = 'latest' | 'likes' | 'subscribers';
 
-export type SelectType = 'category' | 'sortComment' | 'sortEtc';
+export type SelectType =
+  | 'category'
+  | 'categoryEdit'
+  | 'sortComment'
+  | 'sortEtc';
 
 export interface SelectProps {
   ref?: React.Ref<HTMLSelectElement>;
@@ -116,6 +127,33 @@ export interface StyledSelectProps {
 export interface SearchProps {
   queryKey: string;
   placeholder?: string;
+  onQueryChange?: (query: string, tab: string) => void;
+}
+
+export interface FromHashtagData {
+  hashtag_id: string;
+  hashtag_name: string;
+  playlist_id: {
+    playlist_id: string;
+    created_at: string;
+    updated_at: string;
+    short_intro: string | null;
+    title: string;
+    user_id: string;
+    thumbnail_image?: string;
+    category_id: string | null;
+  }[];
+}
+
+export interface FromPlayListData {
+  playlist_id: string;
+  created_at: string;
+  updated_at: string;
+  short_intro: string | null;
+  title: string;
+  user_id: string;
+  thumbnail_image?: string;
+  category_id: string | null;
 }
 
 // Tabs
@@ -134,6 +172,7 @@ export interface TabsProps {
 export interface TabTriggerProps {
   value: number;
   text: string;
+  onClick: () => void;
 }
 
 export interface TabPanelProps {
@@ -147,9 +186,9 @@ export interface TabListProps {
 
 // Each Playlist
 export interface EachPlaylistProps {
-  thumbnailUrl: string;
+  thumbnailUrl?: string;
   videoCnt: number;
-  avatarUrl: string | null;
+  avatarUrl?: string | null;
   userName: string;
   updateDate: string;
   likeCnt: number;
@@ -169,6 +208,7 @@ interface BaseInputProps<T extends HTMLInputElement | HTMLTextAreaElement> {
   id: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<T>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<T>) => void;
   onBlur?: (
     e:
       | React.FocusEvent<HTMLInputElement>

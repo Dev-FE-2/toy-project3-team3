@@ -66,6 +66,8 @@ export const API_ENDPOINTS = {
       `${API_ENDPOINTS.SUBSCRIBES.BASE}?playlist_id=eq.${playlistId}`,
     BY_ID_AND_USER_ID: (subscribeId: string, userId: string) =>
       `${API_ENDPOINTS.SUBSCRIBES.BASE}?and=(subscribe_id.eq.${subscribeId},user_id.eq.${userId})`,
+    BY_PLAYLIST_ID_AND_USER_ID: (playlistId: string, userId: string) =>
+      `${API_ENDPOINTS.SUBSCRIBES.BASE}?and=(playlist_id.eq.${playlistId},user_id.eq.${userId})`,
   },
   LIKES: {
     BASE: '/LIKES',

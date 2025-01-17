@@ -45,7 +45,7 @@ const useAuthStateChange = () => {
 
   const handleAuthChange = useCallback(
     async (event: string, currSession: Session | null) => {
-      console.log('Event type:', event);
+      // console.log('Event type:', event); //디버깅용
       setSession(() => currSession);
       switch (event) {
         case 'INITIAL_SESSION':
