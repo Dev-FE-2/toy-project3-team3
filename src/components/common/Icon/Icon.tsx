@@ -15,6 +15,10 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
       cancel: '취소',
       backward: '뒤로 가기',
       search: '검색',
+      drag: '드래그',
+      bottomSheet: '바텀시트 드래그',
+      add: '추가',
+      send: '메시지 발송',
       home: '홈으로 이동',
       searchNav: '검색으로 이동',
       signUp: '회원가입으로 이동',
@@ -36,10 +40,18 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
     ) : (
       <S.SubscribeEmpty onClick={onClick} aria-label={getAriaLabel()} />
     ),
-    comment: <S.CommentIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    comment: isActive ? (
+      <S.CommentIconFilled onClick={onClick} aria-label={getAriaLabel()} />
+    ) : (
+      <S.CommentIconEmpty onClick={onClick} aria-label={getAriaLabel()} />
+    ),
     cancel: <S.CancleIcon onClick={onClick} aria-label={getAriaLabel()} />,
     backward: <S.BackwardIcon onClick={onClick} aria-label={getAriaLabel()} />,
     search: <S.SearchIcon onClick={onClick} aria-label={getAriaLabel()} />,
+    drag: <S.DragIcon aria-label={getAriaLabel()} />,
+    bottomSheet: <S.BottomSheedIcon aria-label={getAriaLabel()} />,
+    add: <S.Add onClick={onClick} aria-label={getAriaLabel()} />,
+    send: <S.Send onClick={onClick} aria-label={getAriaLabel()} />,
     // header
     alarm: (
       <S.AlarmIconWrapper>
@@ -47,6 +59,7 @@ const Icon = ({ type, isActive = false, onClick }: IconProps) => {
         {isActive && <S.AlarmDot aria-hidden="true" />}
       </S.AlarmIconWrapper>
     ),
+
     menu: <S.MenuIcon onClick={onClick} aria-label={getAriaLabel()} />,
     // nav
     home: (

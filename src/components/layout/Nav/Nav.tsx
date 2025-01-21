@@ -1,6 +1,8 @@
 import * as S from './Nav.styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { memo, useMemo } from 'react';
+import { useAtom } from 'jotai';
+import { showMenuBarAtom } from '@/atoms';
 import { useAuth } from '@/hooks';
 import { Icon } from '@/components';
 import { ROUTES } from '@/constants';
@@ -10,8 +12,9 @@ const Nav = memo(() => {
   const { pathname } = useLocation();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [, setShowMenuBar] = useAtom(showMenuBarAtom);
 
-  const { HOME, PLAY_LIST_EDIT, SEARCH, SIGN_IN, SIGN_UP, MY_FOLLOWING, USER } =
+  const { HOME, PLAY_LIST_ADD, SEARCH, SIGN_IN, SIGN_UP, MY_FOLLOWING } =
     ROUTES;
 
   const navItems = useMemo(
@@ -50,16 +53,16 @@ const Nav = memo(() => {
       },
       {
         type: 'profile',
-        path: USER,
-        onClick: () => navigate(USER),
+        path: `/${user?.nickname}`,
+        onClick: () => navigate(`/${user?.nickname}`),
         showIfUser: true,
       },
     ],
-    [navigate, HOME, SEARCH, SIGN_IN, SIGN_UP, MY_FOLLOWING, USER],
+    [navigate, HOME, SEARCH, SIGN_IN, SIGN_UP, MY_FOLLOWING, user?.nickname],
   );
 
   return (
-    <S.NavContainer>
+    <S.NavContainer onClick={() => setShowMenuBar(false)}>
       {user ? (
         <>
           {navItems.map((item) => {
@@ -69,7 +72,7 @@ const Nav = memo(() => {
                 <S.StyledPlusBtn
                   key={item.type}
                   borderType="circle"
-                  onClick={() => navigate(PLAY_LIST_EDIT)}
+                  onClick={() => navigate(PLAY_LIST_ADD)}
                 />
               );
             }

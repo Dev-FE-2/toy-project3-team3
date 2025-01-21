@@ -253,13 +253,19 @@ export type Database = {
           playlist_id: string;
           playlist_videos_id: string;
           video_id: string;
+          video_title: string;
+          video_thumbnail: string;
+          video_channel_title: string;
         };
         Insert: {
           created_at?: string;
           order?: number;
-          playlist_id: string;
+          playlist_id?: string;
           playlist_videos_id?: string;
           video_id: string;
+          video_title: string;
+          video_thumbnail: string;
+          video_channel_title: string;
         };
         Update: {
           created_at?: string;
@@ -267,6 +273,9 @@ export type Database = {
           playlist_id?: string;
           playlist_videos_id?: string;
           video_id?: string;
+          video_title: string;
+          video_thumbnail: string;
+          video_channel_title: string;
         };
         Relationships: [
           {
@@ -280,13 +289,14 @@ export type Database = {
       };
       PLAYLISTS: {
         Row: {
-          category_id: string;
+          category_id: string | null;
           created_at: string;
           playlist_id: string;
           short_intro: string | null;
           title: string;
           updated_at: string;
           user_id: string;
+          thumbnail_image?: string;
         };
         Insert: {
           category_id?: string;
@@ -296,6 +306,7 @@ export type Database = {
           title: string;
           updated_at?: string;
           user_id: string;
+          thumbnail_image?: string | null;
         };
         Update: {
           category_id?: string;
@@ -305,6 +316,7 @@ export type Database = {
           title?: string;
           updated_at?: string;
           user_id?: string;
+          thumbnail_image?: string | null;
         };
         Relationships: [
           {
@@ -364,7 +376,7 @@ export type Database = {
           created_at: string;
           email: string;
           nickname: string;
-          profile_image: string | null;
+          profile_image?: string;
           short_intro: string | null;
           user_id: string;
         };
