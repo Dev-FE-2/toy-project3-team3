@@ -14,13 +14,11 @@ import {
 } from '@/services/getEachPlayListInfo';
 import { EachPlaylist } from '@/components';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks';
 
 const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { PLAY_LIST } = ROUTES;
   const { currCategory } = useCategoryContext();
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null,
@@ -151,9 +149,7 @@ const HomePage = () => {
         return (
           <S.OnePlayList
             key={data.playlist_id}
-            onClick={() =>
-              navigate(PLAY_LIST.replace(':playListId', data.playlist_id))
-            }
+            onClick={() => navigate(`/playlist/${data.playlist_id}`)}
           >
             <EachPlaylist
               thumbnailUrl={data.thumbnail_image}
