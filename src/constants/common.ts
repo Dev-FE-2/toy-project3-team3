@@ -49,3 +49,15 @@ export const SAFE_AREA = {
   left: 'env(safe-area-inset-left)',
   bottom: 'env(safe-area-inset-bottom)',
 } as const;
+
+// ALERTS TYPE
+export const ALERTS_TYPE_KEYS = [
+  'comment_comment',
+  'comment_like',
+  'playlist_comment',
+  'playlist_like',
+  'playlist_add',
+  'playlist_edit',
+  'followed',
+  'subscribed',
+] as const;
