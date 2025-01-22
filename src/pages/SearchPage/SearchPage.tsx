@@ -14,7 +14,11 @@ import {
   getUserInfo,
   getVideoCnt,
 } from '@/services/getEachPlayListInfo';
-import { useAuth } from '@/hooks';
+import {
+  useAuth,
+  useCreateFollow,
+  useDeleteFollowByFollowerUserIdAndFollowingUserId,
+} from '@/hooks';
 
 const SearchPage = () => {
   const { user } = useAuth();
@@ -226,8 +230,91 @@ const SearchPage = () => {
     return date.toLocaleDateString('ko-KR'); // 한국 형식으로 날짜를 표시
   };
 
-  const onClickFollowBtn = () => {
-    console.log('CLICK FOLLOW');
+  const [followStates, setFollowStates] = useState<{ [key: string]: boolean }>(
+    {},
+  );
+
+  useEffect(() => {
+    const fetchFollowStates = async () => {
+      const states: { [key: string]: boolean } = {};
+      for (const user of searchedUserList) {
+        states[user.user_id] = await getIsFollowed(user.user_id);
+      }
+      setFollowStates(states);
+    };
+
+    fetchFollowStates();
+  }, [searchedUserList]);
+
+  const createFollow = useCreateFollow();
+  const deleteFollow = useDeleteFollowByFollowerUserIdAndFollowingUserId();
+
+  const onClickFollowBtn = (followingUserId: string) => {
+    const handleFollow = async (followingUserId: string) => {
+      try {
+        await createFollow.mutateAsync({
+          follower_user_id: user?.userId || '', // 현재 사용자 ID
+          following_user_id: followingUserId, // 팔로우할 사용자 ID
+        });
+
+        setFollowStates((prev) => ({
+          ...prev,
+          [followingUserId]: true,
+        }));
+      } catch (error) {
+        console.error('팔로우 실패:', error);
+      }
+    };
+
+    // 언팔로우 처리
+    const handleUnfollow = async (followingUserId: string) => {
+      try {
+        await deleteFollow.mutateAsync({
+          firstId: user?.userId || '',
+          secondId: followingUserId,
+        });
+
+        setFollowStates((prev) => ({
+          ...prev,
+          [followingUserId]: false,
+        }));
+      } catch (error) {
+        console.error('언팔로우 실패:', error);
+      }
+    };
+
+    if (followStates[followingUserId]) {
+      handleUnfollow(followingUserId); // 팔로우 상태가 true이면 언팔로우
+    } else {
+      handleFollow(followingUserId); // 팔로우 상태가 false이면 팔로우
+    }
+  };
+
+  const getIsFollowed = async (targetUserId: string) => {
+    try {
+      const userId = user?.userId;
+      if (!userId || !targetUserId) {
+        console.warn('Invalid userId or targetUserId provided');
+        return false;
+      }
+
+      const { count, error } = await supabase
+        .from('FOLLOWS')
+        .select('*', { count: 'exact' })
+        .eq('following_user_id', targetUserId)
+        .eq('follower_user_id', userId);
+
+      if (error) {
+        console.error('Failed to fetch follow status:', error);
+        return false;
+      }
+
+      const followCount = count ?? 0;
+      return followCount > 0;
+    } catch (error) {
+      console.error('Unexpected error in getIsFollowed:', error);
+      return false;
+    }
   };
 
   return (
@@ -236,30 +323,34 @@ const SearchPage = () => {
       <S.ResultListZone>
         {selectedTab === 'user' && (
           <S.UserList>
-            {searchedUserList?.map((user) => (
-              <S.User key={user.user_id}>
-                <S.UserInfo onClick={() => handleAvatarClick(user.nickname)}>
+            {searchedUserList?.map((targetUser) => (
+              <S.User key={targetUser.user_id}>
+                <S.UserInfo
+                  onClick={() => handleAvatarClick(targetUser.nickname)}
+                >
                   <Avatar
                     size="small"
                     imageUrl={
-                      user.profile_image !== null
-                        ? user.profile_image
+                      targetUser.profile_image !== null
+                        ? targetUser.profile_image
                         : undefined
                     }
                     altText="User Profile"
                     onClick={() => {}}
                   />
-                  {user.nickname}
+                  {targetUser.nickname}
                 </S.UserInfo>
-                <Button
-                  color="primary"
-                  borderType="round"
-                  size="small"
-                  disabled={false}
-                  onClick={onClickFollowBtn}
-                >
-                  팔로우
-                </Button>
+                {targetUser.user_id !== user?.userId && (
+                  <Button
+                    color="primary"
+                    borderType="round"
+                    size="small"
+                    disabled={false}
+                    onClick={() => onClickFollowBtn(targetUser.user_id)}
+                  >
+                    {followStates[targetUser.user_id] ? '언팔로우' : '팔로우'}
+                  </Button>
+                )}
               </S.User>
             ))}
           </S.UserList>
