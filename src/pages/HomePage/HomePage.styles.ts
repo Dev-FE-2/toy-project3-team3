@@ -24,3 +24,5 @@ export const PlayListSetTitle = styled.div`
 export const OnePlayList = styled.div`
   margin-bottom: ${({ theme }) => theme.space.lg};
 `;
+
+export const Loading = styled.div``;

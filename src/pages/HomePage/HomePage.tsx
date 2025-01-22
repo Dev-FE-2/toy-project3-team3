@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as S from './HomePage.styles';
-import { useFetchPlaylistByCategoryId } from '@/hooks/usePlaylist';
+import { useGetPlayListByCategory } from '@/hooks/usePlaylist';
 import { useCategoryContext } from '@/components/common/Category/CategoryContext';
 import { useFetchCategoryByCategoryNameEn } from '@/hooks/useCategory';
 import { Database } from '@/types';
@@ -23,15 +23,37 @@ const HomePage = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null,
   );
-  const [playLists, setPlayLists] = useState<
-    Database['public']['Tables']['PLAYLISTS']['Row'][]
-  >([]);
+  const [page, setPage] = useState(1);
+  const {
+    data: playLists,
+    isLoading,
+    error,
+    hasMore,
+  } = useGetPlayListByCategory(selectedCategoryId, page, 5);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      },
+      { threshold: 1.0 }, // 요소가 100% 보일 때 트리거
+    );
+
+    if (lastElementRef.current) {
+      observer.current.observe(lastElementRef.current);
+    }
+  }, [isLoading, hasMore]);
 
   const { data: categoryData } = useFetchCategoryByCategoryNameEn(
     currCategory !== 'all' ? currCategory : null,
   );
-  const { data: playListsData } =
-    useFetchPlaylistByCategoryId(selectedCategoryId);
 
   useEffect(() => {
     if (currCategory === 'all') {
@@ -40,12 +62,6 @@ const HomePage = () => {
       setSelectedCategoryId(categoryData[0].category_id);
     }
   }, [currCategory, categoryData]);
-
-  useEffect(() => {
-    if (playListsData) {
-      setPlayLists(playListsData);
-    }
-  }, [playListsData]);
 
   const [playListInfos, setPlayListInfos] = useState<
     Record<
@@ -111,14 +127,6 @@ const HomePage = () => {
     }
   }, [playLists]);
 
-  const handleLikeClick = () => {
-    console.log('CLICK LIKE');
-  };
-
-  const handleSubscribeClick = () => {
-    console.log('CLICK SUBSCRIBE');
-  };
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('ko-KR'); // 한국 형식으로 날짜를 표시
@@ -126,7 +134,8 @@ const HomePage = () => {
 
   return (
     <S.HomePageContainer>
-      {playLists?.map((data) => {
+      {playLists?.map((data, idx) => {
+        const isLast = idx === playLists.length - 1;
         const {
           videoCnt,
           likeCnt,
@@ -149,6 +158,7 @@ const HomePage = () => {
         return (
           <S.OnePlayList
             key={data.playlist_id}
+            ref={isLast ? lastElementRef : null}
             onClick={() => navigate(`/playlist/${data.playlist_id}`)}
           >
             <EachPlaylist
@@ -162,12 +172,14 @@ const HomePage = () => {
               isLiked={isLiked}
               isSubscribed={isSubscribed}
               playListTitle={data.title}
-              onLikeClick={handleLikeClick}
-              onSubscribeClick={handleSubscribeClick}
+              onLikeClick={() => {}}
+              onSubscribeClick={() => {}}
             />
           </S.OnePlayList>
         );
       })}
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
     </S.HomePageContainer>
   );
 };
