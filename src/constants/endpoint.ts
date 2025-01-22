@@ -105,6 +105,8 @@ export const API_ENDPOINTS = {
       `${API_ENDPOINTS.ALERTS.BASE}?alert_id=eq.${alertId}`,
     BY_TO_USER_ID: (toUserId: string) =>
       `${API_ENDPOINTS.ALERTS.BASE}?to_user_id=eq.${toUserId}`,
+    BY_TO_USER_ID_NOT_CHECKED: (toUserId: string) =>
+      `${API_ENDPOINTS.ALERTS.BASE}?to_user_id=eq.${toUserId}&is_checked=eq.${false}&select=*,from_user_id(*),to_user_id(*)`,
   },
   ALERT_TYPES: {
     BASE: 'ALERT_TYPES',

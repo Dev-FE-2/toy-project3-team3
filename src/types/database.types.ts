@@ -35,7 +35,7 @@ export type Database = {
           alert_id: string;
           alert_type_id: string;
           created_at: string;
-          from_user_id: string | null;
+          from_user_id: string | Database['public']['Tables']['USERS']['Row'];
           is_checked: boolean;
           to_user_id: string;
         };
@@ -43,7 +43,7 @@ export type Database = {
           alert_id?: string;
           alert_type_id: string;
           created_at?: string;
-          from_user_id?: string | null;
+          from_user_id?: string;
           is_checked?: boolean;
           to_user_id: string;
         };
@@ -51,7 +51,7 @@ export type Database = {
           alert_id?: string;
           alert_type_id?: string;
           created_at?: string;
-          from_user_id?: string | null;
+          from_user_id?: string;
           is_checked?: boolean;
           to_user_id?: string;
         };

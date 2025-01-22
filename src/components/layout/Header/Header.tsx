@@ -1,6 +1,6 @@
 import * as S from './Header.styles';
 import { useLocation } from 'react-router-dom';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Category, Icon } from '@/components';
 import { CATEGORY_OPTIONS, ROUTES } from '@/constants';
 import { useCategoryContext } from '@/components/common/Category/CategoryContext';
@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { showMenuBarAtom } from '@/atoms';
 import { useAuth } from '@/hooks';
+import { useFetchNotCheckedAlerts } from '@/hooks/useAlerts';
 
 const Header = memo(({ showHeader }: { showHeader: boolean }) => {
   const { pathname } = useLocation();
@@ -22,6 +23,14 @@ const Header = memo(({ showHeader }: { showHeader: boolean }) => {
   };
 
   const { currCategory, setCurrCategory } = useCategoryContext();
+
+  const { user: currentUser } = useAuth();
+  const [, setHasNewAlarm] = useState(false);
+  const { data } = useFetchNotCheckedAlerts(currentUser?.userId);
+
+  useEffect(() => {
+    setHasNewAlarm(data?.length === 0 ? false : true);
+  });
 
   return (
     <S.HeaderContainer $show={showHeader}>
