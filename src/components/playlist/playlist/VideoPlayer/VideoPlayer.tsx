@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import * as S from './VideoPlayer.styles';
 import { useFetchPlaylistVideoByPlaylistId } from '@/hooks/usePlaylistVideo';
@@ -10,6 +10,7 @@ const VideoPlayer = () => {
   const order = searchParams.get('order') || '0';
   const playerRef = useRef<HTMLDivElement>(null);
   const playerInstanceRef = useRef<YT.Player | null>(null);
+  const [isAPIReady, setIsAPIReady] = useState(false);
 
   const { data: playlistVideoData } = useFetchPlaylistVideoByPlaylistId(
     playlistId || '',
@@ -19,39 +20,45 @@ const VideoPlayer = () => {
     (data) => data.order.toString() === order,
   );
 
-  console.log(order);
-
   useEffect(() => {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    }
 
     window.onYouTubeIframeAPIReady = () => {
-      if (!playerRef.current || !playingVideo?.video_id) return;
+      setIsAPIReady(true);
+    };
 
+    if (window.YT && window.YT.Player) {
+      setIsAPIReady(true);
+    }
+
+    return () => {
+      window.onYouTubeIframeAPIReady = () => {};
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isAPIReady || !playerRef.current || !playingVideo?.video_id) return;
+
+    if (!playerInstanceRef.current) {
       playerInstanceRef.current = new window.YT.Player('youtube-player', {
         height: '100%',
         width: '100%',
-        videoId: playingVideo?.video_id,
+        videoId: playingVideo.video_id,
         playerVars: {
           autoplay: 1,
           controls: 1,
           rel: 0,
         },
       }) as unknown as YT.Player;
-    };
-
-    return () => {
-      window.onYouTubeIframeAPIReady = () => {};
-    };
-  }, [playingVideo]);
-
-  useEffect(() => {
-    if (playerInstanceRef.current && playingVideo?.video_id) {
+    } else {
       playerInstanceRef.current.loadVideoById(playingVideo.video_id);
     }
-  }, [playingVideo]);
+  }, [isAPIReady, playingVideo]);
 
   return (
     <S.PlayerWrapper>
