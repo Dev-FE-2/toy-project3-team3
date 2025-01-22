@@ -11,7 +11,7 @@ export const HeaderContainer = styled.header.withConfig({
   top: ${({ $show }) => ($show ? '0' : 'calc(-2 * var(--header-height))')};
   left: 0;
   right: 0;
-  padding: 0 ${({ theme }) => theme.space.md};
+  padding: 0 ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.sm};
   background: ${({ theme }) => theme.colors.background};
   z-index: 2;
   transition: 0.5s;
