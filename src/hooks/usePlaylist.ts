@@ -126,3 +126,61 @@ export const useGetPlayListByCategory = (
 
   return { data, isLoading, error, hasMore };
 };
+
+export const getLikedPlaylistById = async (
+  userId?: string,
+  maxCount: number = 5,
+): Promise<Database['public']['Tables']['PLAYLISTS']['Row'][]> => {
+  if (!userId) return [];
+
+  try {
+    const { data, error } = await supabase
+      .from('LIKES')
+      .select(
+        `
+            likes_id,
+            playlist_id!inner (
+              playlist_id,
+              created_at,
+              updated_at,
+              short_intro,
+              title,
+              user_id,
+              thumbnail_image,
+              category_id
+            )
+          `,
+      )
+      .eq('user_id', userId)
+      .not('playlist_id', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(maxCount);
+
+    if (error) throw error;
+
+    if (!data) return [];
+
+    const playlists: Database['public']['Tables']['PLAYLISTS']['Row'][] =
+      data.map((item) => {
+        const playlist = Array.isArray(item.playlist_id)
+          ? item.playlist_id[0]
+          : item.playlist_id;
+
+        return {
+          playlist_id: playlist.playlist_id,
+          created_at: playlist.created_at,
+          updated_at: playlist.updated_at,
+          short_intro: playlist.short_intro,
+          title: playlist.title,
+          user_id: playlist.user_id,
+          thumbnail_image: playlist.thumbnail_image,
+          category_id: playlist.category_id,
+        };
+      });
+
+    return playlists;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};

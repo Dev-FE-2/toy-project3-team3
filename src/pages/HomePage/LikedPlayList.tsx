@@ -1,68 +1,34 @@
-import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './HomePage.styles';
-import { useGetPlayListByCategory } from '@/hooks/usePlaylist';
-import { useCategoryContext } from '@/components/common/Category/CategoryContext';
-import { useFetchCategoryByCategoryNameEn } from '@/hooks/useCategory';
+import { useEffect, useState } from 'react';
 import { Database } from '@/types';
+import { useAuth, getLikedPlaylistById } from '@/hooks';
 import {
   getIsLiked,
+  getIsSubscribed,
   getLikeCnt,
   getSubscribeCnt,
   getUserInfo,
   getVideoCnt,
-  getIsSubscribed,
 } from '@/services/getEachPlayListInfo';
 import { EachPlaylist } from '@/components';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/hooks';
-import LikedPlayList from './LikedPlayList';
 
-const HomePage = () => {
+const LikedPlayList = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { currCategory } = useCategoryContext();
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
-  );
-  const [page, setPage] = useState(1);
-  const {
-    data: playLists,
-    isLoading,
-    error,
-    hasMore,
-  } = useGetPlayListByCategory(selectedCategoryId, page, 5);
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
+  const [playLists, setPlayLists] = useState<
+    Database['public']['Tables']['PLAYLISTS']['Row'][]
+  >([]);
 
   useEffect(() => {
-    if (isLoading) return;
-    if (observer.current) observer.current.disconnect();
+    const fetchData = async () => {
+      if (!user?.userId) return;
+      const playlists = await getLikedPlaylistById(user.userId);
+      setPlayLists(playlists);
+    };
 
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      },
-      { threshold: 1.0 }, // 요소가 100% 보일 때 트리거
-    );
-
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
-    }
-  }, [isLoading, hasMore]);
-
-  const { data: categoryData } = useFetchCategoryByCategoryNameEn(
-    currCategory !== 'all' ? currCategory : null,
-  );
-
-  useEffect(() => {
-    if (currCategory === 'all') {
-      setSelectedCategoryId(null);
-    } else if (categoryData && categoryData.length > 0) {
-      setSelectedCategoryId(categoryData[0].category_id);
-    }
-  }, [currCategory, categoryData]);
+    fetchData();
+  }, [user?.userId]);
 
   const [playListInfos, setPlayListInfos] = useState<
     Record<
@@ -134,16 +100,12 @@ const HomePage = () => {
   };
 
   return (
-    <S.HomePageContainer>
-      {user && (
-        <>
-          <LikedPlayList />
-          <S.PlayListSetTitle>추천 플레이리스트</S.PlayListSetTitle>
-        </>
-      )}
-      <S.MainPlayLists>
-        {playLists?.map((data, idx) => {
-          const isLast = idx === playLists.length - 1;
+    <>
+      <S.PlayListSetTitle onClick={() => navigate(`/like`)}>
+        좋아요한 플레이리스트
+      </S.PlayListSetTitle>
+      <S.PlayListSet>
+        {playLists?.map((data) => {
           const {
             videoCnt,
             likeCnt,
@@ -166,7 +128,6 @@ const HomePage = () => {
           return (
             <S.OnePlayList
               key={data.playlist_id}
-              ref={isLast ? lastElementRef : null}
               onClick={() => navigate(`/playlist/${data.playlist_id}`)}
             >
               <EachPlaylist
@@ -186,14 +147,11 @@ const HomePage = () => {
             </S.OnePlayList>
           );
         })}
-        {isLoading && <S.Text>Loading...</S.Text>}
-        {error && <S.Text>Error: {error.message}</S.Text>}
         {playLists.length === 0 && (
-          <S.Text>해당 카테고리의 플레이리스트가 없습니다.</S.Text>
+          <S.Text>아직 좋아요를 누른 플레이리스트가 없습니다.</S.Text>
         )}
-      </S.MainPlayLists>
-    </S.HomePageContainer>
+      </S.PlayListSet>
+    </>
   );
 };
-
-export default HomePage;
+export default LikedPlayList;

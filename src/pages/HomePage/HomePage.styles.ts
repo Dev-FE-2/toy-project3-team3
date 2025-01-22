@@ -10,7 +10,6 @@ export const PlayListSet = styled.div`
   gap: ${({ theme }) => theme.space.sm};
   overflow: auto;
   white-space: nowrap;
-  margin-bottom: ${({ theme }) => theme.space.lg};
 
   &::-webkit-scrollbar {
     display: none;
@@ -19,10 +18,16 @@ export const PlayListSet = styled.div`
 
 export const PlayListSetTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSize.md};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  margin-bottom: ${({ theme }) => theme.space.sm};
+`;
+
+export const MainPlayLists = styled.div`
+  margin-top: ${({ theme }) => theme.space.lg};
 `;
 
 export const OnePlayList = styled.div`
   margin-bottom: ${({ theme }) => theme.space.lg};
 `;
 
-export const Loading = styled.div``;
+export const Text = styled.div``;
