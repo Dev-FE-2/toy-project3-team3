@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import * as S from './HomePage.styles';
 import { useEffect, useState } from 'react';
 import { Database } from '@/types';
-import { useAuth, getLikedPlaylistById } from '@/hooks';
+import { useAuth, getLikedPlaylistByUserId } from '@/hooks';
 import {
   getIsLiked,
   getIsSubscribed,
@@ -23,7 +23,7 @@ const LikedPlayList = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!user?.userId) return;
-      const playlists = await getLikedPlaylistById(user.userId);
+      const playlists = await getLikedPlaylistByUserId(user.userId);
       setPlayLists(playlists);
     };
 
@@ -148,7 +148,7 @@ const LikedPlayList = () => {
           );
         })}
         {playLists.length === 0 && (
-          <S.Text>아직 좋아요를 누른 플레이리스트가 없습니다.</S.Text>
+          <S.Text>아직 구독한 플레이리스트가 없습니다.</S.Text>
         )}
       </S.PlayListSet>
     </>
