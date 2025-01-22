@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/apis';
 import { Database } from '@/types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/constants';
 import { FromHashtagData, FromPlayListData } from '@/types/common';
 import {
   getIsLiked,
@@ -23,7 +22,6 @@ import {
 const SearchPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { PLAY_LIST } = ROUTES;
   const { search } = useLocation(); // URL의 쿼리 파라미터 가져오기
   const params = new URLSearchParams(search); // 쿼리 파라미터를 다루기 위한 객체 생성
   const tabFromUrl = params.get('tab') || 'user';
@@ -380,11 +378,7 @@ const SearchPage = () => {
               return (
                 <S.PlayList
                   key={playList.playlist_id}
-                  onClick={() =>
-                    navigate(
-                      PLAY_LIST.replace(':playListId', playList.playlist_id),
-                    )
-                  }
+                  onClick={() => navigate(`/playlist/${playList.playlist_id}`)}
                 >
                   <EachPlaylist
                     thumbnailUrl={playList.thumbnail_image}
