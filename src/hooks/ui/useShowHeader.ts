@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/hooks';
+import { useLocation } from 'react-router-dom';
+import { ROUTES } from '@/constants';
 
 const useShowHeader = () => {
   const [showHeader, setShowHeader] = useState(true);
   const lastScrollY = useRef(0);
+  const { pathname } = useLocation();
+  const { HOME } = ROUTES;
 
   const { user } = useAuth();
 
@@ -18,17 +22,21 @@ const useShowHeader = () => {
     const handleScroll = () => {
       const currentScrollY = scrollTarget?.scrollTop || 0;
 
-      if (currentScrollY) {
-        // 스크롤 내릴 때 헤더 숨기기
-        if (currentScrollY > lastScrollY.current) {
-          setShowHeader(false);
-        }
-        // 스크롤 올릴 때 헤더 보이기
-        else {
-          setShowHeader(true);
-        }
+      if (pathname === HOME) {
+        if (currentScrollY) {
+          // 스크롤 내릴 때 헤더 숨기기
+          if (currentScrollY > lastScrollY.current) {
+            setShowHeader(false);
+          }
+          // 스크롤 올릴 때 헤더 보이기
+          else {
+            setShowHeader(true);
+          }
 
-        lastScrollY.current = currentScrollY;
+          lastScrollY.current = currentScrollY;
+        }
+      } else {
+        setShowHeader(true);
       }
     };
 
@@ -37,7 +45,7 @@ const useShowHeader = () => {
     return () => {
       scrollTarget?.removeEventListener('scroll', handleScroll);
     };
-  }, [user, showHeader]);
+  }, [user, showHeader, pathname]);
 
   return showHeader;
 };
